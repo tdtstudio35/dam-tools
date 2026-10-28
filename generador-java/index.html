@@ -89,7 +89,10 @@
                 <div>
                     <div class="flex items-center justify-between mb-1.5">
                         <label class="font-mono text-[11px] uppercase text-zinc-400">Atributos de la Clase</label>
-                        <button onclick="cargarEjemplo()" class="font-mono text-[11px] text-emerald-400 hover:underline">Cargar ejemplo</button>
+                        <div class="flex items-center gap-3">
+                            <button onclick="vaciarAtributos()" class="font-mono text-[11px] text-zinc-400 hover:text-rose-400 transition">Vaciar</button>
+                            <button onclick="cargarEjemplo()" class="font-mono text-[11px] text-emerald-400 hover:underline">Cargar ejemplo</button>
+                        </div>
                     </div>
 
                     <!-- Contenedor scrollable -->
@@ -191,7 +194,6 @@
             "UUID"
         ];
 
-        // Atributos iniciales usando int en lugar de Long
         const atributosIniciales = [
             { visibilidad: "private", tipo: "int", nombre: "id" },
             { visibilidad: "private", tipo: "String", nombre: "nombre" },
@@ -209,7 +211,6 @@
                 const row = document.createElement('div');
                 row.className = 'flex items-center gap-1.5 bg-zinc-950 border border-zinc-800/80 p-2 rounded-lg';
 
-                // Select de Visibilidad (private / public / protected)
                 let visHtml = `<select onchange="generarJava()" class="vis-select bg-zinc-900 border border-zinc-800 text-amber-400 font-mono text-xs rounded px-1.5 py-1.5 focus:outline-none focus:border-emerald-500 shrink-0">`;
                 VISIBILIDADES.forEach(v => {
                     const selected = (v === attr.visibilidad) ? 'selected' : '';
@@ -217,7 +218,6 @@
                 });
                 visHtml += `</select>`;
 
-                // Select de Tipos de Dato
                 let selectHtml = `<select onchange="generarJava()" class="tipo-select bg-zinc-900 border border-zinc-800 text-emerald-400 font-mono text-xs rounded px-2 py-1.5 focus:outline-none focus:border-emerald-500 shrink-0">`;
                 TIPOS_JAVA.forEach(t => {
                     const selected = (t === attr.tipo) ? 'selected' : '';
@@ -225,10 +225,8 @@
                 });
                 selectHtml += `</select>`;
 
-                // Input de Nombre del Atributo
                 let inputHtml = `<input type="text" value="${attr.nombre}" placeholder="nombre" oninput="generarJava()" onkeydown="manejarTeclado(event, ${index})" class="nombre-input w-full bg-zinc-900 border border-zinc-800 text-white font-mono text-xs rounded px-2 py-1.5 focus:outline-none focus:border-emerald-500">`;
 
-                // Botón Eliminar Fila
                 let deleteHtml = `<button onclick="eliminarAtributo(${index})" class="text-zinc-500 hover:text-rose-400 px-1.5 py-1 text-xs transition" title="Eliminar atributo">✕</button>`;
 
                 row.innerHTML = visHtml + selectHtml + inputHtml + deleteHtml;
@@ -268,6 +266,11 @@
             const fields = obtenerAtributosActuales();
             fields.splice(index, 1);
             renderizarAtributos(fields);
+        }
+
+        function vaciarAtributos() {
+            renderizarAtributos([]);
+            document.getElementById('className').value = 'MiClase';
         }
 
         function manejarTeclado(e, index) {
@@ -339,7 +342,6 @@
             const impl = useSerializable ? ' implements Serializable' : '';
             code += `public class ${className}${impl} {\n\n`;
 
-            // Atributos con su visibilidad seleccionada
             fields.forEach((f, idx) => {
                 if (useJpa) {
                     if (idx === 0 || f.name.toLowerCase() === 'id') {
@@ -353,10 +355,8 @@
             });
 
             if (!useLombok) {
-                // Constructor vacío
                 code += `\n    public ${className}() {\n    }\n\n`;
 
-                // Constructor completo
                 if (fields.length > 0) {
                     const params = fields.map(f => `${f.type} ${f.name}`).join(', ');
                     code += `    public ${className}(${params}) {\n`;
@@ -366,7 +366,6 @@
                     code += `    }\n\n`;
                 }
 
-                // Getters & Setters
                 fields.forEach(f => {
                     const cap = f.name.charAt(0).toUpperCase() + f.name.slice(1);
                     const prefix = (f.type === 'boolean' || f.type === 'Boolean') ? 'is' : 'get';
@@ -374,7 +373,6 @@
                     code += `    public void set${cap}(${f.type} ${f.name}) {\n        this.${f.name} = ${f.name};\n    }\n\n`;
                 });
 
-                // equals & hashCode
                 if (useEquals && fields.length > 0) {
                     const first = fields[0].name;
                     code += `    @Override\n    public boolean equals(Object o) {\n`;
@@ -385,7 +383,6 @@
                     code += `    @Override\n    public int hashCode() {\n        return Objects.hash(${first});\n    }\n\n`;
                 }
 
-                // toString
                 if (useToString) {
                     const strFields = fields.map(f => `"${f.name}=" + ${f.name}`).join(' + ", " + ');
                     code += `    @Override\n    public String toString() {\n`;
@@ -415,7 +412,6 @@
             link.click();
         }
 
-        // Arrancar con los atributos por defecto
         renderizarAtributos(atributosIniciales);
     </script>
 </body>
