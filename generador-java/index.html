@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Clases Java (POJO, Hibernate JPA, Lombok) — TDT Studio</title>
+    <meta name="description" content="Genera clases Java POJO online al instante con constructores, Getters, Setters, toString, equals, hashCode y anotaciones Hibernate @Entity.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #09090b;
+            color: #e4e4e7;
+            font-family: 'Inter', system-ui, sans-serif;
+            background-image: radial-gradient(#27272a 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        code, pre, textarea, input.font-mono, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col">
+
+    <!-- TOPBAR CON NAVEGACIÓN DE VUELTA AL HUB -->
+    <header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur">
+        <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-3 font-mono text-xs">
+                <a href="../" class="flex items-center gap-2 font-semibold text-white hover:text-emerald-400 transition">
+                    <span class="bg-emerald-500 text-zinc-950 font-bold px-1.5 py-0.5 rounded">TDT</span>
+                    <span>studio.dev</span>
+                </a>
+                <span class="text-zinc-600">/</span>
+                <span class="text-emerald-400">generador-java</span>
+            </div>
+
+            <a href="../" class="font-mono text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded transition">
+                ← Volver al Hub
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
+
+        <!-- TÍTULO DE LA HERRAMIENTA -->
+        <div class="mb-6">
+            <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider">// PROG • Acceso a Datos (Hibernate / JPA)</span>
+            <h1 class="text-2xl md:text-3xl font-bold text-white mt-1">Generador Rápido de Clases Java (POJO & Entidades)</h1>
+            <p class="text-zinc-400 text-sm mt-1">
+                Escribe los atributos de tu clase (no hace falta que pongas <code class="text-zinc-300">private</code> ni <code class="text-zinc-300">;</code>) y activa las opciones que te pidan en la práctica.
+            </p>
+        </div>
+
+        <!-- PANEL INTERACTIVO -->
+        <div class="grid lg:grid-cols-12 gap-6 items-start">
+
+            <!-- COLUMNA IZQUIERDA: CONFIGURACIÓN Y ATRIBUTOS (5 cols) -->
+            <div class="lg:col-span-5 bg-zinc-900 border border-zinc-800 rounded-xl p-5 space-y-4">
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Nombre de Clase</label>
+                        <input type="text" id="className" value="Alumno" oninput="generarJava()" 
+                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-lg px-3 py-2 text-white font-mono text-xs focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Paquete (Opcional)</label>
+                        <input type="text" id="packageName" placeholder="com.dam.modelo" value="com.dam.modelo" oninput="generarJava()" 
+                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-lg px-3 py-2 text-white font-mono text-xs focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="font-mono text-[11px] uppercase text-zinc-400">Atributos (1 por línea: <span class="text-emerald-400">tipo nombre</span>)</label>
+                        <button onclick="cargarEjemplo()" class="font-mono text-[11px] text-emerald-400 hover:underline">Cargar ejemplo</button>
+                    </div>
+                    <textarea id="classFields" rows="8" oninput="generarJava()"
+                        class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-lg p-3 text-white font-mono text-xs focus:outline-none leading-relaxed">Long id
+String nombre
+String email
+LocalDate fechaMatricula
+double notaMedia
+boolean repetidor</textarea>
+                </div>
+
+                <!-- OPCIONES PRO PARA DAM -->
+                <div class="pt-2 border-t border-zinc-800">
+                    <span class="block font-mono text-[11px] uppercase text-zinc-400 mb-2.5">Opciones de Generación:</span>
+                    <div class="grid grid-cols-2 gap-2.5 text-xs">
+                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                            <input type="checkbox" id="optJpa" onchange="generarJava()" class="accent-emerald-500">
+                            <span>Hibernate (<code class="text-emerald-400">@Entity</code>)</span>
+                        </label>
+                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                            <input type="checkbox" id="optSerializable" checked onchange="generarJava()" class="accent-emerald-500">
+                            <span><code class="text-zinc-300">Serializable</code></span>
+                        </label>
+                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                            <input type="checkbox" id="optToString" checked onchange="generarJava()" class="accent-emerald-500">
+                            <span>Método <code class="text-zinc-300">toString()</code></span>
+                        </label>
+                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                            <input type="checkbox" id="optEquals" onchange="generarJava()" class="accent-emerald-500">
+                            <span><code class="text-zinc-300">equals & hashCode</code></span>
+                        </label>
+                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700 col-span-2">
+                            <input type="checkbox" id="optLombok" onchange="generarJava()" class="accent-emerald-500">
+                            <span>Usar <strong>Lombok</strong> (<code class="text-amber-400">@Data @AllArgsConstructor</code> — oculta Get/Set)</span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- COLUMNA DERECHA: SALIDA DE CÓDIGO (7 cols) -->
+            <div class="lg:col-span-7 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col">
+                <div class="bg-zinc-950 border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                        <span id="fileNameLabel" class="ml-2 font-mono text-xs text-zinc-400">Alumno.java</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="descargarArchivo()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-1.5 rounded-md border border-zinc-700 transition">
+                            ⬇ Descargar .java
+                        </button>
+                        <button onclick="copiarCodigo()" id="btnCopiar" class="font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold px-3 py-1.5 rounded-md transition">
+                            Copiar código
+                        </button>
+                    </div>
+                </div>
+
+                <pre id="javaOutput" class="p-5 text-xs text-emerald-300 overflow-x-auto leading-relaxed max-h-[540px] select-all"></pre>
+            </div>
+
+        </div>
+
+        <!-- ESPACIO PUBLICIDAD / RECOMENDACIÓN INFERIOR -->
+        <div class="mt-10 bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-xs text-zinc-400">
+                <span class="font-mono text-emerald-400 font-semibold">[Tip de Acceso a Datos]</span> 
+                Recuerda que Hibernate exige siempre un <strong>constructor vacío</strong> e implementar <code class="text-zinc-200">Serializable</code> en tus entidades.
+            </div>
+            <a href="../#pack-dam" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-white px-3.5 py-2 rounded-lg border border-zinc-700 transition">
+                Ver Chuletas Hibernate →
+            </a>
+        </div>
+
+    </main>
+
+    <script>
+        function generarJava() {
+            const rawClassName = document.getElementById('className').value.trim() || 'MiClase';
+            const className = rawClassName.charAt(0).toUpperCase() + rawClassName.slice(1);
+            const packageName = document.getElementById('packageName').value.trim();
+            const rawFields = document.getElementById('classFields').value.trim();
+
+            const useJpa = document.getElementById('optJpa').checked;
+            const useSerializable = document.getElementById('optSerializable').checked;
+            const useToString = document.getElementById('optToString').checked;
+            const useEquals = document.getElementById('optEquals').checked;
+            const useLombok = document.getElementById('optLombok').checked;
+
+            document.getElementById('fileNameLabel').textContent = `${className}.java`;
+
+            // Parsear atributos (ignora "private", "public" o ";" si el alumno los pone)
+            const lines = rawFields.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            const fields = [];
+            lines.forEach(line => {
+                const cleanLine = line.replace(/^(private|public|protected)\s+/, '').replace(/;$/, '').trim();
+                const parts = cleanLine.split(/\s+/);
+                if (parts.length >= 2) {
+                    fields.push({ type: parts[0], name: parts[1] });
+                }
+            });
+
+            let imports = new Set();
+            if (useSerializable) imports.add('import java.io.Serializable;');
+            if (useEquals) imports.add('import java.util.Objects;');
+            if (useJpa) imports.add('import jakarta.persistence.*;');
+            if (useLombok) {
+                imports.add('import lombok.Data;');
+                imports.add('import lombok.NoArgsConstructor;');
+                imports.add('import lombok.AllArgsConstructor;');
+            }
+            fields.forEach(f => {
+                if (f.type === 'LocalDate') imports.add('import java.time.LocalDate;');
+                if (f.type === 'LocalDateTime') imports.add('import java.time.LocalDateTime;');
+                if (f.type.startsWith('List')) imports.add('import java.util.List;');
+            });
+
+            let code = '';
+            if (packageName) {
+                code += `package ${packageName};\n\n`;
+            }
+            if (imports.size > 0) {
+                code += Array.from(imports).join('\n') + '\n\n';
+            }
+
+            if (useJpa) {
+                code += `@Entity\n@Table(name = "${className.toLowerCase()}s")\n`;
+            }
+            if (useLombok) {
+                code += `@Data\n@NoArgsConstructor\n@AllArgsConstructor\n`;
+            }
+
+            const impl = useSerializable ? ' implements Serializable' : '';
+            code += `public class ${className}${impl} {\n\n`;
+
+            // Atributos
+            fields.forEach((f, idx) => {
+                if (useJpa) {
+                    if (idx === 0 || f.name.toLowerCase() === 'id') {
+                        code += `    @Id\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\n`;
+                    } else {
+                        code += `    @Column(name = "${f.name}")\n`;
+                    }
+                }
+                code += `    private ${f.type} ${f.name};\n`;
+                if (useJpa) code += `\n`;
+            });
+
+            if (!useLombok) {
+                // Constructor vacío
+                code += `\n    public ${className}() {\n    }\n\n`;
+
+                // Constructor completo
+                if (fields.length > 0) {
+                    const params = fields.map(f => `${f.type} ${f.name}`).join(', ');
+                    code += `    public ${className}(${params}) {\n`;
+                    fields.forEach(f => {
+                        code += `        this.${f.name} = ${f.name};\n`;
+                    });
+                    code += `    }\n\n`;
+                }
+
+                // Getters & Setters
+                fields.forEach(f => {
+                    const cap = f.name.charAt(0).toUpperCase() + f.name.slice(1);
+                    const prefix = (f.type === 'boolean' || f.type === 'Boolean') ? 'is' : 'get';
+                    code += `    public ${f.type} ${prefix}${cap}() {\n        return ${f.name};\n    }\n\n`;
+                    code += `    public void set${cap}(${f.type} ${f.name}) {\n        this.${f.name} = ${f.name};\n    }\n\n`;
+                });
+
+                // equals & hashCode
+                if (useEquals && fields.length > 0) {
+                    const first = fields[0].name;
+                    code += `    @Override\n    public boolean equals(Object o) {\n`;
+                    code += `        if (this == o) return true;\n`;
+                    code += `        if (o == null || getClass() != o.getClass()) return false;\n`;
+                    code += `        ${className} that = (${className}) o;\n`;
+                    code += `        return Objects.equals(${first}, that.${first});\n    }\n\n`;
+                    code += `    @Override\n    public int hashCode() {\n        return Objects.hash(${first});\n    }\n\n`;
+                }
+
+                // toString
+                if (useToString) {
+                    const strFields = fields.map(f => `"${f.name}=" + ${f.name}`).join(' + ", " + ');
+                    code += `    @Override\n    public String toString() {\n`;
+                    code += `        return "${className}{" + ${strFields || '""'} + "}";\n    }\n`;
+                }
+            }
+
+            code += `}`;
+            document.getElementById('javaOutput').textContent = code;
+        }
+
+        function copiarCodigo() {
+            const code = document.getElementById('javaOutput').textContent;
+            navigator.clipboard.writeText(code);
+            const btn = document.getElementById('btnCopiar');
+            btn.textContent = '¡Copiado! ✓';
+            setTimeout(() => { btn.textContent = 'Copiar código'; }, 1800);
+        }
+
+        function descargarArchivo() {
+            const code = document.getElementById('javaOutput').textContent;
+            const fileName = document.getElementById('fileNameLabel').textContent;
+            const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        }
+
+        function cargarEjemplo() {
+            document.getElementById('className').value = 'Producto';
+            document.getElementById('classFields').value = 'Long idProducto\nString codigoBarras\nString nombre\ndouble precio\nint stock\nLocalDate fechaAlta';
+            document.getElementById('optJpa').checked = true;
+            generarJava();
+        }
+
+        generarJava();
+    </script>
+</body>
+</html>
