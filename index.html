@@ -15,12 +15,12 @@
             color: #e4e4e7 !important;
             font-family: 'Inter', system-ui, sans-serif;
         }
-        /* Patrón de puntos con desvanecimiento suave */
+        /* Patrón de puntos con desvanecimiento suave para no saturar la vista */
         .bg-grid-pattern {
             background-image: radial-gradient(#27272a 1px, transparent 1px);
             background-size: 24px 24px;
-            -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 20%, #000 60%, transparent 100%);
-            mask-image: radial-gradient(ellipse 90% 75% at 50% 20%, #000 60%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 60%, transparent 100%);
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 60%, transparent 100%);
         }
         code, pre, .font-mono {
             font-family: 'JetBrains Mono', monospace;
@@ -32,21 +32,28 @@
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* 1. OCULTAR TODAS LAS BARRAS DE SCROLL EN BLOQUES DE CÓDIGO Y CARRUSELES */
-        pre::-webkit-scrollbar,
-        code::-webkit-scrollbar,
-        textarea::-webkit-scrollbar,
+        /* Ocultar barra de scroll en asignaturas móvil pero permitir scroll táctil */
         .no-scrollbar::-webkit-scrollbar {
-            display: none !important;
-            width: 0 !important;
-            height: 0 !important;
+            display: none;
         }
-        pre,
-        code,
-        textarea,
         .no-scrollbar {
-            -ms-overflow-style: none !important;
-            scrollbar-width: none !important;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Scrollbar fina y elegante para los bloques de código */
+        pre::-webkit-scrollbar {
+            height: 6px;
+        }
+        pre::-webkit-scrollbar-track {
+            background: #09090b;
+            border-radius: 4px;
+        }
+        pre::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        pre::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
         }
     </style>
 </head>
@@ -54,13 +61,13 @@
 
     <!-- EFECTO DE LUZ AMBIENTAL SUPERIOR Y FONDO DE PUNTOS -->
     <div class="pointer-events-none fixed inset-0 bg-grid-pattern z-0"></div>
-    <div class="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 w-[700px] h-[240px] bg-emerald-500/10 blur-[130px] rounded-full z-0"></div>
+    <div class="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[240px] bg-emerald-500/10 blur-[120px] rounded-full z-0"></div>
 
-    <!-- 3. CABECERA / BANNER SUPERIOR A ANCHO COMPLETO (w-full) -->
-    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-xl w-full">
-        <div class="w-full px-4 sm:px-6 lg:px-10 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <!-- BARRA SUPERIOR RESPONSIVE -->
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-xl">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
             
-            <!-- LOGO & MARCA (Izquierda del todo) -->
+            <!-- LOGO & MARCA -->
             <div class="w-full sm:w-auto flex items-center justify-between">
                 <a href="./" class="flex items-center gap-3 group">
                     <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 border border-emerald-500/30 flex items-center justify-center font-mono font-bold text-emerald-400 text-xs shadow-inner group-hover:bg-emerald-500 group-hover:text-zinc-950 group-hover:border-emerald-400 transition-all duration-200">
@@ -68,8 +75,8 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-1.5">
-                            <span class="font-mono font-bold text-white text-sm sm:text-base tracking-tight leading-none">studio<span class="text-emerald-400">.dev</span></span>
-                            <span class="text-[10px] font-mono bg-zinc-900 text-zinc-400 border border-zinc-800 px-1.5 py-0.5 rounded">v1.2</span>
+                            <span class="font-mono font-bold text-white text-sm tracking-tight leading-none">studio<span class="text-emerald-400">.dev</span></span>
+                            <span class="hidden sm:inline-block text-[10px] font-mono bg-zinc-900 text-zinc-400 border border-zinc-800 px-1.5 py-0.5 rounded">v1.2</span>
                         </div>
                         <span class="font-mono text-[11px] text-zinc-500 block mt-0.5">DAM & DAW Workspace</span>
                     </div>
@@ -84,186 +91,125 @@
             <!-- CONMUTADOR CENTRAL (TABS) -->
             <div class="w-full sm:w-auto bg-zinc-900/90 p-1 rounded-xl border border-zinc-800/90 flex items-center gap-1 justify-center shadow-inner">
                 <button id="tabHerramientas" onclick="cambiarModo('herramientas')" 
-                    class="flex-1 sm:flex-none px-5 py-2 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow-sm">
+                    class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow-sm">
                     <span>🛠️</span> Herramientas
                 </button>
                 <button id="tabDiccionario" onclick="cambiarModo('diccionario')" 
-                    class="flex-1 sm:flex-none px-5 py-2 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-zinc-400 hover:text-white">
+                    class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-zinc-400 hover:text-white">
                     <span>📚</span> Diccionario
-                    <span class="text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 rounded-full">6</span>
+                    <span class="text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.2 rounded-full">6</span>
                 </button>
             </div>
 
-            <!-- ACCIÓN DERECHA DESKTOP (Derecha del todo) -->
-            <a href="./sugerencias/" class="hidden sm:flex font-mono text-xs bg-zinc-900/80 hover:bg-zinc-800/90 text-zinc-300 hover:text-emerald-400 border border-zinc-800 hover:border-emerald-500/40 px-4 py-2 rounded-xl transition-all duration-200 items-center gap-2">
+            <!-- ACCIÓN DERECHA DESKTOP -->
+            <a href="./sugerencias/" class="hidden sm:flex font-mono text-xs bg-zinc-900/80 hover:bg-zinc-800/90 text-zinc-300 hover:text-emerald-400 border border-zinc-800 hover:border-emerald-500/40 px-3.5 py-2 rounded-xl transition-all duration-200 items-center gap-2">
                 <span>💡</span> Sugerencias
             </a>
 
         </div>
 
-        <!-- 2. BARRA DE ASIGNATURAS VISUAL, GRANDE Y CON SCROLL HORIZONTAL -->
-        <div class="border-t border-zinc-900/90 bg-zinc-950/70 w-full">
-            <div class="w-full px-4 sm:px-6 lg:px-10 py-3 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+        <!-- SUB-BARRA DE ASIGNATURAS + BUSCADOR -->
+        <div class="border-t border-zinc-900/90 bg-zinc-950/60">
+            <div class="max-w-5xl mx-auto px-4 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3">
                 
-                <!-- Contenedor con scroll horizontal y botones de navegación -->
-                <div class="relative flex items-center flex-1 min-w-0 gap-2">
-                    <!-- Flecha izquierda (solo PC) -->
-                    <button onclick="desplazarAsignaturas(-260)" aria-label="Anterior" class="hidden md:flex shrink-0 w-8 h-10 items-center justify-center rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 transition">
-                        ‹
+                <!-- Filtros por módulo -->
+                <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 font-mono text-xs no-scrollbar" id="barraAsignaturas">
+                    <button onclick="filtrarPorAsignatura('todas', this)" class="asig-btn shrink-0 bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-3 py-1 rounded-lg font-medium transition-all">
+                        Todo
                     </button>
-
-                    <!-- Carrusel horizontal de tarjetas de asignatura -->
-                    <div id="barraAsignaturas" class="flex items-center gap-2.5 overflow-x-auto no-scrollbar scroll-smooth snap-x w-full py-0.5 select-none cursor-grab active:cursor-grabbing">
-                        
-                        <button onclick="filtrarPorAsignatura('todas', this)" data-activa="true" class="asig-btn snap-start shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border border-emerald-500/50 bg-emerald-500/15 text-left transition-all duration-200">
-                            <span class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-base">⚡</span>
-                            <div>
-                                <span class="font-mono text-xs sm:text-sm font-bold text-emerald-400 block leading-tight">Todo el Hub</span>
-                                <span class="font-mono text-[10px] text-zinc-400 block">Todos los módulos</span>
-                            </div>
-                        </button>
-
-                        <button onclick="filtrarPorAsignatura('prog', this)" class="asig-btn snap-start shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border border-zinc-800/90 bg-zinc-900/70 hover:bg-zinc-900 hover:border-zinc-700 text-left transition-all duration-200">
-                            <span class="w-8 h-8 rounded-lg bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center text-base">☕</span>
-                            <div>
-                                <span class="font-mono text-xs sm:text-sm font-bold text-zinc-200 block leading-tight">PROG</span>
-                                <span class="font-mono text-[10px] text-zinc-500 block">Java • POO • Git</span>
-                            </div>
-                        </button>
-
-                        <button onclick="filtrarPorAsignatura('ad-bbdd', this)" class="asig-btn snap-start shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border border-zinc-800/90 bg-zinc-900/70 hover:bg-zinc-900 hover:border-zinc-700 text-left transition-all duration-200">
-                            <span class="w-8 h-8 rounded-lg bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center text-base">🗄️</span>
-                            <div>
-                                <span class="font-mono text-xs sm:text-sm font-bold text-zinc-200 block leading-tight">AD & BBDD</span>
-                                <span class="font-mono text-[10px] text-zinc-500 block">SQL • Hibernate • JDBC</span>
-                            </div>
-                        </button>
-
-                        <button onclick="filtrarPorAsignatura('psp', this)" class="asig-btn snap-start shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border border-zinc-800/90 bg-zinc-900/70 hover:bg-zinc-900 hover:border-zinc-700 text-left transition-all duration-200">
-                            <span class="w-8 h-8 rounded-lg bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center text-base">🔄</span>
-                            <div>
-                                <span class="font-mono text-xs sm:text-sm font-bold text-zinc-200 block leading-tight">PSP</span>
-                                <span class="font-mono text-[10px] text-zinc-500 block">Hilos • Sockets • Red</span>
-                            </div>
-                        </button>
-
-                        <button onclick="filtrarPorAsignatura('di-web', this)" class="asig-btn snap-start shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border border-zinc-800/90 bg-zinc-900/70 hover:bg-zinc-900 hover:border-zinc-700 text-left transition-all duration-200">
-                            <span class="w-8 h-8 rounded-lg bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center text-base">🎨</span>
-                            <div>
-                                <span class="font-mono text-xs sm:text-sm font-bold text-zinc-200 block leading-tight">DI & Web</span>
-                                <span class="font-mono text-[10px] text-zinc-500 block">Interfaces • REST • JS</span>
-                            </div>
-                        </button>
-
-                        <button onclick="filtrarPorAsignatura('sistemas', this)" class="asig-btn snap-start shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border border-zinc-800/90 bg-zinc-900/70 hover:bg-zinc-900 hover:border-zinc-700 text-left transition-all duration-200">
-                            <span class="w-8 h-8 rounded-lg bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center text-base">🐳</span>
-                            <div>
-                                <span class="font-mono text-xs sm:text-sm font-bold text-zinc-200 block leading-tight">Sistemas & SGE</span>
-                                <span class="font-mono text-[10px] text-zinc-500 block">Docker • Linux • Odoo</span>
-                            </div>
-                        </button>
-
-                    </div>
-
-                    <!-- Flecha derecha (solo PC) -->
-                    <button onclick="desplazarAsignaturas(260)" aria-label="Siguiente" class="hidden md:flex shrink-0 w-8 h-10 items-center justify-center rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 transition">
-                        ›
+                    <button onclick="filtrarPorAsignatura('prog', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200 border border-transparent px-3 py-1 rounded-lg transition-all">
+                        PROG
+                    </button>
+                    <button onclick="filtrarPorAsignatura('ad-bbdd', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200 border border-transparent px-3 py-1 rounded-lg transition-all">
+                        AD & BBDD
+                    </button>
+                    <button onclick="filtrarPorAsignatura('psp', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200 border border-transparent px-3 py-1 rounded-lg transition-all">
+                        PSP
+                    </button>
+                    <button onclick="filtrarPorAsignatura('di-web', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200 border border-transparent px-3 py-1 rounded-lg transition-all">
+                        DI & Web
+                    </button>
+                    <button onclick="filtrarPorAsignatura('sistemas', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200 border border-transparent px-3 py-1 rounded-lg transition-all">
+                        Sistemas & SGE
                     </button>
                 </div>
 
                 <!-- Buscador interactivo -->
-                <div class="relative w-full lg:w-72 shrink-0 flex items-center">
-                    <svg class="w-4 h-4 text-zinc-500 absolute left-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="relative w-full md:w-64 shrink-0">
+                    <svg class="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                     <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Filtrar herramientas... (/)" 
-                        class="w-full bg-zinc-900/90 border border-zinc-800 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/10 rounded-xl pl-10 pr-9 py-2.5 text-xs font-mono text-white placeholder-zinc-500 focus:outline-none transition-all">
-                    <kbd id="kbdSlash" class="absolute right-3 text-[10px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700 px-1.5 py-0.5 rounded hidden sm:inline">/</kbd>
+                        class="w-full bg-zinc-900/90 border border-zinc-800 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/10 rounded-lg pl-8 pr-8 py-1.5 text-xs font-mono text-white placeholder-zinc-500 focus:outline-none transition-all">
+                    <kbd id="kbdSlash" class="absolute right-2.5 top-1.5 text-[10px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700 px-1.5 py-0.5 rounded hidden sm:inline">/</kbd>
                 </div>
 
             </div>
         </div>
     </header>
 
-    <!-- LAYOUT PRINCIPAL CON ANUNCIOS LATERALES (IZQUIERDA Y DERECHA) SIN MOLESTAR -->
-    <div class="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 flex-1 flex items-start justify-center gap-6 xl:gap-8 relative z-10">
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="max-w-5xl mx-auto px-4 py-6 sm:py-10 flex-1 w-full relative z-10">
 
-        <!-- ANUNCIO LATERAL IZQUIERDO (Solo visible en pantallas grandes xl+ para no estorbar en móvil/tablet) -->
-        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] 2xl:w-[200px] sticky top-36">
-            <div class="w-full min-h-[520px] rounded-2xl border border-zinc-800/70 bg-zinc-900/30 backdrop-blur-sm p-3 flex flex-col items-center justify-between text-center">
-                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600">Publicidad</span>
-                <!-- Pegad aquí vuestro bloque de Google AdSense / EthicalAds izquierdo -->
-                <div class="my-auto space-y-2 px-2">
-                    <div class="w-8 h-8 rounded-lg bg-zinc-800/70 border border-zinc-700/50 mx-auto flex items-center justify-center text-xs text-emerald-400 font-mono">AD</div>
-                    <p class="font-mono text-[11px] text-zinc-500 leading-snug">Espacio reservado para anuncio vertical</p>
-                    <span class="inline-block font-mono text-[10px] text-zinc-600">160 × 600</span>
+        <!-- VISTA 1: HERRAMIENTAS -->
+        <div id="vistaHerramientas" class="fade-in space-y-10">
+
+            <!-- HERRAMIENTA ACTIVA DESTACADA -->
+            <div class="item-filtrable" data-asignatura="prog ad-bbdd">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400 font-semibold">Herramienta Destacada</h2>
+                    </div>
+                    <span class="font-mono text-[11px] text-zinc-500 hidden sm:inline">100% en navegador • Sin registro</span>
                 </div>
-                <a href="./sugerencias/" class="font-mono text-[10px] text-zinc-600 hover:text-emerald-400 transition">TDT Ads</a>
-            </div>
-        </aside>
 
-        <!-- CONTENIDO CENTRAL (Herramientas, Diccionario y Banner) -->
-        <main class="flex-1 max-w-5xl min-w-0 w-full">
-
-            <!-- VISTA 1: HERRAMIENTAS -->
-            <div id="vistaHerramientas" class="fade-in space-y-10">
-
-                <!-- HERRAMIENTA ACTIVA DESTACADA -->
-                <div class="item-filtrable" data-asignatura="prog ad-bbdd">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-2">
-                            <span class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                            </span>
-                            <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400 font-semibold">Herramienta Destacada</h2>
+                <div class="group relative bg-gradient-to-b from-zinc-900/95 to-zinc-900/70 border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl p-5 sm:p-8 shadow-2xl shadow-emerald-950/10 transition-all duration-300 grid md:grid-cols-12 gap-6 lg:gap-8 items-center">
+                    
+                    <!-- Columna Izquierda: Info y CTA -->
+                    <div class="md:col-span-7 space-y-4">
+                        <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
+                            <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-md font-medium">PROG</span>
+                            <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-0.5 rounded-md font-medium">Acceso a Datos</span>
+                            <span class="text-zinc-500">• Java / JPA / Lombok</span>
                         </div>
-                        <span class="font-mono text-[11px] text-zinc-500 hidden sm:inline">100% en navegador • Sin registro</span>
+
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+                            Generador de Clases Java <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">(POJO & Hibernate)</span>
+                        </h3>
+
+                        <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">
+                            Diseña tus entidades sin escribir código repetitivo. Elige encapsulamiento (<code class="text-zinc-200 bg-zinc-800/80 px-1.5 py-0.5 rounded">private</code> / <code class="text-zinc-200 bg-zinc-800/80 px-1.5 py-0.5 rounded">public</code>), tipos de atributos y exporta al instante el archivo <code class="text-emerald-400 font-semibold">.java</code> con constructores, Getters, Setters, <code class="text-zinc-200 bg-zinc-800/80 px-1.5 py-0.5 rounded">equals()</code> y anotaciones JPA.
+                        </p>
+
+                        <div class="pt-2 flex flex-wrap items-center gap-3">
+                            <a href="./generador-java/" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/15 hover:shadow-emerald-500/25 hover:-translate-y-0.5">
+                                Abrir Generador Java <span>→</span>
+                            </a>
+                            <button onclick="cambiarModo('diccionario')" class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-zinc-800/70 hover:bg-zinc-800 text-zinc-300 font-mono text-xs px-4 py-3 rounded-xl border border-zinc-700/70 transition">
+                                Ver Snippets Hibernate
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="group relative bg-gradient-to-b from-zinc-900/95 to-zinc-900/70 border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl p-5 sm:p-8 shadow-2xl shadow-emerald-950/10 transition-all duration-300 grid md:grid-cols-12 gap-6 lg:gap-8 items-center">
-                        
-                        <!-- Columna Izquierda: Info y CTA -->
-                        <div class="md:col-span-7 space-y-4">
-                            <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
-                                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-md font-medium">PROG</span>
-                                <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-0.5 rounded-md font-medium">Acceso a Datos</span>
-                                <span class="text-zinc-500">• Java / JPA / Lombok</span>
+                    <!-- Columna Derecha: Ventana IDE Simulada -->
+                    <div class="md:col-span-5 bg-zinc-950 border border-zinc-800/90 rounded-xl overflow-hidden shadow-inner">
+                        <div class="flex items-center justify-between bg-zinc-900/80 border-b border-zinc-800 px-3.5 py-2 text-[11px] font-mono">
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-500/70"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
+                                <span class="ml-2 text-zinc-300 font-medium">Alumno.java</span>
                             </div>
-
-                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-                                Generador de Clases Java <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">(POJO & Hibernate)</span>
-                            </h3>
-
-                            <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                                Diseña tus entidades sin escribir código repetitivo. Elige encapsulamiento (<code class="text-zinc-200 bg-zinc-800/80 px-1.5 py-0.5 rounded">private</code> / <code class="text-zinc-200 bg-zinc-800/80 px-1.5 py-0.5 rounded">public</code>), tipos de atributos y exporta al instante el archivo <code class="text-emerald-400 font-semibold">.java</code> con constructores, Getters, Setters, <code class="text-zinc-200 bg-zinc-800/80 px-1.5 py-0.5 rounded">equals()</code> y anotaciones JPA.
-                            </p>
-
-                            <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                                <a href="./generador-java/" class="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/15 hover:shadow-emerald-500/25 hover:-translate-y-0.5">
-                                    Abrir Generador Java <span>→</span>
-                                </a>
-                                <button onclick="cambiarModo('diccionario')" class="inline-flex items-center justify-center gap-1.5 bg-zinc-800/70 hover:bg-zinc-800 text-zinc-300 font-mono text-xs px-4 py-3 rounded-xl border border-zinc-700/70 transition">
-                                    Ver Snippets Hibernate
-                                </button>
-                            </div>
+                            <span class="text-emerald-400 text-[10px] bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">● Compilado</span>
                         </div>
-
-                        <!-- Columna Derecha: Ventana IDE Simulada (Sin barras de scroll visibles) -->
-                        <div class="md:col-span-5 bg-zinc-950 border border-zinc-800/90 rounded-xl overflow-hidden shadow-inner">
-                            <div class="flex items-center justify-between bg-zinc-900/80 border-b border-zinc-800 px-3.5 py-2 text-[11px] font-mono">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500/70"></span>
-                                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
-                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
-                                    <span class="ml-2 text-zinc-300 font-medium">Alumno.java</span>
-                                </div>
-                                <span class="text-emerald-400 text-[10px] bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">● Listo</span>
-                            </div>
-                            <div class="p-4 font-mono text-[11px] leading-relaxed overflow-x-auto no-scrollbar select-none">
-                                <div class="flex gap-3">
-                                    <div class="text-zinc-600 text-right select-none">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
-                                    <pre class="text-zinc-300 overflow-x-auto no-scrollbar"><span class="text-amber-400">@Entity</span>
+                        <div class="p-4 font-mono text-[11px] leading-relaxed overflow-x-auto select-none">
+                            <div class="flex gap-3">
+                                <div class="text-zinc-600 text-right select-none">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+                                <pre class="text-zinc-300"><span class="text-amber-400">@Entity</span>
 <span class="text-amber-400">@Table</span>(name = <span class="text-emerald-300">"alumnos"</span>)
 <span class="text-rose-400">public class</span> <span class="text-sky-300">Alumno</span> {
     <span class="text-amber-400">@Id</span>
@@ -273,129 +219,131 @@
     <span class="text-rose-400">public</span> <span class="text-sky-300">Alumno</span>() {}
     <span class="text-zinc-500">// Getters, Setters &amp; toString()</span>
 }</pre>
-                                </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
-
-                <!-- PRÓXIMAS HERRAMIENTAS (ROADMAP) -->
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="font-mono text-xs uppercase tracking-wider text-zinc-400 font-semibold">// En Desarrollo (Próximamente)</h2>
-                        <a href="./sugerencias/" class="font-mono text-xs text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
-                            Votar prioridad <span>→</span>
-                        </a>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                        <!-- Card 1 -->
-                        <div data-asignatura="ad-bbdd" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
-                            <div class="space-y-1.5">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded font-medium">AD & BBDD</span>
-                                    <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Conversor SQL a Entidad JPA</h3>
-                                </div>
-                                <p class="text-xs text-zinc-400 leading-relaxed">Pega una sentencia <code class="text-zinc-300 bg-zinc-800 px-1 rounded">CREATE TABLE</code> y obtén la clase Java mapeada con sus claves foráneas.</p>
-                            </div>
-                            <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
-                        </div>
-
-                        <!-- Card 2 -->
-                        <div data-asignatura="di-web" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
-                            <div class="space-y-1.5">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="font-mono text-[10px] text-amber-400 bg-amber-950/60 border border-amber-800/50 px-2 py-0.5 rounded font-medium">DI & Web</span>
-                                    <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Validador & Formateador JSON</h3>
-                                </div>
-                                <p class="text-xs text-zinc-400 leading-relaxed">Embellece respuestas de APIs REST, navega por nodos y detecta errores de sintaxis al vuelo.</p>
-                            </div>
-                            <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
-                        </div>
-
-                        <!-- Card 3 -->
-                        <div data-asignatura="psp prog" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
-                            <div class="space-y-1.5">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="font-mono text-[10px] text-rose-400 bg-rose-950/60 border border-rose-800/50 px-2 py-0.5 rounded font-medium">PSP</span>
-                                    <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Generador de Hilos & Sockets TCP</h3>
-                                </div>
-                                <p class="text-xs text-zinc-400 leading-relaxed">Esqueletos listos para compilar de arquitectura Cliente/Servidor y patrón Productor-Consumidor.</p>
-                            </div>
-                            <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
-                        </div>
-
-                        <!-- Card 4 -->
-                        <div data-asignatura="sistemas ad-bbdd" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
-                            <div class="space-y-1.5">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="font-mono text-[10px] text-sky-400 bg-sky-950/60 border border-sky-800/50 px-2 py-0.5 rounded font-medium">Sistemas & SGE</span>
-                                    <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Generador docker-compose.yml</h3>
-                                </div>
-                                <p class="text-xs text-zinc-400 leading-relaxed">Configura en 2 clics contenedores con volúmenes persistentes para MySQL, PostgreSQL, Mongo u Odoo.</p>
-                            </div>
-                            <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
-                        </div>
-
-                        <!-- Card 5 -->
-                        <div data-asignatura="ad-bbdd di-web" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
-                            <div class="space-y-1.5">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="font-mono text-[10px] text-orange-400 bg-orange-950/60 border border-orange-800/50 px-2 py-0.5 rounded font-medium">AD & BBDD</span>
-                                    <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Conversor XML ⇄ JSON & XPath</h3>
-                                </div>
-                                <p class="text-xs text-zinc-400 leading-relaxed">Transforma documentos XML a JSON y evalúa expresiones XPath en tiempo real.</p>
-                            </div>
-                            <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
-                        </div>
-
-                        <!-- Card 6 -->
-                        <div data-asignatura="sistemas" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
-                            <div class="space-y-1.5">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="font-mono text-[10px] text-indigo-400 bg-indigo-950/60 border border-indigo-800/50 px-2 py-0.5 rounded font-medium">Sistemas & SGE</span>
-                                    <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Calculadora Subnetting IPv4 + Media FP</h3>
-                                </div>
-                                <p class="text-xs text-zinc-400 leading-relaxed">Cálculo instantáneo de subredes CIDR/VLSM y simulador de nota media ponderada del ciclo.</p>
-                            </div>
-                            <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- VISTA 2: DICCIONARIO & SNIPPETS -->
-            <div id="vistaDiccionario" class="hidden fade-in space-y-6">
-                
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-4">
-                    <div>
-                        <h2 class="text-lg sm:text-xl font-bold text-white">📚 Diccionario & Snippets por Asignatura</h2>
-                        <p class="text-xs text-zinc-400 mt-0.5">Soluciones directas a errores típicos de clase y bloques listos para copiar en examen.</p>
+            <!-- PRÓXIMAS HERRAMIENTAS (ROADMAP) -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <h2 class="font-mono text-xs uppercase tracking-wider text-zinc-400 font-semibold">// En Desarrollo (Próximamente)</h2>
                     </div>
-                    <span class="font-mono text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-lg self-start sm:self-auto">
-                        Filtra por módulo arriba ↑
-                    </span>
+                    <a href="./sugerencias/" class="font-mono text-xs text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
+                        Votar prioridad <span>→</span>
+                    </a>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Snippet 1 -->
-                    <div data-asignatura="ad-bbdd" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
-                        <div>
-                            <div class="flex items-center justify-between mb-2.5">
-                                <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded font-medium">AD & BBDD • Maven</span>
-                                <button onclick="copiarSnippet('dic1', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
+                <div class="grid md:grid-cols-2 gap-3.5">
+                    <!-- Card 1 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
+                        <div class="space-y-1.5">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded font-medium">AD & BBDD</span>
+                                <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Conversor SQL a Entidad JPA</h3>
                             </div>
-                            <h3 class="text-sm font-bold text-white mb-1">Dependencias MySQL + Hibernate (pom.xml)</h3>
-                            <p class="text-xs text-zinc-400 mb-3">Bloque estándar para conectar un proyecto Maven a MySQL 8 con Hibernate 6.</p>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Pega una sentencia <code class="text-zinc-300 bg-zinc-800 px-1 rounded">CREATE TABLE</code> y obtén la clase Java mapeada con sus claves foráneas.</p>
                         </div>
-                        <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
-                            <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
-                                <span>pom.xml</span>
-                                <span>XML</span>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div data-asignatura="di-web" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
+                        <div class="space-y-1.5">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono text-[10px] text-amber-400 bg-amber-950/60 border border-amber-800/50 px-2 py-0.5 rounded font-medium">DI & Web</span>
+                                <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Validador & Formateador JSON</h3>
                             </div>
-                            <pre id="dic1" class="p-3 text-[11px] text-zinc-300 overflow-x-auto no-scrollbar leading-relaxed">&lt;dependencies&gt;
+                            <p class="text-xs text-zinc-400 leading-relaxed">Embellece respuestas de APIs REST, navega por nodos y detecta errores de sintaxis al vuelo.</p>
+                        </div>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div data-asignatura="psp prog" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
+                        <div class="space-y-1.5">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono text-[10px] text-rose-400 bg-rose-950/60 border border-rose-800/50 px-2 py-0.5 rounded font-medium">PSP</span>
+                                <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Generador de Hilos & Sockets TCP</h3>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Esqueletos listos para compilar de arquitectura Cliente/Servidor y patrón Productor-Consumidor.</p>
+                        </div>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div data-asignatura="sistemas ad-bbdd" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
+                        <div class="space-y-1.5">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono text-[10px] text-sky-400 bg-sky-950/60 border border-sky-800/50 px-2 py-0.5 rounded font-medium">Sistemas & SGE</span>
+                                <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Generador docker-compose.yml</h3>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Configura en 2 clics contenedores con volúmenes persistentes para MySQL, PostgreSQL, Mongo u Odoo.</p>
+                        </div>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div data-asignatura="ad-bbdd di-web" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
+                        <div class="space-y-1.5">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono text-[10px] text-orange-400 bg-orange-950/60 border border-orange-800/50 px-2 py-0.5 rounded font-medium">AD & BBDD</span>
+                                <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Conversor XML ⇄ JSON & XPath</h3>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Transforma documentos XML a JSON y evalúa expresiones XPath en tiempo real.</p>
+                        </div>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div data-asignatura="sistemas" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-xl p-4 flex items-start justify-between gap-4 transition-all duration-200 hover:-translate-y-0.5">
+                        <div class="space-y-1.5">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono text-[10px] text-indigo-400 bg-indigo-950/60 border border-indigo-800/50 px-2 py-0.5 rounded font-medium">Sistemas & SGE</span>
+                                <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-emerald-400 transition">Calculadora Subnetting IPv4 + Media FP</h3>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Cálculo instantáneo de subredes CIDR/VLSM y simulador de nota media ponderada del ciclo.</p>
+                        </div>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- VISTA 2: DICCIONARIO & SNIPPETS -->
+        <div id="vistaDiccionario" class="hidden fade-in space-y-6">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-4">
+                <div>
+                    <h2 class="text-lg sm:text-xl font-bold text-white">📚 Diccionario & Snippets por Asignatura</h2>
+                    <p class="text-xs text-zinc-400 mt-0.5">Soluciones directas a errores típicos de clase y bloques listos para copiar en examen.</p>
+                </div>
+                <span class="font-mono text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-lg self-start sm:self-auto">
+                    Filtra por módulo arriba ↑
+                </span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <!-- Snippet 1 -->
+                <div data-asignatura="ad-bbdd" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded font-medium">AD & BBDD • Maven</span>
+                            <button onclick="copiarSnippet('dic1', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
+                        </div>
+                        <h3 class="text-sm font-bold text-white mb-1">Dependencias MySQL + Hibernate (pom.xml)</h3>
+                        <p class="text-xs text-zinc-400 mb-3">Bloque estándar para conectar un proyecto Maven a MySQL 8 con Hibernate 6.</p>
+                    </div>
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
+                        <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
+                            <span>pom.xml</span>
+                            <span>XML</span>
+                        </div>
+                        <pre id="dic1" class="p-3 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">&lt;dependencies&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.mysql&lt;/groupId&gt;
         &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
@@ -407,188 +355,172 @@
         &lt;version&gt;6.4.4.Final&lt;/version&gt;
     &lt;/dependency&gt;
 &lt;/dependencies&gt;</pre>
-                        </div>
                     </div>
+                </div>
 
-                    <!-- Snippet 2 -->
-                    <div data-asignatura="ad-bbdd prog" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
-                        <div>
-                            <div class="flex items-center justify-between mb-2.5">
-                                <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded font-medium">AD & BBDD • JDBC</span>
-                                <button onclick="copiarSnippet('dic2', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
-                            </div>
-                            <h3 class="text-sm font-bold text-white mb-1">Conexión JDBC sin error ServerTimezone</h3>
-                            <p class="text-xs text-zinc-400 mb-3">Cadena de conexión con parámetros para evitar fallos de SSL y zona horaria en XAMPP.</p>
+                <!-- Snippet 2 -->
+                <div data-asignatura="ad-bbdd prog" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded font-medium">AD & BBDD • JDBC</span>
+                            <button onclick="copiarSnippet('dic2', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
                         </div>
-                        <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
-                            <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
-                                <span>ConexionBD.java</span>
-                                <span>Java</span>
-                            </div>
-                            <pre id="dic2" class="p-3 text-[11px] text-zinc-300 overflow-x-auto no-scrollbar leading-relaxed">String url = "jdbc:mysql://localhost:3306/mi_bd?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true";
+                        <h3 class="text-sm font-bold text-white mb-1">Conexión JDBC sin error ServerTimezone</h3>
+                        <p class="text-xs text-zinc-400 mb-3">Cadena de conexión con parámetros para evitar fallos de SSL y zona horaria en XAMPP.</p>
+                    </div>
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
+                        <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
+                            <span>ConexionBD.java</span>
+                            <span>Java</span>
+                        </div>
+                        <pre id="dic2" class="p-3 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">String url = "jdbc:mysql://localhost:3306/mi_bd?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true";
 try (Connection con = DriverManager.getConnection(url, "root", "")) {
     System.out.println("Conectado a la BD");
 } catch (SQLException e) {
     e.printStackTrace();
 }</pre>
-                        </div>
                     </div>
+                </div>
 
-                    <!-- Snippet 3 -->
-                    <div data-asignatura="sistemas di-web" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
-                        <div>
-                            <div class="flex items-center justify-between mb-2.5">
-                                <span class="font-mono text-[10px] text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2 py-0.5 rounded font-medium">Sistemas • Terminal</span>
-                                <button onclick="copiarSnippet('dic3', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
-                            </div>
-                            <h3 class="text-sm font-bold text-white mb-1">Liberar puerto 8080 / 3306 bloqueado</h3>
-                            <p class="text-xs text-zinc-400 mb-3">Cuando Tomcat, Spring o MySQL dicen que el puerto ya está en uso y no arrancan.</p>
+                <!-- Snippet 3 -->
+                <div data-asignatura="sistemas di-web" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="font-mono text-[10px] text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2 py-0.5 rounded font-medium">Sistemas • Terminal</span>
+                            <button onclick="copiarSnippet('dic3', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
                         </div>
-                        <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
-                            <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
-                                <span>CMD / Bash</span>
-                                <span>Shell</span>
-                            </div>
-                            <pre id="dic3" class="p-3 text-[11px] text-zinc-300 overflow-x-auto no-scrollbar leading-relaxed"># Windows (CMD Admin):
+                        <h3 class="text-sm font-bold text-white mb-1">Liberar puerto 8080 / 3306 bloqueado</h3>
+                        <p class="text-xs text-zinc-400 mb-3">Cuando Tomcat, Spring o MySQL dicen que el puerto ya está en uso y no arrancan.</p>
+                    </div>
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
+                        <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
+                            <span>CMD / Bash</span>
+                            <span>Shell</span>
+                        </div>
+                        <pre id="dic3" class="p-3 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed"># Windows (CMD Admin):
 netstat -ano | findstr :8080
 taskkill /PID &lt;PID&gt; /F
 
 # Linux / macOS:
 sudo lsof -i :8080
 kill -9 &lt;PID&gt;</pre>
-                        </div>
                     </div>
+                </div>
 
-                    <!-- Snippet 4 -->
-                    <div data-asignatura="prog sistemas" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
-                        <div>
-                            <div class="flex items-center justify-between mb-2.5">
-                                <span class="font-mono text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded font-medium">PROG • Git</span>
-                                <button onclick="copiarSnippet('dic4', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
-                            </div>
-                            <h3 class="text-sm font-bold text-white mb-1">Deshacer último commit sin perder cambios</h3>
-                            <p class="text-xs text-zinc-400 mb-3">Vuelve al estado anterior al commit dejando tu código intacto en el editor.</p>
+                <!-- Snippet 4 -->
+                <div data-asignatura="prog sistemas" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="font-mono text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded font-medium">PROG • Git</span>
+                            <button onclick="copiarSnippet('dic4', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
                         </div>
-                        <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
-                            <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
-                                <span>Terminal Git</span>
-                                <span>Git</span>
-                            </div>
-                            <pre id="dic4" class="p-3 text-[11px] text-zinc-300 overflow-x-auto no-scrollbar leading-relaxed"># Deshacer commit manteniendo código:
+                        <h3 class="text-sm font-bold text-white mb-1">Deshacer último commit sin perder cambios</h3>
+                        <p class="text-xs text-zinc-400 mb-3">Vuelve al estado anterior al commit dejando tu código intacto en el editor.</p>
+                    </div>
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
+                        <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
+                            <span>Terminal Git</span>
+                            <span>Git</span>
+                        </div>
+                        <pre id="dic4" class="p-3 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed"># Deshacer commit manteniendo código:
 git reset --soft HEAD~1
 
 # Borrar carpeta target/ subida por error:
 git rm -r --cached target/
 git commit -m "fix: quitar target"</pre>
-                        </div>
                     </div>
+                </div>
 
-                    <!-- Snippet 5 -->
-                    <div data-asignatura="psp prog" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
-                        <div>
-                            <div class="flex items-center justify-between mb-2.5">
-                                <span class="font-mono text-[10px] text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2 py-0.5 rounded font-medium">PSP • Concurrencia</span>
-                                <button onclick="copiarSnippet('dic5', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
-                            </div>
-                            <h3 class="text-sm font-bold text-white mb-1">Diferencia rápida: <code class="text-xs">Thread</code> vs <code class="text-xs">Runnable</code></h3>
-                            <p class="text-xs text-zinc-400 mb-3">En Java solo hay herencia simple: implementa <code class="text-zinc-200">Runnable</code> si tu clase ya hereda de otra.</p>
+                <!-- Snippet 5 -->
+                <div data-asignatura="psp prog" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="font-mono text-[10px] text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2 py-0.5 rounded font-medium">PSP • Concurrencia</span>
+                            <button onclick="copiarSnippet('dic5', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
                         </div>
-                        <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
-                            <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
-                                <span>HiloEjemplo.java</span>
-                                <span>Java</span>
-                            </div>
-                            <pre id="dic5" class="p-3 text-[11px] text-zinc-300 overflow-x-auto no-scrollbar leading-relaxed">Runnable tarea = () -&gt; {
+                        <h3 class="text-sm font-bold text-white mb-1">Diferencia rápida: <code class="text-xs">Thread</code> vs <code class="text-xs">Runnable</code></h3>
+                        <p class="text-xs text-zinc-400 mb-3">En Java solo hay herencia simple: implementa <code class="text-zinc-200">Runnable</code> si tu clase ya hereda de otra.</p>
+                    </div>
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
+                        <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
+                            <span>HiloEjemplo.java</span>
+                            <span>Java</span>
+                        </div>
+                        <pre id="dic5" class="p-3 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">Runnable tarea = () -&gt; {
     System.out.println("Hilo: " + Thread.currentThread().getName());
 };
 Thread hilo = new Thread(tarea);
 hilo.start(); // ¡Nunca llames a run() directo!</pre>
-                        </div>
                     </div>
+                </div>
 
-                    <!-- Snippet 6 -->
-                    <div data-asignatura="di-web" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
-                        <div>
-                            <div class="flex items-center justify-between mb-2.5">
-                                <span class="font-mono text-[10px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded font-medium">DI & Web • JS Fetch</span>
-                                <button onclick="copiarSnippet('dic6', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
-                            </div>
-                            <h3 class="text-sm font-bold text-white mb-1">Petición <code class="text-xs">fetch()</code> con <code class="text-xs">async / await</code></h3>
-                            <p class="text-xs text-zinc-400 mb-3">Plantilla limpia para consumir cualquier API REST en JavaScript.</p>
+                <!-- Snippet 6 -->
+                <div data-asignatura="di-web" class="item-filtrable bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="font-mono text-[10px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded font-medium">DI & Web • JS Fetch</span>
+                            <button onclick="copiarSnippet('dic6', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition">Copiar</button>
                         </div>
-                        <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
-                            <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
-                                <span>api.js</span>
-                                <span>JavaScript</span>
-                            </div>
-                            <pre id="dic6" class="p-3 text-[11px] text-zinc-300 overflow-x-auto no-scrollbar leading-relaxed">async function obtenerDatos(url) {
+                        <h3 class="text-sm font-bold text-white mb-1">Petición <code class="text-xs">fetch()</code> con <code class="text-xs">async / await</code></h3>
+                        <p class="text-xs text-zinc-400 mb-3">Plantilla limpia para consumir cualquier API REST en JavaScript.</p>
+                    </div>
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800/90 overflow-hidden">
+                        <div class="bg-zinc-900/70 px-3 py-1 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between">
+                            <span>api.js</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <pre id="dic6" class="p-3 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">async function obtenerDatos(url) {
     const res = await fetch(url);
     if (!res.ok) throw new Error("Error HTTP: " + res.status);
     return await res.json();
 }</pre>
-                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- ESTADO VACÍO -->
-            <div id="estadoVacio" class="hidden fade-in text-center py-12 bg-zinc-900/40 border border-zinc-800/80 rounded-2xl my-6">
-                <p class="text-2xl mb-2">🔍</p>
-                <h3 class="text-sm font-bold text-white">No hemos encontrado resultados para ese filtro</h3>
-                <p class="text-xs text-zinc-400 mt-1 mb-4">Prueba con otra palabra clave o selecciona "Todo el Hub" en la barra superior.</p>
-                <button onclick="limpiarBusqueda()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-4 py-2 rounded-lg border border-zinc-700 transition">
-                    Restablecer filtros
-                </button>
-            </div>
-
-        </main>
-
-        <!-- ANUNCIO LATERAL DERECHO (Solo visible en pantallas grandes xl+ para no estorbar en móvil/tablet) -->
-        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] 2xl:w-[200px] sticky top-36">
-            <div class="w-full min-h-[520px] rounded-2xl border border-zinc-800/70 bg-zinc-900/30 backdrop-blur-sm p-3 flex flex-col items-center justify-between text-center">
-                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600">Publicidad</span>
-                <!-- Pegad aquí vuestro bloque de Google AdSense / EthicalAds derecho -->
-                <div class="my-auto space-y-2 px-2">
-                    <div class="w-8 h-8 rounded-lg bg-zinc-800/70 border border-zinc-700/50 mx-auto flex items-center justify-center text-xs text-emerald-400 font-mono">AD</div>
-                    <p class="font-mono text-[11px] text-zinc-500 leading-snug">Espacio reservado para anuncio vertical</p>
-                    <span class="inline-block font-mono text-[10px] text-zinc-600">160 × 600</span>
-                </div>
-                <a href="./sugerencias/" class="font-mono text-[10px] text-zinc-600 hover:text-emerald-400 transition">TDT Ads</a>
-            </div>
-        </aside>
-
-    </div>
-
-    <!-- 3. BANNER INFERIOR A ANCHO COMPLETO DE LA PÁGINA (w-full) -->
-    <section class="w-full border-t border-zinc-800/80 bg-gradient-to-r from-zinc-950 via-zinc-900/90 to-zinc-950 relative z-10">
-        <div class="w-full px-4 sm:px-6 lg:px-10 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div class="space-y-1">
-                <div class="flex items-center gap-2">
-                    <span class="font-mono text-[10px] uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded">Recursos Oficiales TDT Studio</span>
-                </div>
-                <h3 class="text-base sm:text-lg font-bold text-white">¿Buscas apuntes de examen o plantillas CRUD listas para entregar?</h3>
-                <p class="text-xs sm:text-sm text-zinc-400">Descarga nuestros esquemas gratuitos en Wuolah o hazte con los proyectos base completos en Gumroad.</p>
-            </div>
-            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto shrink-0">
-                <a href="https://wuolah.com" target="_blank" rel="noopener" class="flex-1 md:flex-none text-center font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-5 py-3 rounded-xl border border-zinc-700 transition">
-                    📄 Apuntes Wuolah
-                </a>
-                <a href="https://gumroad.com" target="_blank" rel="noopener" class="flex-1 md:flex-none text-center font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold px-5 py-3 rounded-xl transition shadow-lg shadow-emerald-500/10">
-                    ⚡ Packs Gumroad
-                </a>
-            </div>
         </div>
-    </section>
 
-    <!-- FOOTER A ANCHO COMPLETO -->
-    <footer class="w-full border-t border-zinc-900/90 bg-zinc-950 py-5 text-xs font-mono text-zinc-500 relative z-10">
-        <div class="w-full px-4 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <!-- ESTADO VACÍO (Se muestra automáticamente si la búsqueda no devuelve resultados) -->
+        <div id="estadoVacio" class="hidden fade-in text-center py-12 bg-zinc-900/40 border border-zinc-800/80 rounded-2xl my-6">
+            <p class="text-2xl mb-2">🔍</p>
+            <h3 class="text-sm font-bold text-white">No hemos encontrado resultados para ese filtro</h3>
+            <p class="text-xs text-zinc-400 mt-1 mb-4">Prueba con otra palabra clave o selecciona "Todo" en la barra de asignaturas.</p>
+            <button onclick="limpiarBusqueda()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-4 py-2 rounded-lg border border-zinc-700 transition">
+                Restablecer filtros
+            </button>
+        </div>
+
+        <!-- BANNER RECURSOS & APUNTES (Monetización limpia Wuolah / Gumroad) -->
+        <section class="mt-12 pt-8 border-t border-zinc-900">
+            <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="font-mono text-[10px] uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded">Recursos TDT Studio</span>
+                    </div>
+                    <h3 class="text-base font-bold text-white">¿Buscas apuntes de examen o plantillas CRUD listas para entregar?</h3>
+                    <p class="text-xs text-zinc-400">Descarga nuestros esquemas gratuitos en Wuolah o hazte con los proyectos base completos en Gumroad.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto shrink-0">
+                    <a href="https://wuolah.com" target="_blank" rel="noopener" class="flex-1 sm:flex-none text-center font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2.5 rounded-xl border border-zinc-700 transition">
+                        📄 Apuntes Wuolah
+                    </a>
+                    <a href="https://gumroad.com" target="_blank" rel="noopener" class="flex-1 sm:flex-none text-center font-mono text-xs bg-emerald-500/15 hover:bg-emerald-500 text-emerald-400 hover:text-zinc-950 font-semibold px-4 py-2.5 rounded-xl border border-emerald-500/30 transition">
+                        ⚡ Packs Gumroad
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-zinc-900/90 bg-zinc-950/50 py-6 text-xs font-mono text-zinc-500 relative z-10">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <p>TDT Studio © 2026 — Utilidades creadas para DAM y DAW.</p>
             <a href="./sugerencias/" class="text-zinc-400 hover:text-emerald-400 transition">¿Echas en falta alguna herramienta? Sugerencias →</a>
         </div>
     </footer>
 
-    <!-- LÓGICA DE NAVEGACIÓN, CARRUSEL HORIZONTAL, FILTROS Y PORTAPAPELES -->
+    <!-- LÓGICA DE NAVEGACIÓN, FILTROS Y PORTAPAPELES -->
     <script>
         let modoActual = 'herramientas';
         let asignaturaActual = 'todas';
@@ -607,33 +539,6 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
             }
         });
 
-        // Botones de flecha para desplazar asignaturas horizontalmente
-        function desplazarAsignaturas(distancia) {
-            const contenedor = document.getElementById('barraAsignaturas');
-            contenedor.scrollBy({ left: distancia, behavior: 'smooth' });
-        }
-
-        // Permitir arrastrar con el ratón la barra horizontal de asignaturas en PC
-        const slider = document.getElementById('barraAsignaturas');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        });
-        slider.addEventListener('mouseleave', () => { isDown = false; });
-        slider.addEventListener('mouseup', () => { isDown = false; });
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 1.5;
-            slider.scrollLeft = scrollLeft - walk;
-        });
-
         function cambiarModo(modo) {
             modoActual = modo;
             const vistaH = document.getElementById('vistaHerramientas');
@@ -644,13 +549,13 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
             if (modo === 'herramientas') {
                 vistaH.classList.remove('hidden');
                 vistaD.classList.add('hidden');
-                tabH.className = 'flex-1 sm:flex-none px-5 py-2 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow-sm';
-                tabD.className = 'flex-1 sm:flex-none px-5 py-2 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-zinc-400 hover:text-white';
+                tabH.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow-sm';
+                tabD.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-zinc-400 hover:text-white';
             } else {
                 vistaD.classList.remove('hidden');
                 vistaH.classList.add('hidden');
-                tabD.className = 'flex-1 sm:flex-none px-5 py-2 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow-sm';
-                tabH.className = 'flex-1 sm:flex-none px-5 py-2 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-zinc-400 hover:text-white';
+                tabD.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow-sm';
+                tabH.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-zinc-400 hover:text-white';
             }
             aplicarFiltros();
         }
@@ -658,16 +563,9 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
         function filtrarPorAsignatura(asig, botonPulsado) {
             asignaturaActual = asig;
             document.querySelectorAll('.asig-btn').forEach(btn => {
-                btn.className = 'asig-btn snap-start shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border border-zinc-800/90 bg-zinc-900/70 hover:bg-zinc-900 hover:border-zinc-700 text-left transition-all duration-200';
-                const titulo = btn.querySelector('div span:first-child');
-                if (titulo) titulo.className = 'font-mono text-xs sm:text-sm font-bold text-zinc-200 block leading-tight';
+                btn.className = 'asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200 border border-transparent px-3 py-1 rounded-lg transition-all';
             });
-
-            botonPulsado.className = 'asig-btn snap-start shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border border-emerald-500/50 bg-emerald-500/15 text-left transition-all duration-200';
-            const tituloActivo = botonPulsado.querySelector('div span:first-child');
-            if (tituloActivo) tituloActivo.className = 'font-mono text-xs sm:text-sm font-bold text-emerald-400 block leading-tight';
-
-            botonPulsado.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            botonPulsado.className = 'asig-btn shrink-0 bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-3 py-1 rounded-lg font-medium transition-all';
             aplicarFiltros();
         }
 
