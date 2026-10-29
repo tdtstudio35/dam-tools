@@ -10,11 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        html, body {
+        body {
             background-color: #09090b !important;
             color: #e4e4e7 !important;
             font-family: 'Inter', system-ui, sans-serif;
-            overflow-x: hidden;
+            overflow-x: clip;
             width: 100%;
         }
         /* Patrón de cuadrícula técnica sutil */
@@ -120,19 +120,19 @@
                 </a>
             </div>
 
-            <!-- CONMUTADOR CENTRAL (ADAPTADO A MÓVIL Y ESCRITORIO) -->
+            <!-- CONMUTADOR CENTRAL (CON CONTADORES EN BLANCO SIEMPRE VISIBLES) -->
             <div class="w-full md:w-auto bg-zinc-900/95 p-1 md:p-1.5 rounded-xl md:rounded-2xl border border-zinc-800 grid grid-cols-2 md:flex items-center gap-1 md:gap-1.5 shadow-inner">
                 <button id="tabHerramientas" onclick="cambiarModo('herramientas')" 
                     class="w-full md:w-auto px-2.5 sm:px-4 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl font-mono text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2.5 bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10">
                     <span class="text-sm sm:text-base">🛠️</span>
                     <span class="truncate">Herramientas</span>
-                    <span class="text-[10px] sm:text-xs bg-zinc-950/20 text-zinc-950 font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">4</span>
+                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-white font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">4</span>
                 </button>
                 <button id="tabDiccionario" onclick="cambiarModo('diccionario')" 
                     class="w-full md:w-auto px-2.5 sm:px-4 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl font-mono text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/60">
                     <span class="text-sm sm:text-base">📚</span>
                     <span class="truncate">Diccionario</span>
-                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-zinc-300 px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">6</span>
+                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-white font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">6</span>
                 </button>
             </div>
 
@@ -209,11 +209,11 @@
         </div>
     </div>
 
-    <!-- CONTENEDOR DE TRES COLUMNAS (CON min-w-0 PARA EVITAR DESBORDES EN MÓVIL) -->
-    <div class="max-w-[1400px] mx-auto px-3.5 sm:px-4 flex-1 w-full relative z-10 flex justify-center gap-7 min-w-0">
+    <!-- CONTENEDOR DE TRES COLUMNAS (items-start HABILITA EL STICKY EN LOS LATERALES) -->
+    <div class="max-w-[1400px] mx-auto px-3.5 sm:px-4 flex-1 w-full relative z-10 flex items-start justify-center gap-7 min-w-0">
 
-        <!-- LATERAL IZQUIERDO: ANUNCIO A-ADS (SOLO ESCRITORIO XL) -->
-        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 h-fit mt-6">
+        <!-- LATERAL IZQUIERDO: ANUNCIO A-ADS FIJO AL HACER SCROLL (SOLO ESCRITORIO XL) -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-6">
             <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
                 <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
                 <div id="frame-left" style="width: 160px; margin: auto; z-index: 10; height: auto">
@@ -271,7 +271,7 @@
                             </div>
                         </div>
 
-                        <!-- Ventana IDE Mejorada (Sin desborde en móvil) -->
+                        <!-- Ventana IDE Mejorada -->
                         <div class="md:col-span-5 w-full min-w-0 bg-zinc-950 border border-zinc-800 rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl">
                             <div class="flex items-center justify-between bg-zinc-900/90 border-b border-zinc-800 px-3.5 py-2 sm:px-4 sm:py-2.5 text-[11px] sm:text-xs font-mono">
                                 <div class="flex items-center gap-1.5 sm:gap-2 min-w-0">
@@ -304,7 +304,7 @@
                     <!-- GRID CON LAS OTRAS HERRAMIENTAS ACTIVAS -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 pt-1 sm:pt-2 min-w-0">
 
-                        <!-- 2. GENERADOR CRUD (BOTÓN ALINEADO EN MÓVIL Y ESCRITORIO) -->
+                        <!-- 2. GENERADOR CRUD -->
                         <a href="./generador-crud/" data-asignatura="prog ad-bbdd" class="item-filtrable card-glow md:col-span-2 group bg-gradient-to-r from-zinc-900/95 via-zinc-900/90 to-emerald-950/25 border border-emerald-500/35 hover:border-emerald-400 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6 md:hover:-translate-y-0.5 min-w-0">
                             <div class="space-y-2.5 max-w-2xl w-full min-w-0">
                                 <div class="flex items-center justify-between md:justify-start flex-wrap gap-2 font-mono text-[11px] sm:text-xs">
@@ -640,8 +640,8 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
 
         </main>
 
-        <!-- LATERAL DERECHO: ANUNCIO A-ADS (SOLO ESCRITORIO XL) -->
-        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 h-fit mt-6">
+        <!-- LATERAL DERECHO: ANUNCIO A-ADS FIJO AL HACER SCROLL (SOLO ESCRITORIO XL) -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-6">
             <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
                 <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
                 <div id="frame-right" style="width: 160px; margin: auto; z-index: 10; height: auto">
@@ -664,7 +664,7 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
         let modoActual = 'herramientas';
         let asignaturaActual = 'todas';
 
-        // Scroll horizontal con rueda de ratón y arrastrando en PC (en móvil usa el scroll táctil nativo)
+        // Scroll horizontal con rueda de ratón y arrastrando en PC
         const sliderAsignaturas = document.getElementById('barraAsignaturas');
         let isDown = false;
         let startX;
