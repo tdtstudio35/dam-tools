@@ -1,0 +1,38 @@
+name: Deploy Multi-Branch to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout rama actual
+        uses: actions/checkout@v4
+
+      - name: Preparar carpeta de despliegue
+        run: |
+          mkdir -p build_output
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            # main se despliega en la raíz
+            cp -r * build_output/ 2>/dev/null || true
+            rm -rf build_output/build_output
+          else
+            # develop se despliega en /dev/
+            mkdir -p build_output/dev
+            cp -r * build_output/dev/ 2>/dev/null || true
+            rm -rf build_output/dev/build_output
+          fi
+
+      - name: Desplegar en rama gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: build_output
+          clean: false
