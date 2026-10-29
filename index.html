@@ -143,10 +143,20 @@
         </div>
     </header>
 
+    <!-- BLOQUE DE ANUNCIO ADAPTABLE SUPERIOR (VISIBLE EN MÓVIL Y ZOOM) -->
+    <div class="max-w-5xl mx-auto px-4 pt-4 relative z-10 xl:hidden">
+        <div class="w-full bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-2 flex flex-col items-center justify-center overflow-hidden">
+            <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Publicidad</span>
+            <div id="frame-mobile" style="width: 100%; margin: auto; position: relative; z-index: 99998;">
+                <iframe data-aa='2460366' src='//acceptable.a-ads.com/2460366/?size=Adaptive' style='border:0; padding:0; width:100%; height:auto; min-height:60px; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
+        </div>
+    </div>
+
     <!-- CONTENEDOR CON DISEÑO DE TRES COLUMNAS (CONTENIDO + LATERALES DE ANUNCIOS) -->
     <div class="max-w-[1300px] mx-auto px-4 flex-1 w-full relative z-10 flex justify-center gap-6">
 
-        <!-- LATERAL IZQUIERDO: ANUNCIO A-ADS -->
+        <!-- LATERAL IZQUIERDO: ANUNCIO A-ADS (ESCRITORIO) -->
         <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-28 h-fit">
             <div class="w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col items-center justify-center text-center overflow-hidden">
                 <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-2">Publicidad</span>
@@ -162,7 +172,6 @@
             <!-- VISTA 1: HERRAMIENTAS -->
             <div id="vistaHerramientas" class="fade-in space-y-10">
 
-                <!-- SECCIÓN DE HERRAMIENTAS ACTIVAS -->
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -235,7 +244,7 @@
                     <!-- GRID CON LAS OTRAS HERRAMIENTAS ACTIVAS -->
                     <div class="grid md:grid-cols-2 gap-4 pt-1">
 
-                        <!-- 2. NUEVA HERRAMIENTA: GENERADOR AUTOMÁTICO DE CRUD JAVA + SQL (ACTIVA - SPAN 2 COLS) -->
+                        <!-- 2. GENERADOR CRUD -->
                         <a href="./generador-crud/" data-asignatura="prog ad-bbdd" class="item-filtrable md:col-span-2 group bg-gradient-to-r from-zinc-900/95 via-zinc-900/90 to-emerald-950/20 border border-emerald-500/40 hover:border-emerald-400 rounded-2xl p-6 transition-all duration-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg hover:-translate-y-0.5">
                             <div class="space-y-2 max-w-2xl">
                                 <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
@@ -258,7 +267,7 @@
                             </div>
                         </a>
 
-                        <!-- 3. CONVERSOR SQL A ENTIDAD JPA (ACTIVA) -->
+                        <!-- 3. CONVERSOR SQL -->
                         <a href="./conversor-sql/" data-asignatura="ad-bbdd prog" class="item-filtrable group bg-gradient-to-b from-zinc-900/95 to-zinc-900/75 border border-cyan-500/30 hover:border-emerald-500/60 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between shadow-lg hover:-translate-y-0.5">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
@@ -283,7 +292,7 @@
                             </div>
                         </a>
 
-                        <!-- 4. SUITE JSON: VALIDADOR, FORMATEADOR & CONVERSOR A CLASE (ACTIVA) -->
+                        <!-- 4. SUITE JSON -->
                         <a href="./formateador-json/" data-asignatura="di-web ad-bbdd psp prog" class="item-filtrable group bg-gradient-to-b from-zinc-900/95 to-zinc-900/75 border border-amber-500/30 hover:border-emerald-500/60 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between shadow-lg hover:-translate-y-0.5">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
@@ -563,7 +572,7 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
 
         </main>
 
-        <!-- LATERAL DERECHO: ANUNCIO A-ADS -->
+        <!-- LATERAL DERECHO: ANUNCIO A-ADS (ESCRITORIO) -->
         <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-28 h-fit">
             <div class="w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col items-center justify-center text-center overflow-hidden">
                 <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-2">Publicidad</span>
