@@ -1,231 +1,280 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TDT Studio | Herramientas y Utilidades para DAM y DAW</title>
-    <meta name="description" content="Herramientas gratuitas online, generadores de código, snippets y utilidades para estudiantes de DAM y DAW.">
+    <title>TDT Studio — Workspace para DAM y DAW</title>
+    <meta name="description" content="Herramientas interactivas y diccionario de código para estudiantes de DAM y DAW.">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #09090b;
+            color: #e4e4e7;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        code, pre, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Animación suave al cambiar entre Herramientas y Diccionario */
+        .fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Efecto de brillo sutil de fondo */
+        .bg-glow {
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
         }
     </style>
 </head>
-<body class="antialiased selection:bg-indigo-500 selection:text-white min-h-screen flex flex-col">
+<body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col bg-glow">
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <header class="sticky top-0 z-50 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="./" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
-                <span class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg font-mono text-sm">&lt;/&gt;</span>
-                <span>TDT <span class="text-indigo-400">Studio</span></span>
+    <!-- =================================================================== -->
+    <!-- BARRA SUPERIOR + CONMUTADOR CENTRAL (HERRAMIENTAS / DICCIONARIO)    -->
+    <!-- =================================================================== -->
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-md">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+            
+            <!-- Logo Izquierda -->
+            <a href="./" class="flex items-center gap-2.5 group">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-mono font-bold text-emerald-400 text-xs group-hover:bg-emerald-500 group-hover:text-zinc-950 transition">
+                    TDT
+                </div>
+                <div>
+                    <span class="font-mono font-bold text-white text-sm tracking-tight block leading-none">studio<span class="text-emerald-400">.dev</span></span>
+                    <span class="font-mono text-[10px] text-zinc-500">DAM & DAW Hub</span>
+                </div>
             </a>
-            <nav class="hidden md:flex items-center gap-6 text-sm text-slate-300">
-                <a href="#tools" class="hover:text-indigo-400 transition">Herramientas</a>
-                <a href="#snippets" class="hover:text-indigo-400 transition">Snippets Rápidos</a>
-                <a href="#sugerencias" class="hover:text-indigo-400 transition">Sugerencias</a>
-            </nav>
-            <a href="#sugerencias" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-                Proponer Idea ✉
+
+            <!-- CONMUTADOR PRINCIPAL: HERRAMIENTAS vs DICCIONARIO -->
+            <div class="bg-zinc-900 p-1 rounded-xl border border-zinc-800 flex items-center gap-1">
+                <button id="tabHerramientas" onclick="cambiarModo('herramientas')" 
+                    class="px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 bg-emerald-500 text-zinc-950 shadow">
+                    <span>🛠️</span> Herramientas
+                </button>
+                <button id="tabDiccionario" onclick="cambiarModo('diccionario')" 
+                    class="px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 text-zinc-400 hover:text-white">
+                    <span>📚</span> Diccionario
+                </button>
+            </div>
+
+            <!-- Botón Derecha: Página propia de Sugerencias -->
+            <a href="./sugerencias/" class="font-mono text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-emerald-400 border border-zinc-800 px-3.5 py-2 rounded-xl transition flex items-center gap-2">
+                <span>💡</span> Sugerencias
             </a>
+
+        </div>
+
+        <!-- SUB-BARRA INFERIOR: FILTRO DE ASIGNATURAS Y BUSCADOR -->
+        <div class="border-t border-zinc-900 bg-zinc-950/60">
+            <div class="max-w-5xl mx-auto px-4 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3">
+                
+                <!-- Apartados por Asignatura -->
+                <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 font-mono text-xs" id="barraAsignaturas">
+                    <button onclick="filtrarPorAsignatura('todas', this)" class="asig-btn shrink-0 bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-3 py-1 rounded-lg font-medium transition">
+                        Todo
+                    </button>
+                    <button onclick="filtrarPorAsignatura('prog', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 border border-transparent px-3 py-1 rounded-lg transition">
+                        PROG
+                    </button>
+                    <button onclick="filtrarPorAsignatura('ad-bbdd', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 border border-transparent px-3 py-1 rounded-lg transition">
+                        AD & BBDD
+                    </button>
+                    <button onclick="filtrarPorAsignatura('psp', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 border border-transparent px-3 py-1 rounded-lg transition">
+                        PSP
+                    </button>
+                    <button onclick="filtrarPorAsignatura('di-web', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 border border-transparent px-3 py-1 rounded-lg transition">
+                        DI & Web
+                    </button>
+                    <button onclick="filtrarPorAsignatura('sistemas', this)" class="asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 border border-transparent px-3 py-1 rounded-lg transition">
+                        Sistemas & SGE
+                    </button>
+                </div>
+
+                <!-- Buscador rápido -->
+                <div class="relative w-full md:w-64 shrink-0">
+                    <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Buscar en esta vista... (/)" 
+                        class="w-full bg-zinc-900 border border-zinc-800 focus:border-emerald-500 rounded-lg pl-3 pr-7 py-1 text-xs font-mono text-white placeholder-zinc-500 focus:outline-none">
+                    <kbd class="absolute right-2 top-1 text-[10px] font-mono text-zinc-500">/</kbd>
+                </div>
+
+            </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-10 flex-1 w-full">
+    <!-- =================================================================== -->
+    <!-- CONTENEDOR PRINCIPAL DINÁMICO                                       -->
+    <!-- =================================================================== -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full">
 
-        <!-- CABECERA Y BUSCADOR -->
-        <section class="text-center mb-12">
-            <span class="inline-block bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-semibold px-3 py-1 rounded-full mb-4">
-                100% Gratis • Sin Registro • Hecho por estudiantes de DAM
-            </span>
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
-                Utilidades directas al grano para <span class="text-indigo-400">DAM y DAW</span>
-            </h1>
-            <p class="max-w-2xl mx-auto text-slate-400 text-base mb-8">
-                Pequeñas herramientas que corren en tu navegador para quitarte trabajo mecánico en clase: desde crear clases POJO/Hibernate hasta validar JSON o consultar snippets rápidos.
-            </p>
+        <!-- =============================================================== -->
+        <!-- VISTA 1: HERRAMIENTAS                                           -->
+        <!-- =============================================================== -->
+        <div id="vistaHerramientas" class="fade-in space-y-10">
 
-            <!-- Buscador -->
-            <div class="max-w-lg mx-auto relative mb-6">
-                <input type="text" id="buscadorTools" oninput="filtrarHerramientas()" placeholder="Buscar herramienta (ej. Java, SQL, JSON, Notas, Docker...)" 
-                    class="w-full bg-slate-900 border border-slate-800 focus:border-indigo-500 rounded-xl pl-4 pr-10 py-3 text-sm text-white placeholder-slate-500 focus:outline-none">
-                <kbd class="absolute right-3 top-3 text-xs font-mono bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700">/</kbd>
+            <!-- BLOQUE DESTACADO: ÚNICA HERRAMIENTA DISPONIBLE -->
+            <div class="item-filtrable" data-asignatura="prog ad-bbdd">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400 font-semibold">Herramienta Activa</h2>
+                </div>
+
+                <div class="bg-zinc-900/90 border border-emerald-500/40 rounded-2xl p-6 md:p-8 shadow-xl shadow-emerald-950/10 grid md:grid-cols-12 gap-6 items-center">
+                    <div class="md:col-span-7 space-y-4">
+                        <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+                            <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded">PROG</span>
+                            <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded">Acceso a Datos</span>
+                            <span class="text-zinc-500">• v1.2</span>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                            Generador de Clases Java (POJO & Hibernate)
+                        </h3>
+                        <p class="text-zinc-400 text-sm leading-relaxed">
+                            Selecciona con desplegables si tus atributos son <code class="text-zinc-200">private</code> o <code class="text-zinc-200">public</code>, elige el tipo de dato y descarga el archivo <code class="text-emerald-400">.java</code> con constructores, Getters, Setters, <code class="text-zinc-200">equals()</code>, Lombok o anotaciones JPA.
+                        </p>
+                        <div class="pt-2">
+                            <a href="./generador-java/" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-5 py-3 rounded-xl transition">
+                                Abrir Generador Java <span>→</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Mini preview visual estilo código -->
+                    <div class="md:col-span-5 bg-zinc-950 border border-zinc-800 rounded-xl p-4 font-mono text-[11px] text-zinc-400 overflow-hidden">
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-2 mb-2.5 text-[10px] text-zinc-500">
+                            <span>Alumno.java</span>
+                            <span class="text-emerald-400">● Listo</span>
+                        </div>
+                        <pre class="text-emerald-300/90 leading-relaxed">@Entity
+public class Alumno {
+    @Id
+    private int id;
+    private String nombre;
+
+    public Alumno() {}
+    // Getters, Setters, toString...
+}</pre>
+                    </div>
+                </div>
             </div>
 
-            <!-- Filtros -->
-            <div class="flex flex-wrap justify-center gap-2 text-xs font-medium" id="botonesFiltro">
-                <button onclick="cambiarCategoria('todas', this)" class="filtro-btn bg-indigo-600 text-white px-4 py-2 rounded-lg transition">Todas</button>
-                <button onclick="cambiarCategoria('java-psp', this)" class="filtro-btn bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-4 py-2 rounded-lg transition">PROG & PSP</button>
-                <button onclick="cambiarCategoria('datos-sql', this)" class="filtro-btn bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-4 py-2 rounded-lg transition">AD, BBDD & SGE</button>
-                <button onclick="cambiarCategoria('frontend-api', this)" class="filtro-btn bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-4 py-2 rounded-lg transition">Interfaces & APIs</button>
-                <button onclick="cambiarCategoria('utilidades-fp', this)" class="filtro-btn bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-4 py-2 rounded-lg transition">Utilidades FP</button>
-            </div>
-        </section>
+            <!-- ROADMAP COMPACTO: HERRAMIENTAS PRÓXIMAMENTE (Diseño en filas horizontales) -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-mono text-xs uppercase tracking-wider text-zinc-400">// En Desarrollo (Próximamente)</h2>
+                    <a href="./sugerencias/" class="font-mono text-xs text-emerald-400 hover:underline">¿Cuál necesitas primero? Vota aquí →</a>
+                </div>
 
-        <!-- CATÁLOGO DE HERRAMIENTAS -->
-        <section id="tools" class="mb-14">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold text-white">Catálogo de Micro-Herramientas</h2>
-                <span class="text-xs font-mono text-slate-400">1 disponible • 8 próximamente</span>
-            </div>
+                <div class="grid md:grid-cols-2 gap-3">
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- 1. GENERADOR JAVA (Única Disponible) -->
-                <a href="./generador-java/" data-categoria="java-psp" class="tool-card group bg-slate-900 hover:bg-slate-800/80 border border-indigo-500/50 hover:border-indigo-400 rounded-xl p-6 transition flex flex-col justify-between shadow-lg">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-semibold text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md">PROG • AD</span>
-                            <span class="text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">● Disponible</span>
+                    <!-- Próximamente 1 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/50 border border-cyan-800/50 px-1.5 py-0.5 rounded">AD & BBDD</span>
+                                <h3 class="text-sm font-semibold text-zinc-200">Conversor SQL a Entidad JPA</h3>
+                            </div>
+                            <p class="text-xs text-zinc-500">Pega un <code class="text-zinc-400">CREATE TABLE</code> y saca la clase Java mapeada con <code class="text-zinc-400">@Column</code>.</p>
                         </div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-indigo-400 transition">Generador de Clases Java (POJO)</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Elige visibilidad (<code class="text-slate-200">private</code>/<code class="text-slate-200">public</code>) y tipos con desplegables para generar constructores, Getters, Setters, <code class="text-slate-200">equals()</code> y Hibernate.
-                        </p>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-indigo-400 font-semibold group-hover:translate-x-1 transition">Abrir herramienta →</span>
-                </a>
 
-                <!-- 2. CONVERSOR SQL (Próximamente) -->
-                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-6 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-md">BBDD • AD</span>
-                            <span class="text-xs font-mono text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full">Próximamente</span>
+                    <!-- Próximamente 2 -->
+                    <div data-asignatura="di-web" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-[10px] text-amber-400 bg-amber-950/50 border border-amber-800/50 px-1.5 py-0.5 rounded">DI & Web</span>
+                                <h3 class="text-sm font-semibold text-zinc-200">Validador & Formateador JSON</h3>
+                            </div>
+                            <p class="text-xs text-zinc-500">Formatea respuestas de APIs REST y detecta en qué línea falta una llave.</p>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-200 group-hover:text-indigo-400 transition">Conversor SQL a Entidad JPA</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Pega un comando <code class="text-slate-300">CREATE TABLE</code> y obtén tu clase anotada para Hibernate/JPA al instante.
-                        </p>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-slate-500">Próximamente</span>
-                </a>
 
-                <!-- 3. VALIDADOR JSON (Próximamente) -->
-                <a href="#sugerencias" data-categoria="frontend-api" class="tool-card group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-6 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-md">APIs • MongoDB</span>
-                            <span class="text-xs font-mono text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full">Próximamente</span>
+                    <!-- Próximamente 3 -->
+                    <div data-asignatura="psp prog" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-[10px] text-rose-400 bg-rose-950/50 border border-rose-800/50 px-1.5 py-0.5 rounded">PSP</span>
+                                <h3 class="text-sm font-semibold text-zinc-200">Generador de Hilos & Sockets TCP</h3>
+                            </div>
+                            <p class="text-xs text-zinc-500">Plantillas Cliente/Servidor y Productor-Consumidor con <code class="text-zinc-400">synchronized</code>.</p>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-200 group-hover:text-indigo-400 transition">Validador & Formateador JSON</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Limpia, formatea y detecta errores de sintaxis en tus respuestas de API REST o colecciones de Mongo.
-                        </p>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-slate-500">Próximamente</span>
-                </a>
 
-                <!-- 4. CALCULADORA NOTAS (Próximamente) -->
-                <a href="#sugerencias" data-categoria="utilidades-fp" class="tool-card group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-6 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-md">Académico FP</span>
-                            <span class="text-xs font-mono text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full">Próximamente</span>
+                    <!-- Próximamente 4 -->
+                    <div data-asignatura="sistemas ad-bbdd" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-[10px] text-sky-400 bg-sky-950/50 border border-sky-800/50 px-1.5 py-0.5 rounded">Sistemas & SGE</span>
+                                <h3 class="text-sm font-semibold text-zinc-200">Generador docker-compose.yml</h3>
+                            </div>
+                            <p class="text-xs text-zinc-500">Configura contenedores de MySQL, PostgreSQL, MongoDB u Odoo en 3 clics.</p>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-200 group-hover:text-indigo-400 transition">Calculadora Media FP & PAU/EBAU</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Calcula tu nota media de DAM/DAW y simula tu nota de acceso a la universidad con las específicas.
-                        </p>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-slate-500">Próximamente</span>
-                </a>
 
-                <!-- 5. GENERADOR DOCKER (Próximamente) -->
-                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-6 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-sky-400 bg-sky-500/10 px-2.5 py-1 rounded-md">SGE • Sistemas</span>
-                            <span class="text-xs font-mono text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full">Próximamente</span>
+                    <!-- Próximamente 5 -->
+                    <div data-asignatura="ad-bbdd di-web" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-[10px] text-orange-400 bg-orange-950/50 border border-orange-800/50 px-1.5 py-0.5 rounded">AD & BBDD</span>
+                                <h3 class="text-sm font-semibold text-zinc-200">Conversor XML ⇄ JSON & Tester XPath</h3>
+                            </div>
+                            <p class="text-xs text-zinc-500">Transforma estructuras XML y prueba consultas XPath en vivo.</p>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-200 group-hover:text-indigo-400 transition">Generador docker-compose.yml</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Selecciona contenedores (MySQL, phpMyAdmin, Postgres, Odoo) y descarga el YAML con puertos y volúmenes.
-                        </p>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-slate-500">Próximamente</span>
-                </a>
 
-                <!-- 6. PLANTILLAS PSP (Próximamente) -->
-                <a href="#sugerencias" data-categoria="java-psp" class="tool-card group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-6 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-md">PSP 2º DAM</span>
-                            <span class="text-xs font-mono text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full">Próximamente</span>
+                    <!-- Próximamente 6 -->
+                    <div data-asignatura="sistemas" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-[10px] text-indigo-400 bg-indigo-950/50 border border-indigo-800/50 px-1.5 py-0.5 rounded">Sistemas & SGE</span>
+                                <h3 class="text-sm font-semibold text-zinc-200">Calculadora Subnetting IPv4 + Media FP</h3>
+                            </div>
+                            <p class="text-xs text-zinc-500">Cálculo de subredes CIDR/VLSM y simulador de nota media del ciclo.</p>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-200 group-hover:text-indigo-400 transition">Esqueletos PSP: Sockets & Hilos</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Genera la estructura base Cliente/Servidor con <code class="text-slate-300">ServerSocket</code> o Productor-Consumidor sincronizado.
-                        </p>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-slate-500">Próximamente</span>
-                </a>
 
-                <!-- 7. CONVERSOR XML <-> JSON (Próximamente) -->
-                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-6 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-orange-400 bg-orange-500/10 px-2.5 py-1 rounded-md">AD • LMSGI</span>
-                            <span class="text-xs font-mono text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full">Próximamente</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-200 group-hover:text-indigo-400 transition">Conversor XML ⇄ JSON & XPath</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Pasa ficheros de XML a JSON y prueba expresiones XPath en tiempo real para las prácticas de ficheros.
-                        </p>
-                    </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-slate-500">Próximamente</span>
-                </a>
-
-                <!-- 8. CALCULADORA SUBREDES (Próximamente) -->
-                <a href="#sugerencias" data-categoria="utilidades-fp" class="tool-card group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-6 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md">Sistemas 1º</span>
-                            <span class="text-xs font-mono text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full">Próximamente</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-200 group-hover:text-indigo-400 transition">Calculadora Subnetting IPv4</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Introduce la IP y máscara CIDR (<code class="text-slate-300">/24</code>, <code class="text-slate-300">/26</code>) para obtener dirección de red, broadcast y rango útil.
-                        </p>
-                    </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-slate-500">Próximamente</span>
-                </a>
-
-                <!-- 9. GENERADOR INSERTS SQL (Próximamente) -->
-                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-6 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-teal-400 bg-teal-500/10 px-2.5 py-1 rounded-md">BBDD • TFG</span>
-                            <span class="text-xs font-mono text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full">Próximamente</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-200 group-hover:text-indigo-400 transition">Generador de INSERT INTO Falsos</h3>
-                        <p class="text-sm text-slate-400 mt-2">
-                            Crea decenas de filas de prueba con nombres, DNIs, correos y fechas para poblar las tablas de tu proyecto.
-                        </p>
-                    </div>
-                    <span class="inline-block mt-5 text-xs font-mono text-slate-500">Próximamente</span>
-                </a>
-
-            </div>
-        </section>
-
-        <!-- SNIPPETS DE COPIADO RÁPIDO -->
-        <section id="snippets" class="mb-14">
-            <div class="mb-6">
-                <h2 class="text-xl font-bold text-white">Snippets Rápidos (Click & Copy)</h2>
-                <p class="text-sm text-slate-400">Configuraciones y comandos típicos que siempre toca buscar a mitad de una práctica.</p>
+                </div>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-mono font-semibold text-indigo-400">1. Dependencias Maven MySQL + Hibernate (pom.xml)</span>
-                        <button onclick="copiarSnippet('snip1', this)" class="text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-lg border border-slate-700 transition">Copiar</button>
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- VISTA 2: DICCIONARIO & SNIPPETS (Oculta por defecto)            -->
+        <!-- =============================================================== -->
+        <div id="vistaDiccionario" class="hidden fade-in space-y-6">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white">📚 Diccionario & Snippets por Asignatura</h2>
+                    <p class="text-xs text-zinc-400 mt-0.5">Conceptos clave de examen, anotaciones y bloques de código listos para copiar y pegar.</p>
+                </div>
+                <span class="font-mono text-xs text-emerald-400">Usa las pestañas de arriba para filtrar por módulo</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+
+                <!-- Entrada Diccionario 1: AD / BBDD -->
+                <div data-asignatura="ad-bbdd" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded">AD & BBDD • Maven</span>
+                            <button onclick="copiarSnippet('dic1', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-2.5 py-1 rounded border border-zinc-700 transition">Copiar</button>
+                        </div>
+                        <h3 class="text-sm font-bold text-white mb-1">Dependencias MySQL + Hibernate (pom.xml)</h3>
+                        <p class="text-xs text-zinc-400 mb-3">Bloque estándar para conectar un proyecto Maven a MySQL 8 con Hibernate 6.</p>
                     </div>
-                    <pre id="snip1" class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 text-xs font-mono text-slate-300 overflow-x-auto">&lt;dependencies&gt;
+                    <pre id="dic1" class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80 text-[11px] text-zinc-300 overflow-x-auto">&lt;dependencies&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.mysql&lt;/groupId&gt;
         &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
@@ -239,127 +288,167 @@
 &lt;/dependencies&gt;</pre>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-mono font-semibold text-indigo-400">2. Conexión JDBC MySQL (Sin error ServerTimezone)</span>
-                        <button onclick="copiarSnippet('snip2', this)" class="text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-lg border border-slate-700 transition">Copiar</button>
+                <!-- Entrada Diccionario 2: AD / BBDD -->
+                <div data-asignatura="ad-bbdd prog" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded">AD & BBDD • JDBC</span>
+                            <button onclick="copiarSnippet('dic2', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-2.5 py-1 rounded border border-zinc-700 transition">Copiar</button>
+                        </div>
+                        <h3 class="text-sm font-bold text-white mb-1">Conexión JDBC sin error ServerTimezone</h3>
+                        <p class="text-xs text-zinc-400 mb-3">Cadena de conexión con parámetros para evitar fallos de SSL y zona horaria en XAMPP.</p>
                     </div>
-                    <pre id="snip2" class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 text-xs font-mono text-slate-300 overflow-x-auto">String url = "jdbc:mysql://localhost:3306/mi_bd?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true";
-String user = "root";
-String pass = "";
-
-try (Connection con = DriverManager.getConnection(url, user, pass)) {
+                    <pre id="dic2" class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80 text-[11px] text-zinc-300 overflow-x-auto">String url = "jdbc:mysql://localhost:3306/mi_bd?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true";
+try (Connection con = DriverManager.getConnection(url, "root", "")) {
     System.out.println("Conectado a la BD");
 } catch (SQLException e) {
     e.printStackTrace();
 }</pre>
                 </div>
-            </div>
-        </section>
 
-        <!-- BUZÓN DE SUGERENCIAS -->
-        <section id="sugerencias" class="mb-8">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
-                <div class="grid md:grid-cols-12 gap-8 items-start">
-                    
-                    <div class="md:col-span-5 space-y-3">
-                        <span class="text-xs font-mono uppercase text-indigo-400 font-semibold">Contacto & Feedback</span>
-                        <h2 class="text-2xl font-bold text-white">¿Qué herramienta añadimos ahora?</h2>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Estamos creando las utilidades poco a poco. Si echas en falta alguna herramienta para tus prácticas, quieres votar cuál sacamos primero o has visto algún fallo, mándanos un correo.
-                        </p>
-                        <div class="pt-2">
-                            <span class="block text-xs text-slate-500 mb-1.5">Correo directo:</span>
-                            <div class="inline-flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2">
-                                <code id="emailEquipo" class="text-xs font-mono text-slate-200">tdtstudio35@gmail.com</code>
-                                <button type="button" onclick="copiarEmail(this)" class="text-xs font-mono bg-slate-800 hover:bg-slate-700 text-indigo-400 px-2.5 py-0.5 rounded border border-slate-700 transition">
-                                    Copiar
-                                </button>
-                            </div>
+                <!-- Entrada Diccionario 3: Sistemas -->
+                <div data-asignatura="sistemas di-web" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono text-[10px] text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2 py-0.5 rounded">Sistemas • Terminal</span>
+                            <button onclick="copiarSnippet('dic3', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-2.5 py-1 rounded border border-zinc-700 transition">Copiar</button>
                         </div>
+                        <h3 class="text-sm font-bold text-white mb-1">Liberar puerto 8080 / 3306 bloqueado</h3>
+                        <p class="text-xs text-zinc-400 mb-3">Cuando Tomcat, Spring o MySQL dicen que el puerto ya está en uso y no arrancan.</p>
                     </div>
+                    <pre id="dic3" class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80 text-[11px] text-zinc-300 overflow-x-auto"># Windows (CMD Admin):
+netstat -ano | findstr :8080
+taskkill /PID &lt;PID&gt; /F
 
-                    <form onsubmit="enviarSugerencia(event)" class="md:col-span-7 space-y-4">
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Tipo de mensaje</label>
-                                <select id="sugTipo" class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none">
-                                    <option value="Nueva Herramienta">💡 Proponer nueva herramienta</option>
-                                    <option value="Priorizar Herramienta">🚀 Dar prioridad a una en "Próximamente"</option>
-                                    <option value="Mejora Generador Java">🔧 Mejora para el Generador Java</option>
-                                    <option value="Reportar Fallo">🐛 Reportar un fallo</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Asignatura / Módulo</label>
-                                <select id="sugModulo" class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none">
-                                    <option value="General DAM/DAW">General DAM / DAW</option>
-                                    <option value="Programación / Java">Programación (Java)</option>
-                                    <option value="Acceso a Datos">Acceso a Datos / BBDD</option>
-                                    <option value="PSP">PSP (Hilos y Sockets)</option>
-                                    <option value="Interfaces / Web">Interfaces / Desarrollo Web</option>
-                                    <option value="Sistemas / SGE">Sistemas / Docker / SGE</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Tu sugerencia</label>
-                            <textarea id="sugMensaje" required rows="3" placeholder="Cuéntanos qué utilidad o mejora te vendría bien..." 
-                                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-lg p-3 text-sm text-white placeholder-slate-600 focus:outline-none"></textarea>
-                        </div>
-
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs text-slate-500">Se abrirá tu aplicación de correo para enviarlo.</span>
-                            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
-                                Enviar correo ✉
-                            </button>
-                        </div>
-                    </form>
-
+# Linux / macOS:
+sudo lsof -i :8080
+kill -9 &lt;PID&gt;</pre>
                 </div>
+
+                <!-- Entrada Diccionario 4: PROG / Git -->
+                <div data-asignatura="prog sistemas" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded">PROG • Git</span>
+                            <button onclick="copiarSnippet('dic4', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-2.5 py-1 rounded border border-zinc-700 transition">Copiar</button>
+                        </div>
+                        <h3 class="text-sm font-bold text-white mb-1">Deshacer último commit sin perder cambios</h3>
+                        <p class="text-xs text-zinc-400 mb-3">Vuelve al estado anterior al commit dejando tu código intacto en el editor.</p>
+                    </div>
+                    <pre id="dic4" class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80 text-[11px] text-zinc-300 overflow-x-auto"># Deshacer commit manteniendo código:
+git reset --soft HEAD~1
+
+# Borrar carpeta target/ subida por error:
+git rm -r --cached target/
+git commit -m "fix: quitar target"</pre>
+                </div>
+
+                <!-- Entrada Diccionario 5: PSP -->
+                <div data-asignatura="psp prog" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono text-[10px] text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2 py-0.5 rounded">PSP • Concurrencia</span>
+                            <button onclick="copiarSnippet('dic5', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-2.5 py-1 rounded border border-zinc-700 transition">Copiar</button>
+                        </div>
+                        <h3 class="text-sm font-bold text-white mb-1">Diferencia rápida: <code class="text-xs">Thread</code> vs <code class="text-xs">Runnable</code></h3>
+                        <p class="text-xs text-zinc-400 mb-3">En Java solo hay herencia simple: implementa <code class="text-zinc-200">Runnable</code> si tu clase ya hereda de otra.</p>
+                    </div>
+                    <pre id="dic5" class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80 text-[11px] text-zinc-300 overflow-x-auto">Runnable tarea = () -&gt; {
+    System.out.println("Hilo: " + Thread.currentThread().getName());
+};
+Thread hilo = new Thread(tarea);
+hilo.start(); // ¡Nunca llames a run() directo!</pre>
+                </div>
+
+                <!-- Entrada Diccionario 6: DI / Web -->
+                <div data-asignatura="di-web" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono text-[10px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded">DI & Web • JS Fetch</span>
+                            <button onclick="copiarSnippet('dic6', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-2.5 py-1 rounded border border-zinc-700 transition">Copiar</button>
+                        </div>
+                        <h3 class="text-sm font-bold text-white mb-1">Petición <code class="text-xs">fetch()</code> con <code class="text-xs">async / await</code></h3>
+                        <p class="text-xs text-zinc-400 mb-3">Plantilla limpia para consumir cualquier API REST en JavaScript sin anidar <code class="text-zinc-200">.then()</code>.</p>
+                    </div>
+                    <pre id="dic6" class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80 text-[11px] text-zinc-300 overflow-x-auto">async function obtenerDatos(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Error HTTP: " + res.status);
+    const data = await res.json();
+    return data;
+}</pre>
+                </div>
+
             </div>
-        </section>
+        </div>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-slate-800 py-8 text-center text-xs text-slate-500">
-        <div class="max-w-6xl mx-auto px-4">
-            <p>© 2026 <strong>TDT Studio</strong>. Creado por estudiantes de DAM. Alojado en GitHub Pages.</p>
+    <!-- FOOTER MINIMALISTA -->
+    <footer class="border-t border-zinc-900 py-6 text-xs font-mono text-zinc-500">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>TDT Studio © 2026 — Utilidades para DAM y DAW.</p>
+            <a href="./sugerencias/" class="text-zinc-400 hover:text-emerald-400 transition">¿Echas en falta algo? Envíanos una sugerencia →</a>
         </div>
     </footer>
 
     <script>
-        const CONST_EMAIL = 'tdtstudio35@gmail.com';
-        document.getElementById('emailEquipo').textContent = CONST_EMAIL;
+        let modoActual = 'herramientas';
+        let asignaturaActual = 'todas';
 
-        let categoriaActual = 'todas';
-
+        // Atajo "/" para buscar
         document.addEventListener('keydown', (e) => {
             const tag = document.activeElement.tagName;
-            if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+            if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
                 e.preventDefault();
-                document.getElementById('buscadorTools').focus();
+                document.getElementById('inputBuscador').focus();
             }
         });
 
-        function cambiarCategoria(cat, botonPulsado) {
-            categoriaActual = cat;
-            document.querySelectorAll('.filtro-btn').forEach(btn => {
-                btn.className = 'filtro-btn bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-4 py-2 rounded-lg transition';
-            });
-            botonPulsado.className = 'filtro-btn bg-indigo-600 text-white px-4 py-2 rounded-lg transition';
-            filtrarHerramientas();
+        // Cambiar entre "Herramientas" y "Diccionario"
+        function cambiarModo(modo) {
+            modoActual = modo;
+            const vistaH = document.getElementById('vistaHerramientas');
+            const vistaD = document.getElementById('vistaDiccionario');
+            const tabH = document.getElementById('tabHerramientas');
+            const tabD = document.getElementById('tabDiccionario');
+
+            if (modo === 'herramientas') {
+                vistaH.classList.remove('hidden');
+                vistaD.classList.add('hidden');
+                tabH.className = 'px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 bg-emerald-500 text-zinc-950 shadow';
+                tabD.className = 'px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 text-zinc-400 hover:text-white';
+            } else {
+                vistaD.classList.remove('hidden');
+                vistaH.classList.add('hidden');
+                tabD.className = 'px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 bg-emerald-500 text-zinc-950 shadow';
+                tabH.className = 'px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 text-zinc-400 hover:text-white';
+            }
+            aplicarFiltros();
         }
 
-        function filtrarHerramientas() {
-            const texto = document.getElementById('buscadorTools').value.toLowerCase().trim();
-            document.querySelectorAll('.tool-card').forEach(card => {
-                const catCard = card.getAttribute('data-categoria');
-                const coincideCat = (categoriaActual === 'todas') || (catCard === categoriaActual);
-                const coincideTexto = card.textContent.toLowerCase().includes(texto);
-                card.style.display = (coincideCat && coincideTexto) ? 'flex' : 'none';
+        // Cambiar filtro de Asignatura
+        function filtrarPorAsignatura(asig, botonPulsado) {
+            asignaturaActual = asig;
+            document.querySelectorAll('.asig-btn').forEach(btn => {
+                btn.className = 'asig-btn shrink-0 bg-transparent hover:bg-zinc-900 text-zinc-400 border border-transparent px-3 py-1 rounded-lg transition';
+            });
+            botonPulsado.className = 'asig-btn shrink-0 bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-3 py-1 rounded-lg font-medium transition';
+            aplicarFiltros();
+        }
+
+        // Filtra tanto Herramientas como Diccionario en tiempo real
+        function aplicarFiltros() {
+            const texto = document.getElementById('inputBuscador').value.toLowerCase().trim();
+            const contenedorActivo = (modoActual === 'herramientas') 
+                ? document.getElementById('vistaHerramientas') 
+                : document.getElementById('vistaDiccionario');
+
+            contenedorActivo.querySelectorAll('.item-filtrable').forEach(item => {
+                const asigsItem = item.getAttribute('data-asignatura') || '';
+                const coincideAsig = (asignaturaActual === 'todas') || asigsItem.includes(asignaturaActual);
+                const coincideTexto = item.textContent.toLowerCase().includes(texto);
+
+                item.style.display = (coincideAsig && coincideTexto) ? '' : 'none';
             });
         }
 
@@ -368,25 +457,11 @@ try (Connection con = DriverManager.getConnection(url, user, pass)) {
             navigator.clipboard.writeText(texto);
             const original = boton.textContent;
             boton.textContent = '¡Copiado! ✓';
-            setTimeout(() => { boton.textContent = original; }, 1800);
-        }
-
-        function copiarEmail(boton) {
-            navigator.clipboard.writeText(CONST_EMAIL);
-            const original = boton.textContent;
-            boton.textContent = '¡Copiado! ✓';
-            setTimeout(() => { boton.textContent = original; }, 1800);
-        }
-
-        function enviarSugerencia(e) {
-            e.preventDefault();
-            const tipo = document.getElementById('sugTipo').value;
-            const modulo = document.getElementById('sugModulo').value;
-            const mensaje = document.getElementById('sugMensaje').value.trim();
-
-            const asunto = encodeURIComponent(`[TDT Studio] ${tipo} — ${modulo}`);
-            const cuerpo = encodeURIComponent(`Hola equipo de TDT Studio,\n\n• Tipo: ${tipo}\n• Módulo: ${modulo}\n\nSugerencia:\n${mensaje}\n`);
-            window.location.href = `mailto:${CONST_EMAIL}?subject=${asunto}&body=${cuerpo}`;
+            boton.classList.add('bg-emerald-500', 'text-zinc-950');
+            setTimeout(() => {
+                boton.textContent = original;
+                boton.classList.remove('bg-emerald-500', 'text-zinc-950');
+            }, 1800);
         }
     </script>
 </body>
