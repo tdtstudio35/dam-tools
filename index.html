@@ -14,11 +14,12 @@
             background-color: #09090b;
             color: #e4e4e7;
             font-family: 'Inter', system-ui, sans-serif;
+            background-image: radial-gradient(#27272a 1px, transparent 1px);
+            background-size: 24px 24px;
         }
         code, pre, .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
-        /* Animación suave al cambiar entre Herramientas y Diccionario */
         .fade-in {
             animation: fadeIn 0.2s ease-out forwards;
         }
@@ -26,18 +27,14 @@
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Efecto de brillo sutil de fondo */
-        .bg-glow {
-            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
-        }
     </style>
 </head>
-<body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col bg-glow">
+<body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col">
 
     <!-- =================================================================== -->
     <!-- BARRA SUPERIOR + CONMUTADOR CENTRAL (HERRAMIENTAS / DICCIONARIO)    -->
     <!-- =================================================================== -->
-    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-md">
+    <header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-md">
         <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
             
             <!-- Logo Izquierda -->
@@ -63,7 +60,7 @@
                 </button>
             </div>
 
-            <!-- Botón Derecha: Página propia de Sugerencias -->
+            <!-- Botón Derecha: Sugerencias -->
             <a href="./sugerencias/" class="font-mono text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-emerald-400 border border-zinc-800 px-3.5 py-2 rounded-xl transition flex items-center gap-2">
                 <span>💡</span> Sugerencias
             </a>
@@ -71,7 +68,7 @@
         </div>
 
         <!-- SUB-BARRA INFERIOR: FILTRO DE ASIGNATURAS Y BUSCADOR -->
-        <div class="border-t border-zinc-900 bg-zinc-950/60">
+        <div class="border-t border-zinc-900 bg-zinc-950/80">
             <div class="max-w-5xl mx-auto px-4 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3">
                 
                 <!-- Apartados por Asignatura -->
@@ -124,7 +121,7 @@
                     <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400 font-semibold">Herramienta Activa</h2>
                 </div>
 
-                <div class="bg-zinc-900/90 border border-emerald-500/40 rounded-2xl p-6 md:p-8 shadow-xl shadow-emerald-950/10 grid md:grid-cols-12 gap-6 items-center">
+                <div class="bg-zinc-900 border border-emerald-500/40 rounded-2xl p-6 md:p-8 shadow-xl grid md:grid-cols-12 gap-6 items-center">
                     <div class="md:col-span-7 space-y-4">
                         <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
                             <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded">PROG</span>
@@ -144,7 +141,7 @@
                         </div>
                     </div>
 
-                    <!-- Mini preview visual estilo código -->
+                    <!-- Mini preview visual -->
                     <div class="md:col-span-5 bg-zinc-950 border border-zinc-800 rounded-xl p-4 font-mono text-[11px] text-zinc-400 overflow-hidden">
                         <div class="flex items-center justify-between border-b border-zinc-800 pb-2 mb-2.5 text-[10px] text-zinc-500">
                             <span>Alumno.java</span>
@@ -163,7 +160,7 @@ public class Alumno {
                 </div>
             </div>
 
-            <!-- ROADMAP COMPACTO: HERRAMIENTAS PRÓXIMAMENTE (Diseño en filas horizontales) -->
+            <!-- ROADMAP COMPACTO: HERRAMIENTAS PRÓXIMAMENTE -->
             <div>
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="font-mono text-xs uppercase tracking-wider text-zinc-400">// En Desarrollo (Próximamente)</h2>
@@ -172,8 +169,7 @@ public class Alumno {
 
                 <div class="grid md:grid-cols-2 gap-3">
 
-                    <!-- Próximamente 1 -->
-                    <div data-asignatura="ad-bbdd" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                    <div data-asignatura="ad-bbdd" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/50 border border-cyan-800/50 px-1.5 py-0.5 rounded">AD & BBDD</span>
@@ -184,8 +180,7 @@ public class Alumno {
                         <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
 
-                    <!-- Próximamente 2 -->
-                    <div data-asignatura="di-web" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                    <div data-asignatura="di-web" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="font-mono text-[10px] text-amber-400 bg-amber-950/50 border border-amber-800/50 px-1.5 py-0.5 rounded">DI & Web</span>
@@ -196,8 +191,7 @@ public class Alumno {
                         <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
 
-                    <!-- Próximamente 3 -->
-                    <div data-asignatura="psp prog" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                    <div data-asignatura="psp prog" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="font-mono text-[10px] text-rose-400 bg-rose-950/50 border border-rose-800/50 px-1.5 py-0.5 rounded">PSP</span>
@@ -208,8 +202,7 @@ public class Alumno {
                         <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
 
-                    <!-- Próximamente 4 -->
-                    <div data-asignatura="sistemas ad-bbdd" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                    <div data-asignatura="sistemas ad-bbdd" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="font-mono text-[10px] text-sky-400 bg-sky-950/50 border border-sky-800/50 px-1.5 py-0.5 rounded">Sistemas & SGE</span>
@@ -220,8 +213,7 @@ public class Alumno {
                         <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
 
-                    <!-- Próximamente 5 -->
-                    <div data-asignatura="ad-bbdd di-web" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                    <div data-asignatura="ad-bbdd di-web" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="font-mono text-[10px] text-orange-400 bg-orange-950/50 border border-orange-800/50 px-1.5 py-0.5 rounded">AD & BBDD</span>
@@ -232,8 +224,7 @@ public class Alumno {
                         <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
                     </div>
 
-                    <!-- Próximamente 6 -->
-                    <div data-asignatura="sistemas" class="item-filtrable bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 flex items-start justify-between gap-4">
+                    <div data-asignatura="sistemas" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="font-mono text-[10px] text-indigo-400 bg-indigo-950/50 border border-indigo-800/50 px-1.5 py-0.5 rounded">Sistemas & SGE</span>
@@ -250,21 +241,20 @@ public class Alumno {
         </div>
 
         <!-- =============================================================== -->
-        <!-- VISTA 2: DICCIONARIO & SNIPPETS (Oculta por defecto)            -->
+        <!-- VISTA 2: DICCIONARIO & SNIPPETS                                 -->
         <!-- =============================================================== -->
         <div id="vistaDiccionario" class="hidden fade-in space-y-6">
             
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-4">
                 <div>
                     <h2 class="text-xl font-bold text-white">📚 Diccionario & Snippets por Asignatura</h2>
-                    <p class="text-xs text-zinc-400 mt-0.5">Conceptos clave de examen, anotaciones y bloques de código listos para copiar y pegar.</p>
+                    <p class="text-xs text-zinc-400 mt-0.5">Conceptos clave de examen y bloques de código listos para copiar y pegar.</p>
                 </div>
                 <span class="font-mono text-xs text-emerald-400">Usa las pestañas de arriba para filtrar por módulo</span>
             </div>
 
             <div class="grid md:grid-cols-2 gap-4">
 
-                <!-- Entrada Diccionario 1: AD / BBDD -->
                 <div data-asignatura="ad-bbdd" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -288,7 +278,6 @@ public class Alumno {
 &lt;/dependencies&gt;</pre>
                 </div>
 
-                <!-- Entrada Diccionario 2: AD / BBDD -->
                 <div data-asignatura="ad-bbdd prog" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -306,7 +295,6 @@ try (Connection con = DriverManager.getConnection(url, "root", "")) {
 }</pre>
                 </div>
 
-                <!-- Entrada Diccionario 3: Sistemas -->
                 <div data-asignatura="sistemas di-web" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -325,7 +313,6 @@ sudo lsof -i :8080
 kill -9 &lt;PID&gt;</pre>
                 </div>
 
-                <!-- Entrada Diccionario 4: PROG / Git -->
                 <div data-asignatura="prog sistemas" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -343,7 +330,6 @@ git rm -r --cached target/
 git commit -m "fix: quitar target"</pre>
                 </div>
 
-                <!-- Entrada Diccionario 5: PSP -->
                 <div data-asignatura="psp prog" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -360,7 +346,6 @@ Thread hilo = new Thread(tarea);
 hilo.start(); // ¡Nunca llames a run() directo!</pre>
                 </div>
 
-                <!-- Entrada Diccionario 6: DI / Web -->
                 <div data-asignatura="di-web" class="item-filtrable bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
@@ -368,13 +353,12 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
                             <button onclick="copiarSnippet('dic6', this)" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-2.5 py-1 rounded border border-zinc-700 transition">Copiar</button>
                         </div>
                         <h3 class="text-sm font-bold text-white mb-1">Petición <code class="text-xs">fetch()</code> con <code class="text-xs">async / await</code></h3>
-                        <p class="text-xs text-zinc-400 mb-3">Plantilla limpia para consumir cualquier API REST en JavaScript sin anidar <code class="text-zinc-200">.then()</code>.</p>
+                        <p class="text-xs text-zinc-400 mb-3">Plantilla limpia para consumir cualquier API REST en JavaScript.</p>
                     </div>
                     <pre id="dic6" class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80 text-[11px] text-zinc-300 overflow-x-auto">async function obtenerDatos(url) {
     const res = await fetch(url);
     if (!res.ok) throw new Error("Error HTTP: " + res.status);
-    const data = await res.json();
-    return data;
+    return await res.json();
 }</pre>
                 </div>
 
@@ -383,7 +367,7 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
 
     </main>
 
-    <!-- FOOTER MINIMALISTA -->
+    <!-- FOOTER -->
     <footer class="border-t border-zinc-900 py-6 text-xs font-mono text-zinc-500">
         <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>TDT Studio © 2026 — Utilidades para DAM y DAW.</p>
@@ -395,7 +379,6 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
         let modoActual = 'herramientas';
         let asignaturaActual = 'todas';
 
-        // Atajo "/" para buscar
         document.addEventListener('keydown', (e) => {
             const tag = document.activeElement.tagName;
             if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
@@ -404,7 +387,6 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
             }
         });
 
-        // Cambiar entre "Herramientas" y "Diccionario"
         function cambiarModo(modo) {
             modoActual = modo;
             const vistaH = document.getElementById('vistaHerramientas');
@@ -426,7 +408,6 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
             aplicarFiltros();
         }
 
-        // Cambiar filtro de Asignatura
         function filtrarPorAsignatura(asig, botonPulsado) {
             asignaturaActual = asig;
             document.querySelectorAll('.asig-btn').forEach(btn => {
@@ -436,7 +417,6 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
             aplicarFiltros();
         }
 
-        // Filtra tanto Herramientas como Diccionario en tiempo real
         function aplicarFiltros() {
             const texto = document.getElementById('inputBuscador').value.toLowerCase().trim();
             const contenedorActivo = (modoActual === 'herramientas') 
