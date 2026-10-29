@@ -1,21 +1,30 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Generador de Clases Java (POJO, Hibernate JPA, Lombok) — TDT Studio</title>
     <meta name="description" content="Genera clases Java POJO online al instante con visibilidad personalizable, constructores, Getters, Setters, toString y anotaciones Hibernate @Entity.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #09090b;
-            color: #e4e4e7;
+            background-color: #09090b !important;
+            color: #e4e4e7 !important;
             font-family: 'Inter', system-ui, sans-serif;
-            background-image: radial-gradient(#27272a 1px, transparent 1px);
-            background-size: 24px 24px;
+            overflow-x: clip;
+            width: 100%;
+        }
+        /* Patrón de cuadrícula técnica sutil */
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(39, 39, 42, 0.35) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(39, 39, 42, 0.35) 1px, transparent 1px);
+            background-size: 32px 32px;
+            -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%);
+            mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%);
         }
         code, pre, input.font-mono, select.font-mono, .font-mono {
             font-family: 'JetBrains Mono', monospace;
@@ -33,146 +42,219 @@
         .custom-scroll::-webkit-scrollbar-thumb:hover {
             background: #3f3f46;
         }
+        /* Scrollbar para bloques de código */
+        pre::-webkit-scrollbar {
+            height: 6px;
+        }
+        pre::-webkit-scrollbar-track {
+            background: #09090b;
+            border-radius: 4px;
+        }
+        pre::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        pre::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+        /* Efecto brillo en tarjetas */
+        .card-glow {
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.3), 0 25px 50px -12px rgba(16, 185, 129, 0.08);
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col">
+<body class="antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col bg-[#09090b] relative">
 
-    <!-- TOPBAR CON NAVEGACIÓN DE VUELTA AL HUB -->
-    <header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur">
-        <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-            <div class="flex items-center gap-3 font-mono text-xs">
-                <a href="../" class="flex items-center gap-2 font-semibold text-white hover:text-emerald-400 transition">
-                    <span class="bg-emerald-500 text-zinc-950 font-bold px-1.5 py-0.5 rounded">TDT</span>
-                    <span>studio.dev</span>
+    <!-- EFECTO DE LUZ AMBIENTAL SUPERIOR Y FONDO TÉCNICO -->
+    <div class="pointer-events-none fixed inset-0 bg-grid-pattern z-0"></div>
+    <div class="pointer-events-none fixed -top-24 left-1/2 -translate-x-1/2 w-full max-w-[850px] h-[320px] bg-emerald-500/10 blur-[140px] rounded-full z-0"></div>
+
+    <!-- TOPBAR CON NAVEGACIÓN DE VUELTA AL HUB A ANCHO COMPLETO -->
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-2xl w-full">
+        <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-3 md:py-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 font-mono text-xs sm:text-sm">
+                <a href="../" class="flex items-center gap-2.5 font-semibold text-white hover:text-emerald-400 transition group">
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400 text-xs shadow-sm group-hover:bg-emerald-500 group-hover:text-zinc-950 transition-all">TDT</span>
+                    <span class="font-extrabold tracking-tight">studio<span class="text-emerald-400">.dev</span></span>
                 </a>
                 <span class="text-zinc-600">/</span>
-                <span class="text-emerald-400">generador-java</span>
+                <span class="text-emerald-400 font-medium">generador-java</span>
             </div>
 
-            <a href="../" class="font-mono text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded transition">
-                ← Volver al Hub
+            <a href="../" class="font-mono text-xs sm:text-sm text-zinc-300 hover:text-white bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 hover:border-emerald-500/40 px-3.5 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
+                <span>←</span>
+                <span>Volver al Hub</span>
             </a>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
-
-        <!-- TÍTULO DE LA HERRAMIENTA -->
-        <div class="mb-6">
-            <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider">// PROG • Acceso a Datos (Hibernate / JPA)</span>
-            <h1 class="text-2xl md:text-3xl font-bold text-white mt-1">Generador Rápido de Clases Java (POJO & Entidades)</h1>
-            <p class="text-zinc-400 text-sm mt-1">
-                Elige visibilidad (<code class="text-zinc-300">private</code>/<code class="text-zinc-300">public</code>), tipo de dato y nombre. Pulsa <kbd class="bg-zinc-800 px-1.5 py-0.5 rounded text-xs text-zinc-200">Intro</kbd> para añadir más filas.
-            </p>
+    <!-- BLOQUE DE ANUNCIO ADAPTABLE SUPERIOR -->
+    <div class="w-full max-w-5xl mx-auto px-3.5 sm:px-4 pt-4 sm:pt-6 relative z-10">
+        <div class="w-full bg-zinc-900/50 border border-zinc-800/80 rounded-xl sm:rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center overflow-hidden shadow-md">
+            <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">Publicidad</span>
+            <div id="frame-top-adaptive" class="w-full flex justify-center items-center overflow-hidden" style="min-height: 60px; z-index: 10;">
+                <iframe data-aa='2460366' src='//ad.a-ads.com/2460366/?size=Adaptive' 
+                    class="w-full max-w-[728px] h-[65px] sm:h-[90px]"
+                    style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
         </div>
+    </div>
 
-        <!-- PANEL INTERACTIVO -->
-        <div class="grid lg:grid-cols-12 gap-6 items-start">
+    <!-- CONTENEDOR DE TRES COLUMNAS (CONTENIDO + LATERALES FIJOS DE ANUNCIOS) -->
+    <div class="max-w-[1400px] mx-auto px-3.5 sm:px-4 flex-1 w-full relative z-10 flex items-start justify-center gap-7 min-w-0">
 
-            <!-- COLUMNA IZQUIERDA: CONFIGURACIÓN Y ATRIBUTOS (5 cols) -->
-            <div class="lg:col-span-5 bg-zinc-900 border border-zinc-800 rounded-xl p-5 space-y-4">
-                
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Nombre de Clase</label>
-                        <input type="text" id="className" value="Alumno" oninput="generarJava()" 
-                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-lg px-3 py-2 text-white font-mono text-xs focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Paquete (Opcional)</label>
-                        <input type="text" id="packageName" placeholder="com.dam.modelo" value="com.dam.modelo" oninput="generarJava()" 
-                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-lg px-3 py-2 text-white font-mono text-xs focus:outline-none">
-                    </div>
+        <!-- LATERAL IZQUIERDO: ANUNCIO A-ADS FIJO AL HACER SCROLL (SOLO ESCRITORIO XL) -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-8">
+            <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
+                <div id="frame-left" style="width: 160px; margin: auto; z-index: 10; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
                 </div>
+            </div>
+        </aside>
 
-                <!-- GESTOR DINÁMICO DE ATRIBUTOS CON SCROLL -->
-                <div>
-                    <div class="flex items-center justify-between mb-1.5">
-                        <label class="font-mono text-[11px] uppercase text-zinc-400">Atributos de la Clase</label>
-                        <div class="flex items-center gap-3">
-                            <button onclick="vaciarAtributos()" class="font-mono text-[11px] text-zinc-400 hover:text-rose-400 transition">Vaciar</button>
-                            <button onclick="cargarEjemplo()" class="font-mono text-[11px] text-emerald-400 hover:underline">Cargar ejemplo</button>
+        <!-- CONTENIDO PRINCIPAL CENTRAL -->
+        <main class="max-w-6xl w-full flex-1 min-w-0 py-8 sm:py-10 fade-in">
+
+            <!-- TÍTULO DE LA HERRAMIENTA -->
+            <div class="mb-6 sm:mb-8 space-y-1.5">
+                <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider font-semibold">// PROG • Acceso a Datos (Hibernate / JPA)</span>
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">Generador Rápido de Clases Java (POJO & Entidades)</h1>
+                <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">
+                    Elige visibilidad (<code class="text-zinc-300">private</code>/<code class="text-zinc-300">public</code>), tipo de dato y nombre. Pulsa <kbd class="bg-zinc-800 border border-zinc-700 px-1.5 py-0.5 rounded text-xs text-zinc-200">Intro</kbd> para añadir más filas.
+                </p>
+            </div>
+
+            <!-- PANEL INTERACTIVO -->
+            <div class="grid lg:grid-cols-12 gap-6 items-start">
+
+                <!-- COLUMNA IZQUIERDA: CONFIGURACIÓN Y ATRIBUTOS (5 cols) -->
+                <div class="lg:col-span-5 card-glow bg-zinc-900/90 border border-zinc-800 rounded-3xl p-5 sm:p-6 space-y-5 shadow-2xl backdrop-blur-sm">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-semibold">Nombre de Clase</label>
+                            <input type="text" id="className" value="Alumno" oninput="generarJava()" 
+                                class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500/80 focus:ring-2 focus:ring-emerald-500/15 rounded-xl px-3.5 py-2.5 text-white font-mono text-xs focus:outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-semibold">Paquete (Opcional)</label>
+                            <input type="text" id="packageName" placeholder="com.dam.modelo" value="com.dam.modelo" oninput="generarJava()" 
+                                class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500/80 focus:ring-2 focus:ring-emerald-500/15 rounded-xl px-3.5 py-2.5 text-white font-mono text-xs focus:outline-none transition-all">
                         </div>
                     </div>
 
-                    <!-- Contenedor scrollable -->
-                    <div id="atributosContainer" class="custom-scroll max-h-72 overflow-y-auto space-y-2 pr-1">
-                        <!-- Las filas de atributos se inyectan aquí dinámicamente -->
+                    <!-- GESTOR DINÁMICO DE ATRIBUTOS CON SCROLL -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="font-mono text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">Atributos de la Clase</label>
+                            <div class="flex items-center gap-3 font-mono text-xs">
+                                <button onclick="vaciarAtributos()" class="text-zinc-400 hover:text-rose-400 transition">Vaciar</button>
+                                <button onclick="cargarEjemplo()" class="text-emerald-400 hover:underline font-semibold">Cargar ejemplo</button>
+                            </div>
+                        </div>
+
+                        <!-- Contenedor scrollable -->
+                        <div id="atributosContainer" class="custom-scroll max-h-72 overflow-y-auto space-y-2 pr-1">
+                            <!-- Las filas de atributos se inyectan aquí dinámicamente -->
+                        </div>
+
+                        <!-- Botón discreto para añadir atributo -->
+                        <div class="mt-3">
+                            <button onclick="agregarFilaAtributo()" class="font-mono text-xs text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1.5 py-1 focus:outline-none font-semibold">
+                                <span class="text-base leading-none">+</span> Añadir atributo
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Botón discreto para añadir atributo -->
-                    <div class="mt-2.5">
-                        <button onclick="agregarFilaAtributo()" class="font-mono text-xs text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1.5 py-1 focus:outline-none">
-                            <span class="text-base leading-none">+</span> Añadir atributo
-                        </button>
+                    <!-- OPCIONES PRO PARA DAM -->
+                    <div class="pt-4 border-t border-zinc-800/80">
+                        <span class="block font-mono text-[11px] uppercase tracking-wider text-zinc-400 mb-3 font-semibold">Opciones de Generación:</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2.5 rounded-xl cursor-pointer hover:border-zinc-700 transition">
+                                <input type="checkbox" id="optJpa" onchange="generarJava()" class="accent-emerald-500">
+                                <span>Hibernate (<code class="text-emerald-400">@Entity</code>)</span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2.5 rounded-xl cursor-pointer hover:border-zinc-700 transition">
+                                <input type="checkbox" id="optSerializable" checked onchange="generarJava()" class="accent-emerald-500">
+                                <span><code class="text-zinc-300">Serializable</code></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2.5 rounded-xl cursor-pointer hover:border-zinc-700 transition">
+                                <input type="checkbox" id="optToString" checked onchange="generarJava()" class="accent-emerald-500">
+                                <span>Método <code class="text-zinc-300">toString()</code></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2.5 rounded-xl cursor-pointer hover:border-zinc-700 transition">
+                                <input type="checkbox" id="optEquals" onchange="generarJava()" class="accent-emerald-500">
+                                <span><code class="text-zinc-300">equals & hashCode</code></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2.5 rounded-xl cursor-pointer hover:border-zinc-700 transition sm:col-span-2">
+                                <input type="checkbox" id="optLombok" onchange="generarJava()" class="accent-emerald-500">
+                                <span>Usar <strong>Lombok</strong> (<code class="text-amber-400">@Data @AllArgsConstructor</code>)</span>
+                            </label>
+                        </div>
                     </div>
+
                 </div>
 
-                <!-- OPCIONES PRO PARA DAM -->
-                <div class="pt-3 border-t border-zinc-800">
-                    <span class="block font-mono text-[11px] uppercase text-zinc-400 mb-2.5">Opciones de Generación:</span>
-                    <div class="grid grid-cols-2 gap-2.5 text-xs">
-                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
-                            <input type="checkbox" id="optJpa" onchange="generarJava()" class="accent-emerald-500">
-                            <span>Hibernate (<code class="text-emerald-400">@Entity</code>)</span>
-                        </label>
-                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
-                            <input type="checkbox" id="optSerializable" checked onchange="generarJava()" class="accent-emerald-500">
-                            <span><code class="text-zinc-300">Serializable</code></span>
-                        </label>
-                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
-                            <input type="checkbox" id="optToString" checked onchange="generarJava()" class="accent-emerald-500">
-                            <span>Método <code class="text-zinc-300">toString()</code></span>
-                        </label>
-                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
-                            <input type="checkbox" id="optEquals" onchange="generarJava()" class="accent-emerald-500">
-                            <span><code class="text-zinc-300">equals & hashCode</code></span>
-                        </label>
-                        <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700 col-span-2">
-                            <input type="checkbox" id="optLombok" onchange="generarJava()" class="accent-emerald-500">
-                            <span>Usar <strong>Lombok</strong> (<code class="text-amber-400">@Data @AllArgsConstructor</code> — oculta Get/Set)</span>
-                        </label>
+                <!-- COLUMNA DERECHA: SALIDA DE CÓDIGO (7 cols) -->
+                <div class="lg:col-span-7 card-glow bg-zinc-900/90 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col shadow-2xl backdrop-blur-sm">
+                    <div class="bg-zinc-950 border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                            <span id="fileNameLabel" class="ml-2 font-mono text-xs text-zinc-300 font-semibold">Alumno.java</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="descargarArchivo()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-1.5 rounded-xl border border-zinc-700 transition font-medium">
+                                ⬇ Descargar .java
+                            </button>
+                            <button onclick="copiarCodigo()" id="btnCopiar" class="font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold px-3.5 py-1.5 rounded-xl transition shadow-sm">
+                                Copiar código
+                            </button>
+                        </div>
                     </div>
+
+                    <pre id="javaOutput" class="p-5 text-xs text-emerald-300 overflow-x-auto leading-relaxed max-h-[540px] select-all bg-[#070709]"></pre>
                 </div>
 
             </div>
 
-            <!-- COLUMNA DERECHA: SALIDA DE CÓDIGO (7 cols) -->
-            <div class="lg:col-span-7 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col">
-                <div class="bg-zinc-950 border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
-                        <span id="fileNameLabel" class="ml-2 font-mono text-xs text-zinc-400">Alumno.java</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="descargarArchivo()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-1.5 rounded-md border border-zinc-700 transition">
-                            ⬇ Descargar .java
-                        </button>
-                        <button onclick="copiarCodigo()" id="btnCopiar" class="font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold px-3 py-1.5 rounded-md transition">
-                            Copiar código
-                        </button>
-                    </div>
+            <!-- ESPACIO PUBLICIDAD / RECOMENDACIÓN INFERIOR -->
+            <div class="mt-10 card-glow bg-gradient-to-r from-zinc-900/80 via-zinc-900/60 to-emerald-950/20 border border-zinc-800 rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-xs text-zinc-400 leading-relaxed">
+                    <span class="font-mono text-emerald-400 font-semibold">[Tip de Acceso a Datos]</span> 
+                    Recuerda que Hibernate exige siempre un <strong>constructor vacío</strong> e implementar <code class="text-zinc-200">Serializable</code> en tus entidades.
                 </div>
-
-                <pre id="javaOutput" class="p-5 text-xs text-emerald-300 overflow-x-auto leading-relaxed max-h-[540px] select-all"></pre>
+                <a href="../#pack-dam" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2.5 rounded-xl border border-zinc-700 transition font-medium">
+                    Ver Chuletas Hibernate →
+                </a>
             </div>
 
+        </main>
+
+        <!-- LATERAL DERECHO: ANUNCIO A-ADS FIJO AL HACER SCROLL (SOLO ESCRITORIO XL) -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-8">
+            <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
+                <div id="frame-right" style="width: 160px; margin: auto; z-index: 10; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-zinc-900/90 bg-zinc-950/60 py-6 sm:py-7 text-xs font-mono text-zinc-500 relative z-10 mt-12">
+        <div class="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
+            <p>TDT Studio © 2026 — Utilidades creadas para DAM y DAW.</p>
+            <a href="../" class="text-zinc-400 hover:text-emerald-400 transition">← Volver al inicio del workspace</a>
         </div>
-
-        <!-- ESPACIO PUBLICIDAD / RECOMENDACIÓN INFERIOR -->
-        <div class="mt-10 bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="text-xs text-zinc-400">
-                <span class="font-mono text-emerald-400 font-semibold">[Tip de Acceso a Datos]</span> 
-                Recuerda que Hibernate exige siempre un <strong>constructor vacío</strong> e implementar <code class="text-zinc-200">Serializable</code> en tus entidades.
-            </div>
-            <a href="../#pack-dam" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-white px-3.5 py-2 rounded-lg border border-zinc-700 transition">
-                Ver Chuletas Hibernate →
-            </a>
-        </div>
-
-    </main>
+    </footer>
 
     <script>
         const VISIBILIDADES = ["private", "public", "protected"];
@@ -209,25 +291,25 @@
 
             lista.forEach((attr, index) => {
                 const row = document.createElement('div');
-                row.className = 'flex items-center gap-1.5 bg-zinc-950 border border-zinc-800/80 p-2 rounded-lg';
+                row.className = 'flex items-center gap-1.5 bg-zinc-950 border border-zinc-800/80 p-2 rounded-xl';
 
-                let visHtml = `<select onchange="generarJava()" class="vis-select bg-zinc-900 border border-zinc-800 text-amber-400 font-mono text-xs rounded px-1.5 py-1.5 focus:outline-none focus:border-emerald-500 shrink-0">`;
+                let visHtml = `<select onchange="generarJava()" class="vis-select bg-zinc-900 border border-zinc-800 text-amber-400 font-mono text-xs rounded-lg px-2 py-1.5 focus:outline-none focus:border-emerald-500 shrink-0">`;
                 VISIBILIDADES.forEach(v => {
                     const selected = (v === attr.visibilidad) ? 'selected' : '';
                     visHtml += `<option value="${v}" ${selected}>${v}</option>`;
                 });
                 visHtml += `</select>`;
 
-                let selectHtml = `<select onchange="generarJava()" class="tipo-select bg-zinc-900 border border-zinc-800 text-emerald-400 font-mono text-xs rounded px-2 py-1.5 focus:outline-none focus:border-emerald-500 shrink-0">`;
+                let selectHtml = `<select onchange="generarJava()" class="tipo-select bg-zinc-900 border border-zinc-800 text-emerald-400 font-mono text-xs rounded-lg px-2 py-1.5 focus:outline-none focus:border-emerald-500 shrink-0">`;
                 TIPOS_JAVA.forEach(t => {
                     const selected = (t === attr.tipo) ? 'selected' : '';
                     selectHtml += `<option value="${t}" ${selected}>${t}</option>`;
                 });
                 selectHtml += `</select>`;
 
-                let inputHtml = `<input type="text" value="${attr.nombre}" placeholder="nombre" oninput="generarJava()" onkeydown="manejarTeclado(event, ${index})" class="nombre-input w-full bg-zinc-900 border border-zinc-800 text-white font-mono text-xs rounded px-2 py-1.5 focus:outline-none focus:border-emerald-500">`;
+                let inputHtml = `<input type="text" value="${attr.nombre}" placeholder="nombre" oninput="generarJava()" onkeydown="manejarTeclado(event, ${index})" class="nombre-input w-full bg-zinc-900 border border-zinc-800 text-white font-mono text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-emerald-500">`;
 
-                let deleteHtml = `<button onclick="eliminarAtributo(${index})" class="text-zinc-500 hover:text-rose-400 px-1.5 py-1 text-xs transition" title="Eliminar atributo">✕</button>`;
+                let deleteHtml = `<button onclick="eliminarAtributo(${index})" class="text-zinc-500 hover:text-rose-400 px-2 py-1 text-xs transition" title="Eliminar atributo">✕</button>`;
 
                 row.innerHTML = visHtml + selectHtml + inputHtml + deleteHtml;
                 container.appendChild(row);
