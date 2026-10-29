@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzón de Sugerencias — TDT Studio</title>
+    <meta name="description" content="Envíanos tus ideas, vota las próximas herramientas de DAM/DAW o reporta fallos directamente.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #09090b;
+            color: #e4e4e7;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, #09090b 60%);
+        }
+        code, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col">
+
+    <!-- BARRA SUPERIOR -->
+    <header class="border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur">
+        <div class="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-3 font-mono text-xs">
+                <a href="../" class="flex items-center gap-2 font-semibold text-white hover:text-emerald-400 transition">
+                    <span class="bg-emerald-500 text-zinc-950 font-bold px-1.5 py-0.5 rounded">TDT</span>
+                    <span>studio.dev</span>
+                </a>
+                <span class="text-zinc-600">/</span>
+                <span class="text-emerald-400">sugerencias</span>
+            </div>
+
+            <a href="../" class="font-mono text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg transition">
+                ← Volver al inicio
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-4 py-12 flex-1 w-full">
+
+        <div class="mb-8">
+            <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider">// Envío Directo</span>
+            <h1 class="text-2xl md:text-3xl font-bold text-white mt-1">Buzón de Ideas y Sugerencias</h1>
+            <p class="text-zinc-400 text-sm mt-2">
+                Dinos qué herramienta del listado quieres que activemos primero, qué entrada añadirías al diccionario o reporta cualquier fallo. Se envía directo desde aquí sin abrir tu correo.
+            </p>
+        </div>
+
+        <!-- TARJETA DEL FORMULARIO -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 md:p-8 shadow-xl">
+
+            <!-- Pantalla de éxito (oculta hasta que se envía) -->
+            <div id="mensajeExito" class="hidden text-center py-8 space-y-4">
+                <div class="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto text-xl">
+                    ✓
+                </div>
+                <h2 class="text-xl font-bold text-white">¡Sugerencia enviada!</h2>
+                <p class="text-xs text-zinc-400 max-w-md mx-auto">
+                    Hemos recibido tu mensaje directamente en el buzón de TDT Studio. ¡Gracias por ayudarnos a mejorar la web!
+                </p>
+                <div class="pt-4 flex justify-center gap-3">
+                    <button onclick="resetearFormulario()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg transition">
+                        Enviar otra idea
+                    </button>
+                    <a href="../" class="font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold px-4 py-2 rounded-lg transition">
+                        Volver a Herramientas →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Formulario directo (AJAX) -->
+            <form id="formSugerencias" onsubmit="enviarDirecto(event)" class="space-y-5">
+                
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1.5">¿Qué quieres proponer?</label>
+                        <select name="tipo" required class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none">
+                            <option value="Nueva Herramienta">💡 Idea para nueva herramienta</option>
+                            <option value="Votar Próximamente">🚀 Priorizar una en "Próximamente"</option>
+                            <option value="Aporte Diccionario">📚 Añadir snippet al Diccionario</option>
+                            <option value="Mejora Generador Java">🔧 Mejora en Generador Java</option>
+                            <option value="Bug / Fallo">🐛 Reportar un fallo</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1.5">Asignatura / Módulo</label>
+                        <select name="asignatura" required class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none">
+                            <option value="General DAM/DAW">General DAM / DAW</option>
+                            <option value="PROG">Programación (PROG)</option>
+                            <option value="AD y BBDD">Acceso a Datos / BBDD</option>
+                            <option value="PSP">PSP (Hilos y Sockets)</option>
+                            <option value="DI y Web">Interfaces / Web</option>
+                            <option value="Sistemas y SGE">Sistemas / SGE</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1.5">Tu nombre o alias (Opcional)</label>
+                    <input type="text" name="autor" placeholder="Ej: Estudiante 2º DAM, Anónimo..." 
+                        class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white placeholder-zinc-600 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1.5">Mensaje o descripción detallada</label>
+                    <textarea name="mensaje" required rows="5" placeholder="Explícanos cómo debería funcionar la herramienta o pega aquí el snippet que quieres que añadamos al diccionario..." 
+                        class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl p-3.5 text-xs font-mono text-white placeholder-zinc-600 focus:outline-none leading-relaxed"></textarea>
+                </div>
+
+                <!-- Anti-spam honeypot oculto -->
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+
+                <div id="alertaError" class="hidden text-xs font-mono text-rose-400 bg-rose-950/40 border border-rose-800/50 rounded-lg p-3">
+                    Hubo un problema de conexión al enviar. Inténtalo de nuevo en unos segundos.
+                </div>
+
+                <div class="pt-2 flex items-center justify-end">
+                    <button type="submit" id="btnEnviar" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2">
+                        <span>Enviar directamente</span>
+                        <span>→</span>
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <script>
+        const CORREO_DESTINO = "tdtstudio35@gmail.com";
+
+        async function enviarDirecto(e) {
+            e.preventDefault();
+            const form = document.getElementById('formSugerencias');
+            const btn = document.getElementById('btnEnviar');
+            const alertaError = document.getElementById('alertaError');
+
+            alertaError.classList.add('hidden');
+            btn.disabled = true;
+            btn.innerHTML = '<span>Enviando...</span>';
+
+            const formData = new FormData(form);
+            const datos = Object.fromEntries(formData.entries());
+
+            try {
+                const respuesta = await fetch(`https://formsubmit.co/ajax/${CORREO_DESTINO}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        _subject: `[TDT Studio] ${datos.tipo} (${datos.asignatura})`,
+                        Tipo: datos.tipo,
+                        Asignatura: datos.asignatura,
+                        Autor: datos.autor || "Anónimo",
+                        Mensaje: datos.mensaje
+                    })
+                });
+
+                if (respuesta.ok) {
+                    form.classList.add('hidden');
+                    document.getElementById('mensajeExito').classList.remove('hidden');
+                    form.reset();
+                } else {
+                    throw new Error("Error en el servidor");
+                }
+            } catch (err) {
+                alertaError.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Enviar directamente</span><span>→</span>';
+            }
+        }
+
+        function resetearFormulario() {
+            document.getElementById('mensajeExito').classList.add('hidden');
+            document.getElementById('formSugerencias').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
