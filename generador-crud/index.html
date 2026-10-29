@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador Automático de CRUD en Java (DAO, JDBC, Hibernate & SQL) — TDT Studio</title>
+    <meta name="description" content="Pega tu clase Java POJO y genera automáticamente el CRUD completo (Insert, FindAll, FindById, SearchByName, Update, Delete) con sus consultas SQL.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #09090b !important;
+            color: #e4e4e7 !important;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(#27272a 1px, transparent 1px);
+            background-size: 24px 24px;
+            -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 60%, transparent 100%);
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 60%, transparent 100%);
+        }
+        code, pre, textarea, input.font-mono, select.font-mono, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        pre::-webkit-scrollbar, textarea::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        pre::-webkit-scrollbar-track, textarea::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        pre::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col bg-[#09090b] relative overflow-x-hidden">
+
+    <!-- LUZ AMBIENTAL Y FONDO -->
+    <div class="pointer-events-none fixed inset-0 bg-grid-pattern z-0"></div>
+    <div class="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 w-[550px] h-[220px] bg-emerald-500/10 blur-[120px] rounded-full z-0"></div>
+
+    <!-- TOPBAR -->
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-xl">
+        <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-3 font-mono text-xs">
+                <a href="../" class="flex items-center gap-2 font-semibold text-white hover:text-emerald-400 transition">
+                    <span class="bg-emerald-500 text-zinc-950 font-bold px-1.5 py-0.5 rounded">TDT</span>
+                    <span>studio.dev</span>
+                </a>
+                <span class="text-zinc-600">/</span>
+                <span class="text-emerald-400">generador-crud</span>
+            </div>
+
+            <a href="../" class="font-mono text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg transition">
+                ← Volver al Hub
+            </a>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR 3 COLUMNAS CON LATERALES A-ADS -->
+    <div class="max-w-[1300px] mx-auto px-4 flex-1 w-full relative z-10 flex justify-center gap-6">
+
+        <!-- LATERAL IZQUIERDO: ANUNCIO A-ADS -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-20 h-fit">
+            <div class="w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col items-center justify-center text-center overflow-hidden">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-2">Publicidad</span>
+                <div style="width: 160px; margin: auto; z-index: 99998; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO CENTRAL -->
+        <main class="max-w-5xl flex-1 py-8">
+
+            <!-- CABECERA -->
+            <div class="mb-6">
+                <div class="flex flex-wrap items-center gap-2 font-mono text-xs mb-2">
+                    <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-md font-medium">PROG • Acceso a Datos</span>
+                    <span class="text-zinc-500">// Clase Java → DAO Completo + PreparedStatement + SQL</span>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                    Generador Automático de CRUD en Java + Queries SQL
+                </h1>
+                <p class="text-zinc-400 text-xs sm:text-sm mt-1">
+                    Pega tu clase normal de Java (o sus atributos) y obtén al instante la clase <code class="text-emerald-400">DAO</code> con <code class="text-zinc-200">insert</code>, <code class="text-zinc-200">findAll</code>, <code class="text-zinc-200">findById</code>, <code class="text-zinc-200">searchBy...</code>, <code class="text-zinc-200">update</code>, <code class="text-zinc-200">delete</code> y las consultas SQL.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-6 items-start">
+
+                <!-- COLUMNA IZQUIERDA: ENTRADA CLASE JAVA Y OPCIONES (5 cols) -->
+                <div class="lg:col-span-5 bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 space-y-4 shadow-xl">
+                    
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="font-mono text-[11px] uppercase text-zinc-400">Pega tu Clase Java (POJO)</label>
+                            <div class="flex items-center gap-2.5">
+                                <button onclick="cargarEjemplo('producto')" class="font-mono text-[11px] text-emerald-400 hover:underline">Ej. Producto</button>
+                                <button onclick="cargarEjemplo('cliente')" class="font-mono text-[11px] text-cyan-400 hover:underline">Ej. Cliente</button>
+                                <button onclick="vaciarEntrada()" class="font-mono text-[11px] text-zinc-500 hover:text-rose-400">Vaciar</button>
+                            </div>
+                        </div>
+                        <textarea id="javaInput" rows="10" oninput="alModificarClase()" placeholder="Pega aquí tu public class Producto { private int id; private String nombre; ... }"
+                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl p-3.5 text-zinc-200 font-mono text-xs focus:outline-none leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- CONFIGURACIÓN DE TABLA Y CAMPO DE BÚSQUEDA -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Tabla SQL</label>
+                            <input type="text" id="tableNameInput" value="productos" oninput="generarSalida()"
+                                class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-lg px-3 py-2 text-white font-mono text-xs focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Campo <code class="text-emerald-400">searchBy...</code></label>
+                            <select id="searchFieldSelect" onchange="generarSalida()"
+                                class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-lg px-2.5 py-2 text-emerald-400 font-mono text-xs focus:outline-none">
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- SELECCIÓN DE MÉTODOS DEL CRUD -->
+                    <div class="pt-3 border-t border-zinc-800">
+                        <span class="block font-mono text-[11px] uppercase text-zinc-400 mb-2.5">Métodos a incluir en el CRUD:</span>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="chkInsert" checked onchange="generarSalida()" class="accent-emerald-500">
+                                <span>insert() <span class="text-zinc-500">INSERT</span></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="chkFindAll" checked onchange="generarSalida()" class="accent-emerald-500">
+                                <span>findAll() <span class="text-zinc-500">SELECT *</span></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="chkFindById" checked onchange="generarSalida()" class="accent-emerald-500">
+                                <span>findById() <span class="text-zinc-500">WHERE id</span></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="chkSearch" checked onchange="generarSalida()" class="accent-emerald-500">
+                                <span>searchBy...() <span class="text-emerald-400">LIKE</span></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="chkUpdate" checked onchange="generarSalida()" class="accent-emerald-500">
+                                <span>update() <span class="text-zinc-500">UPDATE</span></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="chkDelete" checked onchange="generarSalida()" class="accent-emerald-500">
+                                <span>delete() <span class="text-rose-400">DELETE</span></span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- COLUMNA DERECHA: SALIDA DE CÓDIGO CON PESTAÑAS (7 cols) -->
+                <div class="lg:col-span-7 bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col shadow-xl">
+                    
+                    <!-- PESTAÑAS DE SALIDA -->
+                    <div class="bg-zinc-950 border-b border-zinc-800 p-2 flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex flex-wrap items-center gap-1 font-mono text-xs">
+                            <button onclick="cambiarPestanaCrud('dao-jdbc', this)" class="tab-crud bg-emerald-500 text-zinc-950 font-semibold px-3 py-1.5 rounded-lg transition">
+                                ☕ Clase DAO (JDBC)
+                            </button>
+                            <button onclick="cambiarPestanaCrud('sql-queries', this)" class="tab-crud text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition">
+                                🗄️ Queries SQL Puro
+                            </button>
+                            <button onclick="cambiarPestanaCrud('dao-hibernate', this)" class="tab-crud text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition">
+                                🔥 DAO Hibernate
+                            </button>
+                            <button onclick="cambiarPestanaCrud('conexion', this)" class="tab-crud text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition">
+                                🔌 ConexionBD.java
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-2 ml-auto">
+                            <button onclick="descargarArchivoActual()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-1.5 rounded-lg border border-zinc-700 transition">
+                                ⬇ Descargar
+                            </button>
+                            <button onclick="copiarCodigoCrud()" id="btnCopiar" class="font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold px-3 py-1.5 rounded-lg transition">
+                                Copiar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BARRA DE ARCHIVO ACTIVO -->
+                    <div class="bg-zinc-900/70 border-b border-zinc-800/80 px-4 py-2 flex items-center justify-between font-mono text-[11px] text-zinc-400">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            <span id="fileNameLabel" class="text-zinc-200 font-semibold">ProductoDAO.java</span>
+                        </div>
+                        <span id="detectedInfoLabel" class="text-emerald-400">5 atributos detectados</span>
+                    </div>
+
+                    <pre id="crudOutput" class="p-5 text-xs text-emerald-300 overflow-x-auto leading-relaxed max-h-[560px] select-all"></pre>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- LATERAL DERECHO: ANUNCIO A-ADS -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-20 h-fit">
+            <div class="w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col items-center justify-center text-center overflow-hidden">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-2">Publicidad</span>
+                <div style="width: 160px; margin: auto; z-index: 99998; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <script>
+        let pestanaActual = 'dao-jdbc';
+        let parsedData = { className: 'Producto', fields: [] };
+
+        const EJEMPLO_PRODUCTO = `public class Producto {
+    private int id;
+    private String nombre;
+    private String categoria;
+    private double precio;
+    private int stock;
+    private boolean disponible;
+
+    public Producto() {}
+}`;
+
+        const EJEMPLO_CLIENTE = `public class Cliente {
+    private int idCliente;
+    private String dni;
+    private String nombreCompleto;
+    private String email;
+    private LocalDate fechaAlta;
+}`;
+
+        function camelToSnake(str) {
+            return str.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toLowerCase();
+        }
+
+        function capitalize(str) {
+            return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+        }
+
+        // Analiza el texto Java para extraer el nombre de la clase y sus atributos (ignorando métodos)
+        function parsearClaseJava(raw) {
+            const classMatch = raw.match(/class\s+([A-Za-z0-9_]+)/);
+            const className = classMatch ? classMatch[1] : 'Entidad';
+
+            const lines = raw.split(/\r?\n/);
+            const fields = [];
+            const keywordsIgnorar = new Set(['class', 'public', 'private', 'protected', 'return', 'if', 'else', 'for', 'while', 'switch', 'package', 'import', 'void', 'new', 'throw', 'try', 'catch']);
+
+            lines.forEach(line => {
+                let clean = line.trim();
+                if (!clean || clean.startsWith('//') || clean.startsWith('/*') || clean.startsWith('*') || clean.startsWith('@')) return;
+                if (clean.includes('(') || clean.includes(')') || clean.includes('{') || clean.includes('}')) return;
+                if (clean.startsWith('package ') || clean.startsWith('import ')) return;
+
+                // Eliminar modificadores de acceso y valor por defecto (= ...)
+                clean = clean.replace(/^(private|public|protected|final|static|\s)+/, '');
+                clean = clean.split('=')[0].replace(/;$/, '').trim();
+
+                const parts = clean.split(/\s+/);
+                if (parts.length >= 2) {
+                    const type = parts[0];
+                    const name = parts[1];
+                    if (!keywordsIgnorar.has(type) && !keywordsIgnorar.has(name) && /^[A-Za-z0-9_<>[\]]+$/.test(type) && /^[A-Za-z0-9_]+$/.test(name)) {
+                        fields.push({
+                            type,
+                            name,
+                            colName: camelToSnake(name)
+                        });
+                    }
+                }
+            });
+
+            return { className, fields };
+        }
+
+        function alModificarClase() {
+            const raw = document.getElementById('javaInput').value;
+            parsedData = parsearClaseJava(raw);
+
+            // Actualizar nombre sugerido de tabla SQL
+            const snakeClass = camelToSnake(parsedData.className);
+            const pluralTable = snakeClass.endsWith('s') ? snakeClass : (snakeClass + 's');
+            document.getElementById('tableNameInput').value = pluralTable;
+
+            // Poblar selector de campo searchBy...
+            const select = document.getElementById('searchFieldSelect');
+            const prevValue = select.value;
+            select.innerHTML = '';
+
+            parsedData.fields.forEach(f => {
+                const opt = document.createElement('option');
+                opt.value = f.name;
+                opt.textContent = `searchBy${capitalize(f.name)} (${f.type})`;
+                select.appendChild(opt);
+            });
+
+            // Seleccionar por defecto el primer atributo String (ej. nombre, dni, titulo)
+            const firstString = parsedData.fields.find(f => f.type === 'String');
+            if (parsedData.fields.some(f => f.name === prevValue)) {
+                select.value = prevValue;
+            } else if (firstString) {
+                select.value = firstString.name;
+            }
+
+            generarSalida();
+        }
+
+        function metodoPreparedStatementSet(type, indexExpr, valueExpr) {
+            const t = type.toLowerCase();
+            if (t === 'int' || t === 'integer') return `ps.setInt(${indexExpr}, ${valueExpr});`;
+            if (t === 'long') return `ps.setLong(${indexExpr}, ${valueExpr});`;
+            if (t === 'double') return `ps.setDouble(${indexExpr}, ${valueExpr});`;
+            if (t === 'float') return `ps.setFloat(${indexExpr}, ${valueExpr});`;
+            if (t === 'boolean') return `ps.setBoolean(${indexExpr}, ${valueExpr});`;
+            if (t === 'localdate') return `ps.setDate(${indexExpr}, java.sql.Date.valueOf(${valueExpr}));`;
+            if (t === 'localdatetime') return `ps.setTimestamp(${indexExpr}, java.sql.Timestamp.valueOf(${valueExpr}));`;
+            if (t === 'bigdecimal') return `ps.setBigDecimal(${indexExpr}, ${valueExpr});`;
+            return `ps.setString(${indexExpr}, ${valueExpr});`;
+        }
+
+        function metodoResultSetGet(type, colName) {
+            const t = type.toLowerCase();
+            if (t === 'int' || t === 'integer') return `rs.getInt("${colName}")`;
+            if (t === 'long') return `rs.getLong("${colName}")`;
+            if (t === 'double') return `rs.getDouble("${colName}")`;
+            if (t === 'float') return `rs.getFloat("${colName}")`;
+            if (t === 'boolean') return `rs.getBoolean("${colName}")`;
+            if (t === 'localdate') return `rs.getDate("${colName}") != null ? rs.getDate("${colName}").toLocalDate() : null`;
+            if (t === 'localdatetime') return `rs.getTimestamp("${colName}") != null ? rs.getTimestamp("${colName}").toLocalDateTime() : null`;
+            if (t === 'bigdecimal') return `rs.getBigDecimal("${colName}")`;
+            return `rs.getString("${colName}")`;
+        }
+
+        function tipoSqlEquivalente(javaType, isPk) {
+            const t = javaType.toLowerCase();
+            if (t === 'int' || t === 'integer') return isPk ? 'INT AUTO_INCREMENT PRIMARY KEY' : 'INT NOT NULL';
+            if (t === 'long') return isPk ? 'BIGINT AUTO_INCREMENT PRIMARY KEY' : 'BIGINT NOT NULL';
+            if (t === 'double' || t === 'float') return 'DECIMAL(10,2) NOT NULL';
+            if (t === 'boolean') return 'BOOLEAN DEFAULT TRUE';
+            if (t === 'localdate') return 'DATE';
+            if (t === 'localdatetime') return 'DATETIME';
+            return isPk ? 'VARCHAR(50) PRIMARY KEY' : 'VARCHAR(120) NOT NULL';
+        }
+
+        function generarDaoJdbc(cls, table, fields, idField, searchField, opts) {
+            const objVar = cls.charAt(0).toLowerCase() + cls.slice(1);
+            const nonIdFields = fields.filter(f => f.name !== idField.name);
+            const insertCols = nonIdFields.map(f => f.colName).join(', ');
+            const insertPlaceholders = nonIdFields.map(() => '?').join(', ');
+            const updateSet = nonIdFields.map(f => `${f.colName} = ?`).join(', ');
+
+            const idCap = capitalize(idField.name);
+            const searchCap = capitalize(searchField.name);
+
+            let code = `import java.sql.*;\nimport java.util.ArrayList;\nimport java.util.List;\n\n`;
+            code += `public class ${cls}DAO {\n\n`;
+            code += `    // ==================== CONSULTAS SQL ====================\n`;
+            if (opts.insert) code += `    private static final String SQL_INSERT = "INSERT INTO ${table} (${insertCols}) VALUES (${insertPlaceholders})";\n`;
+            if (opts.findAll) code += `    private static final String SQL_FIND_ALL = "SELECT * FROM ${table}";\n`;
+            if (opts.findById) code += `    private static final String SQL_FIND_BY_ID = "SELECT * FROM ${table} WHERE ${idField.colName} = ?";\n`;
+            if (opts.search) {
+                const op = searchField.type === 'String' ? 'LIKE ?' : '= ?';
+                code += `    private static final String SQL_SEARCH_BY_${searchField.colName.toUpperCase()} = "SELECT * FROM ${table} WHERE ${searchField.colName} ${op}";\n`;
+            }
+            if (opts.update) code += `    private static final String SQL_UPDATE = "UPDATE ${table} SET ${updateSet} WHERE ${idField.colName} = ?";\n`;
+            if (opts.delete) code += `    private static final String SQL_DELETE = "DELETE FROM ${table} WHERE ${idField.colName} = ?";\n`;
+            code += `\n`;
+
+            // 1. INSERT
+            if (opts.insert) {
+                code += `    // 1. CREATE — Insertar nuevo registro\n`;
+                code += `    public boolean insertar(${cls} ${objVar}) {\n`;
+                code += `        try (Connection con = ConexionBD.getConnection();\n`;
+                code += `             PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {\n\n`;
+                nonIdFields.forEach((f, idx) => {
+                    const getter = (f.type === 'boolean' || f.type === 'Boolean') ? `is${capitalize(f.name)}()` : `get${capitalize(f.name)}()`;
+                    code += `            ${metodoPreparedStatementSet(f.type, idx + 1, `${objVar}.${getter}`)}\n`;
+                });
+                code += `\n            int filas = ps.executeUpdate();\n`;
+                code += `            try (ResultSet rs = ps.getGeneratedKeys()) {\n`;
+                code += `                if (rs.next()) {\n`;
+                code += `                    ${objVar}.set${idCap}(rs.getInt(1));\n`;
+                code += `                }\n`;
+                code += `            }\n`;
+                code += `            return filas > 0;\n`;
+                code += `        } catch (SQLException e) {\n`;
+                code += `            System.err.println("Error al insertar ${cls}: " + e.getMessage());\n`;
+                code += `            return false;\n`;
+                code += `        }\n`;
+                code += `    }\n\n`;
+            }
+
+            // 2. FIND ALL
+            if (opts.findAll) {
+                code += `    // 2. READ ALL — Obtener todos los registros (findAll)\n`;
+                code += `    public List<${cls}> findAll() {\n`;
+                code += `        List<${cls}> lista = new ArrayList<>();\n`;
+                code += `        try (Connection con = ConexionBD.getConnection();\n`;
+                code += `             PreparedStatement ps = con.prepareStatement(SQL_FIND_ALL);\n`;
+                code += `             ResultSet rs = ps.executeQuery()) {\n\n`;
+                code += `            while (rs.next()) {\n`;
+                code += `                lista.add(mapearResultSet(rs));\n`;
+                code += `            }\n`;
+                code += `        } catch (SQLException e) {\n`;
+                code += `            System.err.println("Error en findAll(): " + e.getMessage());\n`;
+                code += `        }\n`;
+                code += `        return lista;\n`;
+                code += `    }\n\n`;
+            }
+
+            // 3. FIND BY ID
+            if (opts.findById) {
+                code += `    // 3. READ BY ID — Buscar por clave primaria (findById)\n`;
+                code += `    public ${cls} findById(${idField.type} ${idField.name}) {\n`;
+                code += `        try (Connection con = ConexionBD.getConnection();\n`;
+                code += `             PreparedStatement ps = con.prepareStatement(SQL_FIND_BY_ID)) {\n\n`;
+                code += `            ${metodoPreparedStatementSet(idField.type, 1, idField.name)}\n`;
+                code += `            try (ResultSet rs = ps.executeQuery()) {\n`;
+                code += `                if (rs.next()) {\n`;
+                code += `                    return mapearResultSet(rs);\n`;
+                code += `                }\n`;
+                code += `            }\n`;
+                code += `        } catch (SQLException e) {\n`;
+                code += `            System.err.println("Error en findById(): " + e.getMessage());\n`;
+                code += `        }\n`;
+                code += `        return null;\n`;
+                code += `    }\n\n`;
+            }
+
+            // 4. SEARCH BY CAMPO
+            if (opts.search) {
+                const isStr = searchField.type === 'String';
+                code += `    // 4. SEARCH — Buscar por ${searchField.name} (searchBy${searchCap})\n`;
+                code += `    public List<${cls}> searchBy${searchCap}(${searchField.type} criterio) {\n`;
+                code += `        List<${cls}> resultados = new ArrayList<>();\n`;
+                code += `        try (Connection con = ConexionBD.getConnection();\n`;
+                code += `             PreparedStatement ps = con.prepareStatement(SQL_SEARCH_BY_${searchField.colName.toUpperCase()})) {\n\n`;
+                if (isStr) {
+                    code += `            ps.setString(1, "%" + criterio + "%");\n`;
+                } else {
+                    code += `            ${metodoPreparedStatementSet(searchField.type, 1, 'criterio')}\n`;
+                }
+                code += `            try (ResultSet rs = ps.executeQuery()) {\n`;
+                code += `                while (rs.next()) {\n`;
+                code += `                    resultados.add(mapearResultSet(rs));\n`;
+                code += `                }\n`;
+                code += `            }\n`;
+                code += `        } catch (SQLException e) {\n`;
+                code += `            System.err.println("Error en searchBy${searchCap}(): " + e.getMessage());\n`;
+                code += `        }\n`;
+                code += `        return resultados;\n`;
+                code += `    }\n\n`;
+            }
+
+            // 5. UPDATE
+            if (opts.update) {
+                code += `    // 5. UPDATE — Actualizar registro existente\n`;
+                code += `    public boolean update(${cls} ${objVar}) {\n`;
+                code += `        try (Connection con = ConexionBD.getConnection();\n`;
+                code += `             PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {\n\n`;
+                nonIdFields.forEach((f, idx) => {
+                    const getter = (f.type === 'boolean' || f.type === 'Boolean') ? `is${capitalize(f.name)}()` : `get${capitalize(f.name)}()`;
+                    code += `            ${metodoPreparedStatementSet(f.type, idx + 1, `${objVar}.${getter}`)}\n`;
+                });
+                const idGetter = `get${idCap}()`;
+                code += `            ${metodoPreparedStatementSet(idField.type, nonIdFields.length + 1, `${objVar}.${idGetter}`)}\n\n`;
+                code += `            return ps.executeUpdate() > 0;\n`;
+                code += `        } catch (SQLException e) {\n`;
+                code += `            System.err.println("Error en update(): " + e.getMessage());\n`;
+                code += `            return false;\n`;
+                code += `        }\n`;
+                code += `    }\n\n`;
+            }
+
+            // 6. DELETE
+            if (opts.delete) {
+                code += `    // 6. DELETE — Eliminar por ID\n`;
+                code += `    public boolean delete(${idField.type} ${idField.name}) {\n`;
+                code += `        try (Connection con = ConexionBD.getConnection();\n`;
+                code += `             PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {\n\n`;
+                code += `            ${metodoPreparedStatementSet(idField.type, 1, idField.name)}\n`;
+                code += `            return ps.executeUpdate() > 0;\n`;
+                code += `        } catch (SQLException e) {\n`;
+                code += `            System.err.println("Error en delete(): " + e.getMessage());\n`;
+                code += `            return false;\n`;
+                code += `        }\n`;
+                code += `    }\n\n`;
+            }
+
+            // MAPPER AUXILIAR
+            code += `    // ==================== MAPEO DE RESULTSET ====================\n`;
+            code += `    private ${cls} mapearResultSet(ResultSet rs) throws SQLException {\n`;
+            code += `        ${cls} ${objVar} = new ${cls}();\n`;
+            fields.forEach(f => {
+                code += `        ${objVar}.set${capitalize(f.name)}(${metodoResultSetGet(f.type, f.colName)});\n`;
+            });
+            code += `        return ${objVar};\n`;
+            code += `    }\n`;
+            code += `}`;
+            return code;
+        }
+
+        function generarQueriesSqlPuro(cls, table, fields, idField, searchField) {
+            const nonId = fields.filter(f => f.name !== idField.name);
+            const cols = nonId.map(f => f.colName).join(', ');
+            const sampleVals = nonId.map(f => {
+                const t = f.type.toLowerCase();
+                if (t === 'int' || t === 'integer' || t === 'long') return '10';
+                if (t === 'double' || t === 'float') return '19.99';
+                if (t === 'boolean') return 'TRUE';
+                if (t === 'localdate') return "'2026-10-29'";
+                return `'Ejemplo ${f.name}'`;
+            }).join(', ');
+
+            const updatePairs = nonId.map(f => `${f.colName} = ?`).join(',\n    ');
+
+            let sql = `-- ===================================================================\n`;
+            sql += `-- SCRIPT SQL COMPLETO PARA LA ENTIDAD: ${cls.toUpperCase()}\n`;
+            sql += `-- ===================================================================\n\n`;
+
+            sql += `-- 1. Crear tabla en MySQL / MariaDB\n`;
+            sql += `CREATE TABLE IF NOT EXISTS ${table} (\n`;
+            sql += fields.map((f, idx) => `    ${f.colName} ${tipoSqlEquivalente(f.type, f.name === idField.name)}`).join(',\n');
+            sql += `\n);\n\n`;
+
+            sql += `-- 2. Insertar registro (CREATE)\n`;
+            sql += `INSERT INTO ${table} (${cols})\nVALUES (${sampleVals});\n\n`;
+
+            sql += `-- 3. Obtener todos los registros (findAll)\n`;
+            sql += `SELECT * FROM ${table};\n\n`;
+
+            sql += `-- 4. Buscar por ID (findById)\n`;
+            sql += `SELECT * FROM ${table} WHERE ${idField.colName} = 1;\n\n`;
+
+            sql += `-- 5. Buscar por ${searchField.name} (searchBy${capitalize(searchField.name)})\n`;
+            sql += `SELECT * FROM ${table} WHERE ${searchField.colName} LIKE '%texto%';\n\n`;
+
+            sql += `-- 6. Actualizar registro por ID (update)\n`;
+            sql += `UPDATE ${table}\nSET ${updatePairs}\nWHERE ${idField.colName} = 1;\n\n`;
+
+            sql += `-- 7. Eliminar registro por ID (delete)\n`;
+            sql += `DELETE FROM ${table} WHERE ${idField.colName} = 1;`;
+
+            return sql;
+        }
+
+        function generarDaoHibernate(cls, fields, idField, searchField) {
+            const objVar = cls.charAt(0).toLowerCase() + cls.slice(1);
+            const searchCap = capitalize(searchField.name);
+
+            return `import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import java.util.List;
+
+public class ${cls}HibernateDAO {
+
+    private final SessionFactory sessionFactory;
+
+    public ${cls}HibernateDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    // 1. CREATE — Guardar entidad
+    public void insertar(${cls} ${objVar}) {
+        Transaction tx = null;
+        try (Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
+            session.persist(${objVar});
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    // 2. READ ALL — findAll con HQL
+    public List<${cls}> findAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM ${cls}", ${cls}.class).getResultList();
+        }
+    }
+
+    // 3. READ BY ID — findById
+    public ${cls} findById(${idField.type} ${idField.name}) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(${cls}.class, ${idField.name});
+        }
+    }
+
+    // 4. SEARCH — searchBy${searchCap} con parámetro HQL
+    public List<${cls}> searchBy${searchCap}(String texto) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "FROM ${cls} e WHERE e.${searchField.name} LIKE :busqueda";
+            return session.createQuery(hql, ${cls}.class)
+                    .setParameter("busqueda", "%" + texto + "%")
+                    .getResultList();
+        }
+    }
+
+    // 5. UPDATE — Actualizar entidad
+    public void update(${cls} ${objVar}) {
+        Transaction tx = null;
+        try (Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
+            session.merge(${objVar});
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    // 6. DELETE — Eliminar por ID
+    public boolean delete(${idField.type} ${idField.name}) {
+        Transaction tx = null;
+        try (Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
+            ${cls} ${objVar} = session.get(${cls}.class, ${idField.name});
+            if (${objVar} != null) {
+                session.remove(${objVar});
+                tx.commit();
+                return true;
+            }
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+        return false;
+    }
+}`;
+        }
+
+        function generarClaseConexion(table) {
+            return `import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConexionBD {
+
+    private static final String URL = "jdbc:mysql://localhost:3306/mi_base_datos?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+}`;
+        }
+
+        function cambiarPestanaCrud(nuevaPestana, btnPulsado) {
+            pestanaActual = nuevaPestana;
+            document.querySelectorAll('.tab-crud').forEach(b => {
+                b.className = 'tab-crud text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition';
+            });
+            btnPulsado.className = 'tab-crud bg-emerald-500 text-zinc-950 font-semibold px-3 py-1.5 rounded-lg transition';
+            generarSalida();
+        }
+
+        function generarSalida() {
+            const cls = parsedData.className || 'Entidad';
+            const fields = parsedData.fields;
+            const table = document.getElementById('tableNameInput').value.trim() || 'tabla';
+            const output = document.getElementById('crudOutput');
+            const fileNameLabel = document.getElementById('fileNameLabel');
+            const infoLabel = document.getElementById('detectedInfoLabel');
+
+            if (fields.length === 0) {
+                output.textContent = '// Pega una clase Java con al menos un atributo (ej: private int id; private String nombre;) para generar el CRUD.';
+                infoLabel.textContent = '0 atributos detectados';
+                return;
+            }
+
+            const idField = fields.find(f => f.name.toLowerCase().startsWith('id')) || fields[0];
+            const selectedSearchName = document.getElementById('searchFieldSelect').value;
+            const searchField = fields.find(f => f.name === selectedSearchName) || fields[Math.min(1, fields.length - 1)];
+
+            infoLabel.textContent = `${fields.length} atributos • PK: ${idField.name} • Search: ${searchField.name}`;
+
+            const opts = {
+                insert: document.getElementById('chkInsert').checked,
+                findAll: document.getElementById('chkFindAll').checked,
+                findById: document.getElementById('chkFindById').checked,
+                search: document.getElementById('chkSearch').checked,
+                update: document.getElementById('chkUpdate').checked,
+                delete: document.getElementById('chkDelete').checked
+            };
+
+            if (pestanaActual === 'dao-jdbc') {
+                fileNameLabel.textContent = `${cls}DAO.java`;
+                output.textContent = generarDaoJdbc(cls, table, fields, idField, searchField, opts);
+            } else if (pestanaActual === 'sql-queries') {
+                fileNameLabel.textContent = `schema_${table}.sql`;
+                output.textContent = generarQueriesSqlPuro(cls, table, fields, idField, searchField);
+            } else if (pestanaActual === 'dao-hibernate') {
+                fileNameLabel.textContent = `${cls}HibernateDAO.java`;
+                output.textContent = generarDaoHibernate(cls, fields, idField, searchField);
+            } else if (pestanaActual === 'conexion') {
+                fileNameLabel.textContent = `ConexionBD.java`;
+                output.textContent = generarClaseConexion(table);
+            }
+        }
+
+        function cargarEjemplo(tipo) {
+            document.getElementById('javaInput').value = (tipo === 'cliente') ? EJEMPLO_CLIENTE : EJEMPLO_PRODUCTO;
+            alModificarClase();
+        }
+
+        function vaciarEntrada() {
+            document.getElementById('javaInput').value = '';
+            alModificarClase();
+        }
+
+        function copiarCodigoCrud() {
+            const texto = document.getElementById('crudOutput').textContent;
+            navigator.clipboard.writeText(texto);
+            const btn = document.getElementById('btnCopiar');
+            btn.textContent = '¡Copiado! ✓';
+            setTimeout(() => { btn.textContent = 'Copiar'; }, 1800);
+        }
+
+        function descargarArchivoActual() {
+            const code = document.getElementById('crudOutput').textContent;
+            const fileName = document.getElementById('fileNameLabel').textContent;
+            const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        }
+
+        // Arrancar con ejemplo Producto
+        cargarEjemplo('producto');
+    </script>
+</body>
+</html>
