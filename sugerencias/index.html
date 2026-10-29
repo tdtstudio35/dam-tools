@@ -1,112 +1,175 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Buzón de Sugerencias — TDT Studio</title>
     <meta name="description" content="Envíanos tus ideas o reporta fallos a TDT Studio.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #09090b !important;
             color: #e4e4e7 !important;
             font-family: 'Inter', system-ui, sans-serif;
-            background-image: radial-gradient(#27272a 1px, transparent 1px);
-            background-size: 24px 24px;
+            overflow-x: clip;
+            width: 100%;
         }
-        code, .font-mono {
+        /* Patrón de cuadrícula técnica sutil */
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(39, 39, 42, 0.35) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(39, 39, 42, 0.35) 1px, transparent 1px);
+            background-size: 32px 32px;
+            -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%);
+            mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%);
+        }
+        code, pre, .font-mono {
             font-family: 'JetBrains Mono', monospace;
+        }
+        .fade-in {
+            animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Efecto brillo en tarjetas */
+        .card-glow {
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.3), 0 25px 50px -12px rgba(16, 185, 129, 0.08);
         }
     </style>
 </head>
-<body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col bg-[#09090b]">
+<body class="antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col bg-[#09090b] relative">
 
-    <!-- BARRA SUPERIOR -->
-    <header class="border-b border-zinc-800 bg-zinc-950/90 backdrop-blur">
-        <div class="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
-            <div class="flex items-center gap-3 font-mono text-xs">
-                <a href="../" class="flex items-center gap-2 font-semibold text-white hover:text-emerald-400 transition">
-                    <span class="bg-emerald-500 text-zinc-950 font-bold px-1.5 py-0.5 rounded">TDT</span>
-                    <span>studio.dev</span>
+    <!-- EFECTO DE LUZ AMBIENTAL SUPERIOR Y FONDO TÉCNICO -->
+    <div class="pointer-events-none fixed inset-0 bg-grid-pattern z-0"></div>
+    <div class="pointer-events-none fixed -top-24 left-1/2 -translate-x-1/2 w-full max-w-[850px] h-[320px] bg-emerald-500/10 blur-[140px] rounded-full z-0"></div>
+
+    <!-- BARRA SUPERIOR A ANCHO COMPLETO (IDÉNTICA A LA PRINCIPAL) -->
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-2xl w-full">
+        <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-3 md:py-4 flex items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-3 font-mono text-xs sm:text-sm">
+                <a href="../" class="flex items-center gap-2.5 font-semibold text-white hover:text-emerald-400 transition group">
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400 text-xs shadow-sm group-hover:bg-emerald-500 group-hover:text-zinc-950 transition-all">TDT</span>
+                    <span class="font-extrabold tracking-tight">studio<span class="text-emerald-400">.dev</span></span>
                 </a>
                 <span class="text-zinc-600">/</span>
-                <span class="text-emerald-400">sugerencias</span>
+                <span class="text-emerald-400 font-medium">sugerencias</span>
             </div>
 
-            <a href="../" class="font-mono text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg transition">
-                ← Volver al inicio
+            <a href="../" class="font-mono text-xs sm:text-sm text-zinc-300 hover:text-white bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 hover:border-emerald-500/40 px-3.5 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
+                <span>←</span>
+                <span>Volver al inicio</span>
             </a>
         </div>
     </header>
 
-    <main class="max-w-2xl mx-auto px-4 py-8 sm:py-12 flex-1 w-full">
+    <!-- CONTENEDOR DE TRES COLUMNAS (CONTENIDO + LATERALES FIJOS DE ANUNCIOS) -->
+    <div class="max-w-[1400px] mx-auto px-3.5 sm:px-4 flex-1 w-full relative z-10 flex items-start justify-center gap-7 min-w-0">
 
-        <div class="mb-6 sm:mb-8">
-            <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider">// Contacto Directo</span>
-            <h1 class="text-2xl sm:text-3xl font-bold text-white mt-1">Buzón de Ideas y Sugerencias</h1>
-            <p class="text-zinc-400 text-xs sm:text-sm mt-2">
-                Dinos qué herramienta quieres que activemos primero, qué snippet añadirías al diccionario o reporta cualquier fallo. Se abrirá tu correo con el mensaje ya redactado.
-            </p>
-        </div>
+        <!-- LATERAL IZQUIERDO: ANUNCIO A-ADS FIJO AL HACER SCROLL (SOLO ESCRITORIO XL) -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-8">
+            <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
+                <div id="frame-left" style="width: 160px; margin: auto; z-index: 10; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
 
-        <!-- TARJETA DEL FORMULARIO -->
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 sm:p-8 shadow-xl">
+        <!-- CONTENIDO PRINCIPAL CENTRAL -->
+        <main class="max-w-2xl w-full flex-1 min-w-0 py-8 sm:py-12 fade-in">
 
-            <form onsubmit="enviarCorreo(event)" class="space-y-4 sm:space-y-5">
-                
-                <div class="grid sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1.5">¿Qué quieres proponer?</label>
-                        <select id="sugTipo" required class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none">
-                            <option value="Idea Nueva Herramienta">💡 Idea para nueva herramienta</option>
-                            <option value="Priorizar Herramienta">🚀 Priorizar una en "Próximamente"</option>
-                            <option value="Aporte al Diccionario">📚 Añadir snippet al Diccionario</option>
-                            <option value="Mejora Generador Java">🔧 Mejora para el Generador Java</option>
-                            <option value="Bug / Fallo">🐛 Reportar un fallo</option>
-                        </select>
+            <div class="mb-6 sm:mb-8 space-y-2">
+                <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider font-semibold">// Contacto Directo</span>
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Buzón de Ideas y Sugerencias</h1>
+                <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">
+                    Dinos qué herramienta quieres que activemos primero, qué snippet añadirías al diccionario o reporta cualquier fallo. Se abrirá tu correo con el mensaje ya redactado.
+                </p>
+            </div>
+
+            <!-- TARJETA DEL FORMULARIO CON ESTÉTICA CARD-GLOW -->
+            <div class="card-glow bg-zinc-900/90 border border-zinc-800 rounded-3xl p-5 sm:p-8 shadow-2xl backdrop-blur-sm">
+
+                <form onsubmit="enviarCorreo(event)" class="space-y-4 sm:space-y-5">
+                    
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-semibold">¿Qué quieres proponer?</label>
+                            <select id="sugTipo" required class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500/80 focus:ring-2 focus:ring-emerald-500/15 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none transition-all">
+                                <option value="Idea Nueva Herramienta">💡 Idea para nueva herramienta</option>
+                                <option value="Priorizar Herramienta">🚀 Priorizar una en "Próximamente"</option>
+                                <option value="Aporte al Diccionario">📚 Añadir snippet al Diccionario</option>
+                                <option value="Mejora Generador Java">🔧 Mejora para el Generador Java</option>
+                                <option value="Bug / Fallo">🐛 Reportar un fallo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-semibold">Asignatura / Módulo</label>
+                            <select id="sugModulo" required class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500/80 focus:ring-2 focus:ring-emerald-500/15 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none transition-all">
+                                <option value="General DAM/DAW">General DAM / DAW</option>
+                                <option value="Programación (PROG)">Programación (PROG)</option>
+                                <option value="Acceso a Datos (AD)">Acceso a Datos (AD & BBDD)</option>
+                                <option value="PSP">PSP (Hilos y Sockets)</option>
+                                <option value="Interfaces / Web">Interfaces & Web</option>
+                                <option value="Sistemas / SGE">Sistemas & SGE</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div>
-                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1.5">Asignatura / Módulo</label>
-                        <select id="sugModulo" required class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none">
-                            <option value="General DAM/DAW">General DAM / DAW</option>
-                            <option value="Programación (PROG)">Programación (PROG)</option>
-                            <option value="Acceso a Datos (AD)">Acceso a Datos (AD & BBDD)</option>
-                            <option value="PSP">PSP (Hilos y Sockets)</option>
-                            <option value="Interfaces / Web">Interfaces & Web</option>
-                            <option value="Sistemas / SGE">Sistemas & SGE</option>
-                        </select>
+                        <label class="block font-mono text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-semibold">Tu nombre o alias (Opcional)</label>
+                        <input type="text" id="sugAutor" placeholder="Ej: Estudiante 2º DAM, Anónimo..." 
+                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500/80 focus:ring-2 focus:ring-emerald-500/15 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white placeholder-zinc-600 focus:outline-none transition-all">
                     </div>
+
+                    <div>
+                        <label class="block font-mono text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-semibold">Mensaje o descripción detallada</label>
+                        <textarea id="sugMensaje" required rows="5" placeholder="Explícanos cómo debería funcionar la herramienta o pega aquí el código que quieres aportar..." 
+                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500/80 focus:ring-2 focus:ring-emerald-500/15 rounded-xl p-3.5 text-xs font-mono text-white placeholder-zinc-600 focus:outline-none leading-relaxed transition-all"></textarea>
+                    </div>
+
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <span class="font-mono text-[11px] text-zinc-500 text-center sm:text-left">Se abrirá tu gestor de correo predeterminado.</span>
+                        <button type="submit" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-6 py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30">
+                            <span>Preparar correo</span>
+                            <span>✉</span>
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+        <!-- LATERAL DERECHO: ANUNCIO A-ADS FIJO AL HACER SCROLL (SOLO ESCRITORIO XL) -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-8">
+            <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
+                <div id="frame-right" style="width: 160px; margin: auto; z-index: 10; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
                 </div>
+            </div>
+        </aside>
 
-                <div>
-                    <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1.5">Tu nombre o alias (Opcional)</label>
-                    <input type="text" id="sugAutor" placeholder="Ej: Estudiante 2º DAM, Anónimo..." 
-                        class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white placeholder-zinc-600 focus:outline-none">
-                </div>
+    </div>
 
-                <div>
-                    <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1.5">Mensaje o descripción detallada</label>
-                    <textarea id="sugMensaje" required rows="5" placeholder="Explícanos cómo debería funcionar la herramienta o pega aquí el código que quieres aportar..." 
-                        class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl p-3.5 text-xs font-mono text-white placeholder-zinc-600 focus:outline-none leading-relaxed"></textarea>
-                </div>
-
-                <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <span class="font-mono text-[11px] text-zinc-500 text-center sm:text-left">Se abrirá tu gestor de correo predeterminado.</span>
-                    <button type="submit" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2">
-                        <span>Preparar correo</span>
-                        <span>✉</span>
-                    </button>
-                </div>
-
-            </form>
-
+    <!-- FOOTER -->
+    <footer class="border-t border-zinc-900/90 bg-zinc-950/60 py-6 sm:py-7 text-xs font-mono text-zinc-500 relative z-10 mt-12">
+        <div class="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
+            <p>TDT Studio © 2026 — Utilidades creadas para DAM y DAW.</p>
+            <a href="../" class="text-zinc-400 hover:text-emerald-400 transition">← Volver al inicio del workspace</a>
         </div>
-
-    </main>
+    </footer>
 
     <script>
         const CORREO_EQUIPO = "tdtstudio35@gmail.com";
