@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #09090b; /* Zinc 950 - Negro IDE */
+            background-color: #09090b;
             color: #e4e4e7;
             font-family: 'Inter', system-ui, sans-serif;
             background-image: radial-gradient(#27272a 1px, transparent 1px);
@@ -24,7 +24,7 @@
 </head>
 <body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col">
 
-    <!-- TOPBAR ESTILO IDE / GITHUB -->
+    <!-- TOPBAR -->
     <header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur">
         <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
             <div class="flex items-center gap-4">
@@ -39,9 +39,8 @@
             <nav class="flex items-center gap-5 text-xs font-mono text-zinc-400">
                 <a href="#tools" class="hover:text-white transition">./herramientas</a>
                 <a href="#snippets" class="hover:text-white transition">./copy-paste</a>
-                <a href="#sugerencias" class="hover:text-white transition hidden sm:inline">./sugerencias</a>
-                <a href="#pack-dam" class="bg-zinc-900 hover:bg-zinc-800 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-md transition">
-                    Pack Supervivencia 📦
+                <a href="#sugerencias" class="bg-zinc-900 hover:bg-zinc-800 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-md transition">
+                    ./sugerencias ✉
                 </a>
             </nav>
         </div>
@@ -49,7 +48,7 @@
 
     <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
 
-        <!-- CABECERA DIRECTA AL GRANO (Cero humo IA) -->
+        <!-- CABECERA -->
         <section class="mb-8 border-b border-zinc-800/80 pb-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
@@ -65,7 +64,7 @@
                     </p>
                 </div>
 
-                <!-- Buscador con atajo de teclado "/" -->
+                <!-- Buscador -->
                 <div class="w-full md:w-80">
                     <div class="relative">
                         <input type="text" id="buscadorTools" oninput="filtrarHerramientas()" placeholder="Filtrar herramienta... (pulsa /)" 
@@ -75,7 +74,7 @@
                 </div>
             </div>
 
-            <!-- Filtros por módulo de FP -->
+            <!-- Filtros -->
             <div class="flex flex-wrap items-center gap-1.5 mt-6 font-mono text-xs" id="botonesFiltro">
                 <span class="text-zinc-500 mr-1">Módulo:</span>
                 <button onclick="cambiarCategoria('todas', this)" class="filtro-btn bg-emerald-500 text-zinc-950 font-semibold px-2.5 py-1 rounded transition">Todos</button>
@@ -86,208 +85,188 @@
             </div>
         </section>
 
-        <!-- ZONA ANUNCIO DISCRETO SUPERIOR (Chaval 3) -->
-        <div class="mb-8 bg-zinc-900/40 border border-zinc-800/80 rounded-lg px-4 py-2.5 flex items-center justify-between text-xs">
-            <div class="flex items-center gap-2 text-zinc-400 font-mono truncate">
-                <span class="text-[10px] uppercase bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded border border-zinc-700">Sponsor</span>
-                <span>¿Desplegando Odoo o MySQL para clase? Pilla 200€ de saldo gratis en DigitalOcean / Hetzner para estudiantes.</span>
-            </div>
-            <a href="#recursos" class="font-mono text-emerald-400 hover:underline shrink-0 ml-4">Ver promo →</a>
-        </div>
-
-        <!-- =================================================================== -->
-        <!-- GRID DE HERRAMIENTAS (Estilo Panel de Control)                      -->
-        <!-- =================================================================== -->
+        <!-- GRID DE HERRAMIENTAS -->
         <section id="tools" class="mb-12">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-mono text-xs uppercase tracking-wider text-zinc-400">// Directorio de Micro-Tools</h2>
-                <span class="font-mono text-xs text-zinc-500">1 disponible • 8 en desarrollo</span>
+                <span class="font-mono text-xs text-zinc-500">1 disponible • 8 próximamente</span>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-                <!-- 1. GENERADOR JAVA POJO + HIBERNATE (Única Disponible Actualmente) -->
-                <a href="./generador-java/" data-categoria="java-psp" class="tool-card group bg-zinc-900 hover:bg-zinc-900/90 border border-emerald-500/50 hover:border-emerald-400 rounded-lg p-5 transition flex flex-col justify-between shadow-lg shadow-emerald-950/10">
+                <!-- 1. GENERADOR JAVA (Única Disponible) -->
+                <a href="./generador-java/" data-categoria="java-psp" class="tool-card group bg-zinc-900/90 hover:bg-zinc-900 border border-emerald-500/50 hover:border-emerald-400 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="font-mono text-xs font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded">PROG • AD</span>
-                            <span class="font-mono text-[11px] text-emerald-400 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                                Disponible
-                            </span>
+                            <span class="font-mono text-[11px] text-emerald-400 flex items-center gap-1">● Disponible</span>
                         </div>
                         <h3 class="text-base font-semibold text-white group-hover:text-emerald-400 transition">Generador Clases Java (POJO & JPA)</h3>
                         <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
-                            Selecciona visibilidad y tipos con desplegables y genera al instante la clase completa con constructores, Getters/Setters, <code class="text-zinc-300">equals()</code>, Lombok o <code class="text-zinc-300">@Entity</code>.
+                            Selecciona visibilidad y tipos con desplegables y te genera la clase completa con constructores, Getters/Setters, <code class="text-zinc-300">equals()</code>, Lombok o <code class="text-zinc-300">@Entity</code>.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between font-mono text-[11px]">
-                        <span class="text-zinc-400">./generador-java/</span>
-                        <span class="text-emerald-400 font-semibold group-hover:translate-x-0.5 transition">Abrir herramienta ↵</span>
+                    <div class="mt-4 pt-3 border-t border-zinc-800/80 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                        <span>./generador-java/</span>
+                        <span class="text-emerald-400 group-hover:translate-x-0.5 transition">Ejecutar ↵</span>
                     </div>
                 </a>
 
-                <!-- 2. CONVERSOR SQL A ENTIDAD JPA (Próximamente) -->
-                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-zinc-900/40 hover:bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
+                <!-- 2. CONVERSOR SQL (Próximamente) -->
+                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="font-mono text-xs text-cyan-400 bg-cyan-950/40 border border-cyan-800/40 px-2 py-0.5 rounded">BBDD • AD</span>
-                            <span class="font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Próximamente</span>
+                            <span class="font-mono text-xs text-cyan-400 bg-cyan-950/50 border border-cyan-800/50 px-2 py-0.5 rounded">BBDD • AD</span>
+                            <span class="font-mono text-[10px] text-zinc-500">Próximamente</span>
                         </div>
-                        <h3 class="text-base font-semibold text-zinc-300 group-hover:text-white transition">SQL <code class="text-sm">CREATE TABLE</code> → Entidad Java</h3>
-                        <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                        <h3 class="text-base font-semibold text-zinc-200 group-hover:text-emerald-400 transition">SQL <code class="text-sm">CREATE TABLE</code> → Entidad Java</h3>
+                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
                             Pega el script de tu base de datos de MySQL/MariaDB y conviértelo automáticamente en una clase Java mapeada para Hibernate.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between font-mono text-[11px] text-zinc-500">
                         <span>./conversor-sql/</span>
-                        <span class="group-hover:text-zinc-400">Próximamente</span>
+                        <span>Próximamente</span>
                     </div>
                 </a>
 
-                <!-- 3. VALIDADOR & FORMATEADOR JSON (Próximamente) -->
-                <a href="#sugerencias" data-categoria="frontend-api" class="tool-card group bg-zinc-900/40 hover:bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
+                <!-- 3. FORMATEADOR JSON (Próximamente) -->
+                <a href="#sugerencias" data-categoria="frontend-api" class="tool-card group bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="font-mono text-xs text-amber-400 bg-amber-950/40 border border-amber-800/40 px-2 py-0.5 rounded">APIs • MongoDB</span>
-                            <span class="font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Próximamente</span>
+                            <span class="font-mono text-xs text-amber-400 bg-amber-950/50 border border-amber-800/50 px-2 py-0.5 rounded">APIs • MongoDB</span>
+                            <span class="font-mono text-[10px] text-zinc-500">Próximamente</span>
                         </div>
-                        <h3 class="text-base font-semibold text-zinc-300 group-hover:text-white transition">Formateador JSON + Conversor a Clase</h3>
-                        <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                        <h3 class="text-base font-semibold text-zinc-200 group-hover:text-emerald-400 transition">Formateador JSON + Conversor a Clase</h3>
+                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
                             Valida respuestas de Postman, indenta JSON en una línea y encuentra en qué línea exacta te falta una coma o una llave.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between font-mono text-[11px] text-zinc-500">
                         <span>./formateador-json/</span>
-                        <span class="group-hover:text-zinc-400">Próximamente</span>
+                        <span>Próximamente</span>
                     </div>
                 </a>
 
-                <!-- 4. CALCULADORA MEDIA DAM/DAW & PAU (Próximamente) -->
-                <a href="#sugerencias" data-categoria="utilidades-fp" class="tool-card group bg-zinc-900/40 hover:bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
+                <!-- 4. CALCULADORA MEDIA (Próximamente) -->
+                <a href="#sugerencias" data-categoria="utilidades-fp" class="tool-card group bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="font-mono text-xs text-purple-400 bg-purple-950/40 border border-purple-800/40 px-2 py-0.5 rounded">Académico FP</span>
-                            <span class="font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Próximamente</span>
+                            <span class="font-mono text-xs text-purple-400 bg-purple-950/50 border border-purple-800/50 px-2 py-0.5 rounded">Académico FP</span>
+                            <span class="font-mono text-[10px] text-zinc-500">Próximamente</span>
                         </div>
-                        <h3 class="text-base font-semibold text-zinc-300 group-hover:text-white transition">Calculadora Media FP + Acceso Uni</h3>
-                        <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                        <h3 class="text-base font-semibold text-zinc-200 group-hover:text-emerald-400 transition">Calculadora Media FP + Acceso Uni</h3>
+                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
                             Calcula tu media real de 1º y 2º de DAM/DAW y simula tu nota sobre 14 con las específicas de la PAU/EBAU para entrar a Ingeniería.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between font-mono text-[11px] text-zinc-500">
                         <span>./calculadora-notas/</span>
-                        <span class="group-hover:text-zinc-400">Próximamente</span>
+                        <span>Próximamente</span>
                     </div>
                 </a>
 
-                <!-- 5. GENERADOR DOCKER-COMPOSE (Próximamente) -->
-                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-zinc-900/40 hover:bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
+                <!-- 5. GENERADOR DOCKER (Próximamente) -->
+                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="font-mono text-xs text-sky-400 bg-sky-950/40 border border-sky-800/40 px-2 py-0.5 rounded">SGE • Sistemas</span>
-                            <span class="font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Próximamente</span>
+                            <span class="font-mono text-xs text-sky-400 bg-sky-950/50 border border-sky-800/50 px-2 py-0.5 rounded">SGE • Sistemas</span>
+                            <span class="font-mono text-[10px] text-zinc-500">Próximamente</span>
                         </div>
-                        <h3 class="text-base font-semibold text-zinc-300 group-hover:text-white transition">Generador <code class="text-sm">docker-compose.yml</code></h3>
-                        <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                        <h3 class="text-base font-semibold text-zinc-200 group-hover:text-emerald-400 transition">Generador <code class="text-sm">docker-compose.yml</code></h3>
+                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
                             Marca con checkboxes qué necesitas (MySQL + phpMyAdmin, Postgres + Odoo 17, Mongo) y descarga el YAML con volúmenes y puertos listos.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between font-mono text-[11px] text-zinc-500">
                         <span>./generador-docker/</span>
-                        <span class="group-hover:text-zinc-400">Próximamente</span>
+                        <span>Próximamente</span>
                     </div>
                 </a>
 
-                <!-- 6. GENERADOR PLANTILLAS PSP (Próximamente) -->
-                <a href="#sugerencias" data-categoria="java-psp" class="tool-card group bg-zinc-900/40 hover:bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
+                <!-- 6. GENERADOR PSP (Próximamente) -->
+                <a href="#sugerencias" data-categoria="java-psp" class="tool-card group bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="font-mono text-xs text-rose-400 bg-rose-950/40 border border-rose-800/40 px-2 py-0.5 rounded">PSP 2º DAM</span>
-                            <span class="font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Próximamente</span>
+                            <span class="font-mono text-xs text-rose-400 bg-rose-950/50 border border-rose-800/50 px-2 py-0.5 rounded">PSP 2º DAM</span>
+                            <span class="font-mono text-[10px] text-zinc-500">Próximamente</span>
                         </div>
-                        <h3 class="text-base font-semibold text-zinc-300 group-hover:text-white transition">Esqueletos PSP: Sockets TCP & Hilos</h3>
-                        <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">
-                            Genera la estructura Cliente/Servidor con <code class="text-zinc-400">ServerSocket</code> o el clásico problema Productor-Consumidor con <code class="text-zinc-400">wait()</code> y <code class="text-zinc-400">notifyAll()</code>.
+                        <h3 class="text-base font-semibold text-zinc-200 group-hover:text-emerald-400 transition">Esqueletos PSP: Sockets TCP & Hilos</h3>
+                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
+                            Genera la estructura Cliente/Servidor con <code class="text-zinc-300">ServerSocket</code> o el clásico problema Productor-Consumidor con <code class="text-zinc-300">wait()</code> y <code class="text-zinc-300">notifyAll()</code>.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between font-mono text-[11px] text-zinc-500">
                         <span>./generador-psp/</span>
-                        <span class="group-hover:text-zinc-400">Próximamente</span>
+                        <span>Próximamente</span>
                     </div>
                 </a>
 
-                <!-- 7. CONVERSOR XML <-> JSON + TESTER XPATH (Próximamente) -->
-                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-zinc-900/40 hover:bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
+                <!-- 7. CONVERSOR XML <-> JSON (Próximamente) -->
+                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="font-mono text-xs text-orange-400 bg-orange-950/40 border border-orange-800/40 px-2 py-0.5 rounded">AD • LMSGI</span>
-                            <span class="font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Próximamente</span>
+                            <span class="font-mono text-xs text-orange-400 bg-orange-950/50 border border-orange-800/50 px-2 py-0.5 rounded">AD • LMSGI</span>
+                            <span class="font-mono text-[10px] text-zinc-500">Próximamente</span>
                         </div>
-                        <h3 class="text-base font-semibold text-zinc-300 group-hover:text-white transition">Conversor XML ⇄ JSON & Tester XPath</h3>
-                        <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                        <h3 class="text-base font-semibold text-zinc-200 group-hover:text-emerald-400 transition">Conversor XML ⇄ JSON & Tester XPath</h3>
+                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
                             Para el Tema 1 de Acceso a Datos y Lenguajes de Marcas: pasa de XML a JSON y prueba tus consultas XPath sobre el documento en vivo.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between font-mono text-[11px] text-zinc-500">
                         <span>./conversor-xml-json/</span>
-                        <span class="group-hover:text-zinc-400">Próximamente</span>
+                        <span>Próximamente</span>
                     </div>
                 </a>
 
-                <!-- 8. CALCULADORA DE SUBREDES IPv4 (Próximamente) -->
-                <a href="#sugerencias" data-categoria="utilidades-fp" class="tool-card group bg-zinc-900/40 hover:bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
+                <!-- 8. CALCULADORA SUBREDES (Próximamente) -->
+                <a href="#sugerencias" data-categoria="utilidades-fp" class="tool-card group bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="font-mono text-xs text-indigo-400 bg-indigo-950/40 border border-indigo-800/40 px-2 py-0.5 rounded">Sistemas 1º</span>
-                            <span class="font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Próximamente</span>
+                            <span class="font-mono text-xs text-indigo-400 bg-indigo-950/50 border border-indigo-800/50 px-2 py-0.5 rounded">Sistemas 1º</span>
+                            <span class="font-mono text-[10px] text-zinc-500">Próximamente</span>
                         </div>
-                        <h3 class="text-base font-semibold text-zinc-300 group-hover:text-white transition">Calculadora Subnetting IPv4 / VLSM</h3>
-                        <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">
-                            Mete la IP y la máscara CIDR (<code class="text-zinc-400">/24</code>, <code class="text-zinc-400">/26</code>) y saca al instante Red, Broadcast, rango de hosts útiles y paso a binario.
+                        <h3 class="text-base font-semibold text-zinc-200 group-hover:text-emerald-400 transition">Calculadora Subnetting IPv4 / VLSM</h3>
+                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
+                            Mete la IP y la máscara CIDR (<code class="text-zinc-300">/24</code>, <code class="text-zinc-300">/26</code>) y saca al instante Red, Broadcast, rango de hosts útiles y paso a binario.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between font-mono text-[11px] text-zinc-500">
                         <span>./calculadora-subredes/</span>
-                        <span class="group-hover:text-zinc-400">Próximamente</span>
+                        <span>Próximamente</span>
                     </div>
                 </a>
 
-                <!-- 9. GENERADOR DE DATOS FALSOS SQL (Próximamente) -->
-                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-zinc-900/40 hover:bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
+                <!-- 9. GENERADOR INSERTS (Próximamente) -->
+                <a href="#sugerencias" data-categoria="datos-sql" class="tool-card group bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-zinc-700 rounded-lg p-5 transition flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="font-mono text-xs text-teal-400 bg-teal-950/40 border border-teal-800/40 px-2 py-0.5 rounded">BBDD • TFG</span>
-                            <span class="font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Próximamente</span>
+                            <span class="font-mono text-xs text-teal-400 bg-teal-950/50 border border-teal-800/50 px-2 py-0.5 rounded">BBDD • TFG</span>
+                            <span class="font-mono text-[10px] text-zinc-500">Próximamente</span>
                         </div>
-                        <h3 class="text-base font-semibold text-zinc-300 group-hover:text-white transition">Generador de <code class="text-sm">INSERT INTO</code> Falsos</h3>
-                        <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                        <h3 class="text-base font-semibold text-zinc-200 group-hover:text-emerald-400 transition">Generador de <code class="text-sm">INSERT INTO</code> Falsos</h3>
+                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
                             Genera 50 filas de prueba con nombres españoles, DNIs válidos, emails y fechas para rellenar la base de datos de tu TFG en 5 segundos.
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between font-mono text-[11px] text-zinc-500">
                         <span>./generador-inserts/</span>
-                        <span class="group-hover:text-zinc-400">Próximamente</span>
+                        <span>Próximamente</span>
                     </div>
                 </a>
 
             </div>
         </section>
 
-        <!-- =================================================================== -->
-        <!-- FUNCIONALIDAD EN VIVO EN EL HUB: SNIPPETS DE EMERGENCIA             -->
-        <!-- =================================================================== -->
+        <!-- SNIPPETS DE EMERGENCIA -->
         <section id="snippets" class="mb-12">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                <div>
-                    <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400">// Copy-Paste de Supervivencia</h2>
-                    <p class="text-sm text-zinc-400">Cosas que siempre acabas buscando en Google a mitad de una práctica. Haz clic en copiar.</p>
-                </div>
+            <div class="mb-4">
+                <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400">// Copy-Paste de Supervivencia</h2>
+                <p class="text-sm text-zinc-400">Cosas que siempre acabas buscando en Google a mitad de una práctica. Haz clic en copiar.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-4">
-                
-                <!-- Snippet 1: Conector JDBC MySQL Maven -->
                 <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
                     <div class="flex items-center justify-between mb-2">
                         <span class="font-mono text-xs font-semibold text-zinc-200">1. Dependencia Maven MySQL + Hibernate (pom.xml)</span>
@@ -309,7 +288,6 @@
 &lt;/dependencies&gt;</pre>
                 </div>
 
-                <!-- Snippet 2: URL JDBC que no da error de zona horaria -->
                 <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
                     <div class="flex items-center justify-between mb-2">
                         <span class="font-mono text-xs font-semibold text-zinc-200">2. Conexión JDBC MySQL (Sin error ServerTimezone)</span>
@@ -326,7 +304,6 @@ try (Connection con = DriverManager.getConnection(url, user, pass)) {
 }</pre>
                 </div>
 
-                <!-- Snippet 3: Matar puerto bloqueado en Windows/Linux -->
                 <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
                     <div class="flex items-center justify-between mb-2">
                         <span class="font-mono text-xs font-semibold text-zinc-200">3. Matar puerto 8080 / 3306 cuando se queda pillado</span>
@@ -341,7 +318,6 @@ sudo lsof -i :8080
 kill -9 &lt;NUMERO_PID&gt;</pre>
                 </div>
 
-                <!-- Snippet 4: Deshacer último commit sin perder el código -->
                 <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
                     <div class="flex items-center justify-between mb-2">
                         <span class="font-mono text-xs font-semibold text-zinc-200">4. Git: Liada parda (Deshacer commit sin borrar código)</span>
@@ -354,114 +330,21 @@ git reset --soft HEAD~1
 git rm -r --cached target/
 git commit -m "fix: eliminar carpeta target del repo"</pre>
                 </div>
-
             </div>
         </section>
 
-        <!-- =================================================================== -->
-        <!-- MONETIZACIÓN: GUMROAD + WUOLAH                                      -->
-        <!-- =================================================================== -->
-        <section id="pack-dam" class="mb-12">
-            <div class="bg-zinc-900 border border-emerald-500/30 rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                <div class="max-w-2xl">
-                    <div class="inline-flex items-center gap-2 font-mono text-xs text-emerald-400 mb-2">
-                        <span>📦 RELEASE v2.4</span>
-                        <span>•</span>
-                        <span>Ahorra semanas en 2º DAM</span>
-                    </div>
-                    <h2 class="text-xl md:text-2xl font-bold text-white">Pack Supervivencia 2º DAM + Plantilla CRUD Completa</h2>
-                    <p class="text-zinc-400 text-sm mt-2 leading-relaxed">
-                        Proyecto base funcional con <strong>Login + CRUD completo conectado a MySQL</strong> (listo para importar en IntelliJ/NetBeans y adaptar a tu trabajo), más nuestros PDFs resumidos de Hibernate, Hilos/Sockets (PSP) y consultas SQL.
-                    </p>
-                    <div class="flex flex-wrap gap-3 mt-5">
-                        <!-- Chaval 3: Poner enlaces reales de Gumroad y Wuolah -->
-                        <a href="https://gumroad.com" target="_blank" rel="noopener" class="bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-4 py-2.5 rounded-lg transition">
-                            Descargar Pack .ZIP en Gumroad (4,99€) →
-                        </a>
-                        <a href="https://wuolah.com" target="_blank" rel="noopener" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-mono text-xs px-4 py-2.5 rounded-lg border border-zinc-700 transition">
-                            Apuntes sueltos gratis en Wuolah 📄
-                        </a>
-                    </div>
-                </div>
-
-                <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-4 font-mono text-xs text-zinc-400 w-full md:w-72 shrink-0">
-                    <div class="text-zinc-200 font-semibold mb-2 border-b border-zinc-800 pb-1.5">Contenido del .zip:</div>
-                    <ul class="space-y-1.5 text-[11px]">
-                        <li>├── 📁 <span class="text-emerald-400">crud-javafx-hibernate/</span></li>
-                        <li>├── 📄 <span class="text-zinc-300">chuleta-annotations-jpa.pdf</span></li>
-                        <li>├── 📄 <span class="text-zinc-300">esquema-hilos-sockets-psp.pdf</span></li>
-                        <li>├── 📄 <span class="text-zinc-300">100-queries-sql-examen.pdf</span></li>
-                        <li>└── 📄 <span class="text-zinc-300">guia-despliegue-odoo-docker.md</span></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- =================================================================== -->
-        <!-- AFILIADOS (Chaval 3: Recomendaciones reales para estudiantes)       -->
-        <!-- =================================================================== -->
-        <section id="recursos" class="mb-12">
-            <h2 class="font-mono text-xs uppercase tracking-wider text-zinc-400 mb-4">// Recursos & Setup que usamos en clase</h2>
-            <div class="grid md:grid-cols-3 gap-4">
-                
-                <div class="bg-zinc-900/60 border border-zinc-800 rounded-lg p-5 flex flex-col justify-between">
-                    <div>
-                        <span class="font-mono text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded">VPS / Cloud</span>
-                        <h3 class="text-sm font-bold text-white mt-2.5">VPS Barato para Odoo (SGE) y Docker</h3>
-                        <p class="text-xs text-zinc-400 mt-1.5">
-                            Si tu portátil sufre al levantar Docker o quieres tener el backend del TFG online 24/7 con IP pública.
-                        </p>
-                    </div>
-                    <a href="TU_LINK_DE_AFILIADO_HOSTING_AQUI" target="_blank" rel="nofollow sponsored noopener" class="mt-4 inline-block font-mono text-xs text-emerald-400 hover:underline">
-                        Pillar bono de estudiante →
-                    </a>
-                </div>
-
-                <div class="bg-zinc-900/60 border border-zinc-800 rounded-lg p-5 flex flex-col justify-between">
-                    <div>
-                        <span class="font-mono text-[10px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded">Bibliografía</span>
-                        <h3 class="text-sm font-bold text-white mt-2.5">Clean Code (Robert C. Martin)</h3>
-                        <p class="text-xs text-zinc-400 mt-1.5">
-                            El libro que te recomiendan todos los tutores antes de ir a la FCT para dejar de llamar a las variables <code class="text-zinc-300">aux1</code> y <code class="text-zinc-300">cosa</code>.
-                        </p>
-                    </div>
-                    <a href="TU_LINK_DE_AFILIADO_AMAZON_AQUI" target="_blank" rel="nofollow sponsored noopener" class="mt-4 inline-block font-mono text-xs text-emerald-400 hover:underline">
-                        Ver edición en español (Amazon) →
-                    </a>
-                </div>
-
-                <div class="bg-zinc-900/60 border border-zinc-800 rounded-lg p-5 flex flex-col justify-between">
-                    <div>
-                        <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded">Hardware</span>
-                        <h3 class="text-sm font-bold text-white mt-2.5">Teclado Mecánico 75% & Ratón Ergo</h3>
-                        <p class="text-xs text-zinc-400 mt-1.5">
-                            Compacto para llevar en la mochila a clase si los teclados de membrana del aula tienen la barra espaciadora hundida.
-                        </p>
-                    </div>
-                    <a href="TU_LINK_DE_AFILIADO_SETUP_AQUI" target="_blank" rel="nofollow sponsored noopener" class="mt-4 inline-block font-mono text-xs text-emerald-400 hover:underline">
-                        Ver recomendación en Amazon →
-                    </a>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- =================================================================== -->
-        <!-- NUEVO APARTADO: BUZÓN DE SUGERENCIAS Y NUEVAS HERRAMIENTAS          -->
-        <!-- =================================================================== -->
+        <!-- BUZÓN DE SUGERENCIAS -->
         <section id="sugerencias" class="mb-8">
-            <div class="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6 md:p-8">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 md:p-8">
                 <div class="grid md:grid-cols-12 gap-8 items-start">
                     
-                    <!-- Columna izquierda: Explicación y botón de copiar correo -->
                     <div class="md:col-span-5 space-y-3">
                         <span class="font-mono text-xs uppercase tracking-wider text-emerald-400">// Feedback & Ideas</span>
-                        <h2 class="text-xl font-bold text-white">¿Qué herramienta o chuleta echas en falta?</h2>
+                        <h2 class="text-xl font-bold text-white">¿Qué herramienta o mejora añadimos?</h2>
                         <p class="text-xs text-zinc-400 leading-relaxed">
-                            Estamos programando nuevas utilidades cada semana según lo que nos pedís para las prácticas de DAM y DAW. Si quieres que prioricemos alguna herramienta en cola o tienes una idea nueva, mándanos un correo.
+                            Estamos programando las herramientas poco a poco. Si necesitas alguna en concreto para tus prácticas o quieres sugerir una idea nueva, mándanos un correo.
                         </p>
-                        
-                        <div class="pt-3">
+                        <div class="pt-2">
                             <span class="block font-mono text-[11px] text-zinc-500 mb-1.5">Correo directo del equipo:</span>
                             <div class="inline-flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2">
                                 <code id="emailEquipo" class="text-xs text-zinc-200">tdtstudio35@gmail.com</code>
@@ -472,7 +355,6 @@ git commit -m "fix: eliminar carpeta target del repo"</pre>
                         </div>
                     </div>
 
-                    <!-- Columna derecha: Formulario rápido que prepara el correo -->
                     <form onsubmit="enviarSugerencia(event)" class="md:col-span-7 space-y-3">
                         <div class="grid sm:grid-cols-2 gap-3">
                             <div>
@@ -499,8 +381,8 @@ git commit -m "fix: eliminar carpeta target del repo"</pre>
                         </div>
 
                         <div>
-                            <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Cuéntanos tu idea o qué te ahorraría tiempo en clase</label>
-                            <textarea id="sugMensaje" required rows="3" placeholder="Ej: Estaría genial que el conversor SQL ya estuviera activo o que añadáis un generador de consultas HQL..." 
+                            <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Tu sugerencia</label>
+                            <textarea id="sugMensaje" required rows="3" placeholder="Cuéntanos tu idea o qué herramienta te ahorraría tiempo en clase..." 
                                 class="w-full bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-lg p-3 text-xs font-mono text-white placeholder-zinc-600 focus:outline-none"></textarea>
                         </div>
 
@@ -520,20 +402,17 @@ git commit -m "fix: eliminar carpeta target del repo"</pre>
 
     <!-- FOOTER -->
     <footer class="border-t border-zinc-800/80 py-6 text-xs font-mono text-zinc-500">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>TDT Studio © 2026 — Hecho con café y cero frameworks pesados.</p>
-            <p class="text-[11px] text-zinc-600">Algunos enlaces son de afiliado (sin coste extra para ti, nos pagan el café).</p>
+        <div class="max-w-6xl mx-auto px-4 text-center sm:text-left">
+            <p>TDT Studio © 2026 — Hecho por estudiantes de DAM.</p>
         </div>
     </footer>
 
     <script>
-        // Chaval 3: Cambia este correo por el correo conjunto oficial del equipo si es distinto
         const CONST_EMAIL = 'tdtstudio35@gmail.com';
         document.getElementById('emailEquipo').textContent = CONST_EMAIL;
 
         let categoriaActual = 'todas';
 
-        // Atajo de teclado "/" para ir directo al buscador como en GitHub
         document.addEventListener('keydown', (e) => {
             const tag = document.activeElement.tagName;
             if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
@@ -591,13 +470,7 @@ git commit -m "fix: eliminar carpeta target del repo"</pre>
             const mensaje = document.getElementById('sugMensaje').value.trim();
 
             const asunto = encodeURIComponent(`[TDT Studio] ${tipo} — ${modulo}`);
-            const cuerpo = encodeURIComponent(
-                `Hola equipo de TDT Studio,\n\n` +
-                `• Tipo: ${tipo}\n` +
-                `• Módulo: ${modulo}\n\n` +
-                `Sugerencia / Idea:\n${mensaje}\n`
-            );
-
+            const cuerpo = encodeURIComponent(`Hola equipo de TDT Studio,\n\n• Tipo: ${tipo}\n• Módulo: ${modulo}\n\nSugerencia:\n${mensaje}\n`);
             window.location.href = `mailto:${CONST_EMAIL}?subject=${asunto}&body=${cuerpo}`;
         }
     </script>
