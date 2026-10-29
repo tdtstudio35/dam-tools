@@ -27,47 +27,62 @@
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* Ocultar barra de scroll en la barra de asignaturas móvil pero permitir scroll táctil */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col bg-[#09090b]">
 
-    <!-- BARRA SUPERIOR + CONMUTADOR CENTRAL -->
+    <!-- BARRA SUPERIOR RESPONSIVE -->
     <header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-md">
         <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
             
-            <a href="./" class="flex items-center gap-2.5 group">
-                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-mono font-bold text-emerald-400 text-xs group-hover:bg-emerald-500 group-hover:text-zinc-950 transition">
-                    TDT
-                </div>
-                <div>
-                    <span class="font-mono font-bold text-white text-sm tracking-tight block leading-none">studio<span class="text-emerald-400">.dev</span></span>
-                    <span class="font-mono text-[10px] text-zinc-500">DAM & DAW Hub</span>
-                </div>
-            </a>
+            <div class="w-full sm:w-auto flex items-center justify-between">
+                <a href="./" class="flex items-center gap-2.5 group">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-mono font-bold text-emerald-400 text-xs group-hover:bg-emerald-500 group-hover:text-zinc-950 transition">
+                        TDT
+                    </div>
+                    <div>
+                        <span class="font-mono font-bold text-white text-sm tracking-tight block leading-none">studio<span class="text-emerald-400">.dev</span></span>
+                        <span class="font-mono text-[10px] text-zinc-500">DAM & DAW Hub</span>
+                    </div>
+                </a>
 
-            <!-- CONMUTADOR -->
-            <div class="bg-zinc-900 p-1 rounded-xl border border-zinc-800 flex items-center gap-1">
+                <!-- Botón de sugerencias visible arriba en móvil -->
+                <a href="./sugerencias/" class="sm:hidden font-mono text-xs bg-zinc-900 text-emerald-400 border border-zinc-800 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                    <span>💡</span> Sugerencias
+                </a>
+            </div>
+
+            <!-- CONMUTADOR CENTRAL -->
+            <div class="w-full sm:w-auto bg-zinc-900 p-1 rounded-xl border border-zinc-800 flex items-center gap-1 justify-center">
                 <button id="tabHerramientas" onclick="cambiarModo('herramientas')" 
-                    class="px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 bg-emerald-500 text-zinc-950 shadow">
+                    class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow">
                     <span>🛠️</span> Herramientas
                 </button>
                 <button id="tabDiccionario" onclick="cambiarModo('diccionario')" 
-                    class="px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 text-zinc-400 hover:text-white">
+                    class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center justify-center gap-2 text-zinc-400 hover:text-white">
                     <span>📚</span> Diccionario
                 </button>
             </div>
 
-            <a href="./sugerencias/" class="font-mono text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-emerald-400 border border-zinc-800 px-3.5 py-2 rounded-xl transition flex items-center gap-2">
+            <a href="./sugerencias/" class="hidden sm:flex font-mono text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-emerald-400 border border-zinc-800 px-3.5 py-2 rounded-xl transition items-center gap-2">
                 <span>💡</span> Sugerencias
             </a>
 
         </div>
 
-        <!-- SUB-BARRA DE ASIGNATURAS -->
+        <!-- SUB-BARRA DE ASIGNATURAS CON SCROLL TÁCTIL EN MÓVIL -->
         <div class="border-t border-zinc-900 bg-zinc-950/80">
             <div class="max-w-5xl mx-auto px-4 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3">
                 
-                <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 font-mono text-xs" id="barraAsignaturas">
+                <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 font-mono text-xs no-scrollbar" id="barraAsignaturas">
                     <button onclick="filtrarPorAsignatura('todas', this)" class="asig-btn shrink-0 bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-3 py-1 rounded-lg font-medium transition">
                         Todo
                     </button>
@@ -90,18 +105,18 @@
 
                 <div class="relative w-full md:w-64 shrink-0">
                     <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Buscar en esta vista... (/)" 
-                        class="w-full bg-zinc-900 border border-zinc-800 focus:border-emerald-500 rounded-lg pl-3 pr-7 py-1 text-xs font-mono text-white placeholder-zinc-500 focus:outline-none">
-                    <kbd class="absolute right-2 top-1 text-[10px] font-mono text-zinc-500">/</kbd>
+                        class="w-full bg-zinc-900 border border-zinc-800 focus:border-emerald-500 rounded-lg pl-3 pr-7 py-1.5 text-xs font-mono text-white placeholder-zinc-500 focus:outline-none">
+                    <kbd class="absolute right-2.5 top-2 text-[10px] font-mono text-zinc-500 hidden sm:inline">/</kbd>
                 </div>
 
             </div>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full">
+    <main class="max-w-5xl mx-auto px-4 py-6 sm:py-8 flex-1 w-full">
 
         <!-- VISTA 1: HERRAMIENTAS -->
-        <div id="vistaHerramientas" class="fade-in space-y-10">
+        <div id="vistaHerramientas" class="fade-in space-y-8">
 
             <div class="item-filtrable" data-asignatura="prog ad-bbdd">
                 <div class="flex items-center gap-2 mb-3">
@@ -109,27 +124,27 @@
                     <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400 font-semibold">Herramienta Activa</h2>
                 </div>
 
-                <div class="bg-zinc-900 border border-emerald-500/40 rounded-2xl p-6 md:p-8 shadow-xl grid md:grid-cols-12 gap-6 items-center">
+                <div class="bg-zinc-900 border border-emerald-500/40 rounded-2xl p-5 sm:p-8 shadow-xl grid md:grid-cols-12 gap-6 items-center">
                     <div class="md:col-span-7 space-y-4">
                         <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
                             <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded">PROG</span>
                             <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded">Acceso a Datos</span>
                             <span class="text-zinc-500">• v1.2</span>
                         </div>
-                        <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                        <h3 class="text-xl sm:text-3xl font-bold text-white tracking-tight">
                             Generador de Clases Java (POJO & Hibernate)
                         </h3>
-                        <p class="text-zinc-400 text-sm leading-relaxed">
+                        <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">
                             Selecciona con desplegables si tus atributos son <code class="text-zinc-200">private</code> o <code class="text-zinc-200">public</code>, elige el tipo de dato y descarga el archivo <code class="text-emerald-400">.java</code> con constructores, Getters, Setters, <code class="text-zinc-200">equals()</code>, Lombok o anotaciones JPA.
                         </p>
                         <div class="pt-2">
-                            <a href="./generador-java/" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-5 py-3 rounded-xl transition">
+                            <a href="./generador-java/" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs font-bold px-5 py-3 rounded-xl transition shadow-lg shadow-emerald-500/10">
                                 Abrir Generador Java <span>→</span>
                             </a>
                         </div>
                     </div>
 
-                    <div class="md:col-span-5 bg-zinc-950 border border-zinc-800 rounded-xl p-4 font-mono text-[11px] text-zinc-400 overflow-hidden">
+                    <div class="md:col-span-5 bg-zinc-950 border border-zinc-800 rounded-xl p-4 font-mono text-[11px] text-zinc-400 overflow-x-auto">
                         <div class="flex items-center justify-between border-b border-zinc-800 pb-2 mb-2.5 text-[10px] text-zinc-500">
                             <span>Alumno.java</span>
                             <span class="text-emerald-400">● Listo</span>
@@ -150,7 +165,7 @@ public class Alumno {
             <div>
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="font-mono text-xs uppercase tracking-wider text-zinc-400">// En Desarrollo (Próximamente)</h2>
-                    <a href="./sugerencias/" class="font-mono text-xs text-emerald-400 hover:underline">¿Cuál necesitas primero? Vota aquí →</a>
+                    <a href="./sugerencias/" class="font-mono text-xs text-emerald-400 hover:underline">Votar prioridad →</a>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-3">
@@ -160,9 +175,9 @@ public class Alumno {
                                 <span class="font-mono text-[10px] text-cyan-400 bg-cyan-950/50 border border-cyan-800/50 px-1.5 py-0.5 rounded">AD & BBDD</span>
                                 <h3 class="text-sm font-semibold text-zinc-200">Conversor SQL a Entidad JPA</h3>
                             </div>
-                            <p class="text-xs text-zinc-500">Pega un <code class="text-zinc-400">CREATE TABLE</code> y saca la clase Java mapeada con <code class="text-zinc-400">@Column</code>.</p>
+                            <p class="text-xs text-zinc-500">Pega un <code class="text-zinc-400">CREATE TABLE</code> y saca la clase Java mapeada.</p>
                         </div>
-                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Pronto</span>
                     </div>
 
                     <div data-asignatura="di-web" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
@@ -171,9 +186,9 @@ public class Alumno {
                                 <span class="font-mono text-[10px] text-amber-400 bg-amber-950/50 border border-amber-800/50 px-1.5 py-0.5 rounded">DI & Web</span>
                                 <h3 class="text-sm font-semibold text-zinc-200">Validador & Formateador JSON</h3>
                             </div>
-                            <p class="text-xs text-zinc-500">Formatea respuestas de APIs REST y detecta en qué línea falta una llave.</p>
+                            <p class="text-xs text-zinc-500">Formatea respuestas de APIs REST y detecta errores de sintaxis.</p>
                         </div>
-                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Pronto</span>
                     </div>
 
                     <div data-asignatura="psp prog" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
@@ -182,9 +197,9 @@ public class Alumno {
                                 <span class="font-mono text-[10px] text-rose-400 bg-rose-950/50 border border-rose-800/50 px-1.5 py-0.5 rounded">PSP</span>
                                 <h3 class="text-sm font-semibold text-zinc-200">Generador de Hilos & Sockets TCP</h3>
                             </div>
-                            <p class="text-xs text-zinc-500">Plantillas Cliente/Servidor y Productor-Consumidor con <code class="text-zinc-400">synchronized</code>.</p>
+                            <p class="text-xs text-zinc-500">Plantillas Cliente/Servidor y Productor-Consumidor con hilos.</p>
                         </div>
-                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Pronto</span>
                     </div>
 
                     <div data-asignatura="sistemas ad-bbdd" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
@@ -193,20 +208,20 @@ public class Alumno {
                                 <span class="font-mono text-[10px] text-sky-400 bg-sky-950/50 border border-sky-800/50 px-1.5 py-0.5 rounded">Sistemas & SGE</span>
                                 <h3 class="text-sm font-semibold text-zinc-200">Generador docker-compose.yml</h3>
                             </div>
-                            <p class="text-xs text-zinc-500">Configura contenedores de MySQL, PostgreSQL, MongoDB u Odoo en 3 clics.</p>
+                            <p class="text-xs text-zinc-500">Configura contenedores de MySQL, PostgreSQL, MongoDB u Odoo.</p>
                         </div>
-                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Pronto</span>
                     </div>
 
                     <div data-asignatura="ad-bbdd di-web" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="font-mono text-[10px] text-orange-400 bg-orange-950/50 border border-orange-800/50 px-1.5 py-0.5 rounded">AD & BBDD</span>
-                                <h3 class="text-sm font-semibold text-zinc-200">Conversor XML ⇄ JSON & Tester XPath</h3>
+                                <h3 class="text-sm font-semibold text-zinc-200">Conversor XML ⇄ JSON & XPath</h3>
                             </div>
                             <p class="text-xs text-zinc-500">Transforma estructuras XML y prueba consultas XPath en vivo.</p>
                         </div>
-                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Pronto</span>
                     </div>
 
                     <div data-asignatura="sistemas" class="item-filtrable bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start justify-between gap-4">
@@ -217,7 +232,7 @@ public class Alumno {
                             </div>
                             <p class="text-xs text-zinc-500">Cálculo de subredes CIDR/VLSM y simulador de nota media del ciclo.</p>
                         </div>
-                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Próximamente</span>
+                        <span class="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded">Pronto</span>
                     </div>
                 </div>
             </div>
@@ -229,10 +244,10 @@ public class Alumno {
             
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-4">
                 <div>
-                    <h2 class="text-xl font-bold text-white">📚 Diccionario & Snippets por Asignatura</h2>
-                    <p class="text-xs text-zinc-400 mt-0.5">Conceptos clave de examen y bloques de código listos para copiar y pegar.</p>
+                    <h2 class="text-lg sm:text-xl font-bold text-white">📚 Diccionario & Snippets por Asignatura</h2>
+                    <p class="text-xs text-zinc-400 mt-0.5">Conceptos clave de examen y bloques de código listos para copiar.</p>
                 </div>
-                <span class="font-mono text-xs text-emerald-400">Usa las pestañas de arriba para filtrar por módulo</span>
+                <span class="font-mono text-xs text-emerald-400">Usa las pestañas de arriba para filtrar</span>
             </div>
 
             <div class="grid md:grid-cols-2 gap-4">
@@ -349,9 +364,9 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
 
     <!-- FOOTER -->
     <footer class="border-t border-zinc-900 py-6 text-xs font-mono text-zinc-500">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <p>TDT Studio © 2026 — Utilidades para DAM y DAW.</p>
-            <a href="./sugerencias/" class="text-zinc-400 hover:text-emerald-400 transition">¿Echas en falta algo? Envíanos una sugerencia →</a>
+            <a href="./sugerencias/" class="text-zinc-400 hover:text-emerald-400 transition">¿Echas en falta algo? Sugerencias →</a>
         </div>
     </footer>
 
@@ -377,13 +392,13 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
             if (modo === 'herramientas') {
                 vistaH.classList.remove('hidden');
                 vistaD.classList.add('hidden');
-                tabH.className = 'px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 bg-emerald-500 text-zinc-950 shadow';
-                tabD.className = 'px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 text-zinc-400 hover:text-white';
+                tabH.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow';
+                tabD.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center justify-center gap-2 text-zinc-400 hover:text-white';
             } else {
                 vistaD.classList.remove('hidden');
                 vistaH.classList.add('hidden');
-                tabD.className = 'px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 bg-emerald-500 text-zinc-950 shadow';
-                tabH.className = 'px-5 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center gap-2 text-zinc-400 hover:text-white';
+                tabD.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow';
+                tabH.className = 'flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition flex items-center justify-center gap-2 text-zinc-400 hover:text-white';
             }
             aplicarFiltros();
         }
