@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor SQL CREATE TABLE a Entidad Java / Hibernate JPA — TDT Studio</title>
+    <meta name="description" content="Convierte cualquier script CREATE TABLE de MySQL, MariaDB o PostgreSQL en una Entidad Java anotada para Hibernate/JPA al instante.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #09090b !important;
+            color: #e4e4e7 !important;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(#27272a 1px, transparent 1px);
+            background-size: 24px 24px;
+            -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 60%, transparent 100%);
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 60%, transparent 100%);
+        }
+        code, pre, textarea, input.font-mono, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        pre::-webkit-scrollbar, textarea::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        pre::-webkit-scrollbar-track, textarea::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        pre::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col bg-[#09090b] relative overflow-x-hidden">
+
+    <!-- LUZ AMBIENTAL Y FONDO -->
+    <div class="pointer-events-none fixed inset-0 bg-grid-pattern z-0"></div>
+    <div class="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 w-[550px] h-[220px] bg-cyan-500/10 blur-[120px] rounded-full z-0"></div>
+
+    <!-- TOPBAR -->
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-xl">
+        <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-3 font-mono text-xs">
+                <a href="../" class="flex items-center gap-2 font-semibold text-white hover:text-emerald-400 transition">
+                    <span class="bg-emerald-500 text-zinc-950 font-bold px-1.5 py-0.5 rounded">TDT</span>
+                    <span>studio.dev</span>
+                </a>
+                <span class="text-zinc-600">/</span>
+                <span class="text-cyan-400">conversor-sql</span>
+            </div>
+
+            <a href="../" class="font-mono text-xs text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg transition">
+                ← Volver al Hub
+            </a>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR 3 COLUMNAS CON LATERALES A-ADS -->
+    <div class="max-w-[1300px] mx-auto px-4 flex-1 w-full relative z-10 flex justify-center gap-6">
+
+        <!-- LATERAL IZQUIERDO: ANUNCIO A-ADS -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-20 h-fit">
+            <div class="w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col items-center justify-center text-center overflow-hidden">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-2">Publicidad</span>
+                <div style="width: 160px; margin: auto; z-index: 99998; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO CENTRAL -->
+        <main class="max-w-5xl flex-1 py-8">
+
+            <div class="mb-6">
+                <div class="flex flex-wrap items-center gap-2 font-mono text-xs mb-2">
+                    <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-0.5 rounded-md font-medium">AD & BBDD</span>
+                    <span class="text-zinc-500">// MySQL • MariaDB • PostgreSQL → Java JPA</span>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Conversor SQL <code class="text-cyan-400 text-xl md:text-2xl">CREATE TABLE</code> a Entidad Java</h1>
+                <p class="text-zinc-400 text-xs sm:text-sm mt-1">
+                    Pega tu sentencia SQL y obtén al instante tu clase Java mapeada con <code class="text-zinc-200">@Entity</code>, <code class="text-zinc-200">@Column</code> y relaciones <code class="text-zinc-200">@ManyToOne</code>.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-6 items-start">
+
+                <!-- COLUMNA IZQUIERDA: ENTRADA SQL -->
+                <div class="lg:col-span-5 bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 space-y-4 shadow-xl">
+                    
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="font-mono text-[11px] uppercase text-zinc-400">Sentencia SQL (CREATE TABLE)</label>
+                            <div class="flex items-center gap-2.5">
+                                <button onclick="cargarSql('simple')" class="font-mono text-[11px] text-cyan-400 hover:underline">Ej. Simple</button>
+                                <button onclick="cargarSql('fk')" class="font-mono text-[11px] text-emerald-400 hover:underline">Ej. Foreign Key</button>
+                                <button onclick="vaciarSql()" class="font-mono text-[11px] text-zinc-500 hover:text-rose-400">Vaciar</button>
+                            </div>
+                        </div>
+                        <textarea id="sqlInput" rows="11" oninput="convertirSqlAJava()" placeholder="Pega aquí tu CREATE TABLE..."
+                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-cyan-500 rounded-xl p-3.5 text-zinc-200 font-mono text-xs focus:outline-none leading-relaxed"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block font-mono text-[11px] uppercase text-zinc-400 mb-1">Paquete Java (Opcional)</label>
+                        <input type="text" id="packageName" value="com.dam.entidades" oninput="convertirSqlAJava()"
+                            class="w-full bg-zinc-950 border border-zinc-800 focus:border-cyan-500 rounded-lg px-3 py-2 text-white font-mono text-xs focus:outline-none">
+                    </div>
+
+                    <!-- OPCIONES -->
+                    <div class="pt-3 border-t border-zinc-800">
+                        <span class="block font-mono text-[11px] uppercase text-zinc-400 mb-2.5">Configuración de Entidad:</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="optJpa" checked onchange="convertirSqlAJava()" class="accent-emerald-500">
+                                <span>Anotaciones <code class="text-emerald-400">@Entity / @Column</code></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="optCamelCase" checked onchange="convertirSqlAJava()" class="accent-emerald-500">
+                                <span>Pasar a <code class="text-cyan-400">camelCase</code></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="optFk" checked onchange="convertirSqlAJava()" class="accent-emerald-500">
+                                <span>Mapear FKs (<code class="text-amber-400">@ManyToOne</code>)</span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700">
+                                <input type="checkbox" id="optSerializable" checked onchange="convertirSqlAJava()" class="accent-emerald-500">
+                                <span><code class="text-zinc-300">Serializable</code></span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg cursor-pointer hover:border-zinc-700 sm:col-span-2">
+                                <input type="checkbox" id="optLombok" onchange="convertirSqlAJava()" class="accent-emerald-500">
+                                <span>Usar <strong>Lombok</strong> (<code class="text-amber-400">@Data @NoArgsConstructor</code> — oculta Get/Set)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- COLUMNA DERECHA: SALIDA JAVA -->
+                <div class="lg:col-span-7 bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col shadow-xl">
+                    <div class="bg-zinc-950 border-b border-zinc-800 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                            <span id="fileNameLabel" class="ml-2 font-mono text-xs text-zinc-300 font-medium">Pedido.java</span>
+                            <span id="badgeCols" class="font-mono text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded">0 atributos</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="descargarJava()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-1.5 rounded-lg border border-zinc-700 transition">
+                                ⬇ Descargar .java
+                            </button>
+                            <button onclick="copiarResultado()" id="btnCopiar" class="font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold px-3.5 py-1.5 rounded-lg transition">
+                                Copiar código
+                            </button>
+                        </div>
+                    </div>
+
+                    <pre id="javaOutput" class="p-5 text-xs text-emerald-300 overflow-x-auto leading-relaxed max-h-[580px] select-all"></pre>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- LATERAL DERECHO: ANUNCIO A-ADS -->
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-20 h-fit">
+            <div class="w-full rounded-2xl border border-zinc-800/60 bg-zinc-900/20 p-2 flex flex-col items-center justify-center text-center overflow-hidden">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-2">Publicidad</span>
+                <div style="width: 160px; margin: auto; z-index: 99998; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <script>
+        const SQL_SIMPLE = `CREATE TABLE alumnos (
+    id_alumno INT AUTO_INCREMENT PRIMARY KEY,
+    dni VARCHAR(9) NOT NULL UNIQUE,
+    nombre_completo VARCHAR(120) NOT NULL,
+    email VARCHAR(100),
+    nota_media DECIMAL(4,2) DEFAULT 5.00,
+    fecha_matricula DATE NOT NULL,
+    activo TINYINT(1) DEFAULT 1
+);`;
+
+        const SQL_FK = `CREATE TABLE pedidos (
+    id_pedido INT AUTO_INCREMENT,
+    codigo_referencia VARCHAR(30) NOT NULL UNIQUE,
+    fecha_pedido DATETIME NOT NULL,
+    total_pagar DECIMAL(10,2) NOT NULL,
+    pagado BOOLEAN DEFAULT FALSE,
+    id_cliente INT NOT NULL,
+    id_empleado INT,
+    PRIMARY KEY (id_pedido),
+    CONSTRAINT fk_pedido_cliente FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
+    FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado)
+);`;
+
+        function snakeToCamel(str) {
+            return str.toLowerCase().replace(/_([a-z0-9])/g, (_, letter) => letter.toUpperCase());
+        }
+
+        function snakeToPascal(str) {
+            const camel = snakeToCamel(str);
+            return camel.charAt(0).toUpperCase() + camel.slice(1);
+        }
+
+        function singularizarNombreClase(tabla) {
+            let clean = tabla.replace(/[`"']/g, '').trim();
+            if (clean.includes('.')) clean = clean.split('.').pop();
+            let pascal = snakeToPascal(clean);
+            if (pascal.endsWith('es') && pascal.length > 4 && !pascal.endsWith('tes')) {
+                return pascal.slice(0, -2);
+            } else if (pascal.endsWith('s') && pascal.length > 3) {
+                return pascal.slice(0, -1);
+            }
+            return pascal;
+        }
+
+        function mapearTipoSqlAJava(sqlType) {
+            const t = sqlType.toUpperCase();
+            if (t.includes('TINYINT(1)') || t.includes('BOOLEAN') || t.includes('BOOL') || t === 'BIT(1)') {
+                return { type: 'boolean', import: null };
+            }
+            if (t.includes('BIGINT') || t.includes('BIGSERIAL')) {
+                return { type: 'Long', import: null };
+            }
+            if (t.includes('INT') || t.includes('SERIAL') || t.includes('YEAR')) {
+                return { type: 'int', import: null };
+            }
+            if (t.includes('DECIMAL') || t.includes('NUMERIC')) {
+                return { type: 'BigDecimal', import: 'import java.math.BigDecimal;' };
+            }
+            if (t.includes('DOUBLE') || t.includes('FLOAT') || t.includes('REAL')) {
+                return { type: 'double', import: null };
+            }
+            if (t.includes('DATETIME') || t.includes('TIMESTAMP')) {
+                return { type: 'LocalDateTime', import: 'import java.time.LocalDateTime;' };
+            }
+            if (t.includes('DATE')) {
+                return { type: 'LocalDate', import: 'import java.time.LocalDate;' };
+            }
+            if (t.includes('TIME')) {
+                return { type: 'LocalTime', import: 'import java.time.LocalTime;' };
+            }
+            if (t.includes('BLOB') || t.includes('BINARY')) {
+                return { type: 'byte[]', import: null };
+            }
+            return { type: 'String', import: null };
+        }
+
+        function convertirSqlAJava() {
+            const rawSql = document.getElementById('sqlInput').value.trim();
+            const packageName = document.getElementById('packageName').value.trim();
+            const useJpa = document.getElementById('optJpa').checked;
+            const useCamel = document.getElementById('optCamelCase').checked;
+            const useFk = document.getElementById('optFk').checked;
+            const useSerializable = document.getElementById('optSerializable').checked;
+            const useLombok = document.getElementById('optLombok').checked;
+
+            if (!rawSql) {
+                document.getElementById('javaOutput').textContent = '// Pega una sentencia CREATE TABLE a la izquierda para generar el código Java...';
+                document.getElementById('badgeCols').textContent = '0 atributos';
+                return;
+            }
+
+            const tableMatch = rawSql.match(/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([`"'a-zA-Z0-9_.]+)/i);
+            const rawTableName = tableMatch ? tableMatch[1].replace(/[`"']/g, '') : 'mi_tabla';
+            const className = singularizarNombreClase(rawTableName);
+            document.getElementById('fileNameLabel').textContent = `${className}.java`;
+
+            const firstParen = rawSql.indexOf('(');
+            const lastParen = rawSql.lastIndexOf(')');
+            const bodySql = (firstParen !== -1 && lastParen > firstParen)
+                ? rawSql.substring(firstParen + 1, lastParen)
+                : rawSql;
+
+            const lines = bodySql.split(/\r?\n/).map(l => l.trim().replace(/,$/, '')).filter(l => l.length > 0 && !l.startsWith('--'));
+
+            const primaryKeys = new Set();
+            const foreignKeys = {};
+
+            lines.forEach(line => {
+                const pkMatch = line.match(/^PRIMARY\s+KEY\s*\(([^)]+)\)/i);
+                if (pkMatch) {
+                    pkMatch[1].split(',').forEach(k => primaryKeys.add(k.replace(/[`"'\s]/g, '').toLowerCase()));
+                }
+                const fkMatch = line.match(/FOREIGN\s+KEY\s*\(([^)]+)\)\s*REFERENCES\s+([`"'a-zA-Z0-9_]+)/i);
+                if (fkMatch) {
+                    const fkCol = fkMatch[1].replace(/[`"'\s]/g, '').toLowerCase();
+                    const refTable = fkMatch[2].replace(/[`"'\s]/g, '');
+                    foreignKeys[fkCol] = refTable;
+                }
+            });
+
+            const fields = [];
+            const imports = new Set();
+            if (useSerializable) imports.add('import java.io.Serializable;');
+            if (useJpa) imports.add('import jakarta.persistence.*;');
+            if (useLombok) {
+                imports.add('import lombok.Data;');
+                imports.add('import lombok.NoArgsConstructor;');
+                imports.add('import lombok.AllArgsConstructor;');
+            }
+
+            lines.forEach(line => {
+                if (/^(PRIMARY|FOREIGN|UNIQUE|KEY|INDEX|CONSTRAINT|CHECK)\b/i.test(line)) return;
+
+                const match = line.match(/^[`"']?([a-zA-Z0-9_]+)[`"']?\s+([a-zA-Z0-9]+(?:\s*\([^)]+\))?)(.*)$/i);
+                if (!match) return;
+
+                const colName = match[1];
+                const colTypeRaw = match[2];
+                const restLine = match[3] || '';
+                const colLower = colName.toLowerCase();
+
+                const isPk = /PRIMARY\s+KEY/i.test(restLine) || primaryKeys.has(colLower);
+                const isAuto = /AUTO_INCREMENT|SERIAL|IDENTITY/i.test(restLine) || /SERIAL/i.test(colTypeRaw);
+                const isNotNull = /NOT\s+NULL/i.test(restLine);
+                const isUnique = /UNIQUE/i.test(restLine);
+
+                const lenMatch = colTypeRaw.match(/VARCHAR\s*\(\s*(\d+)\s*\)/i);
+                const lengthVal = lenMatch ? parseInt(lenMatch[1], 10) : null;
+
+                if (useFk && foreignKeys[colLower]) {
+                    const refTable = foreignKeys[colLower];
+                    const refClass = singularizarNombreClase(refTable);
+                    let propName = colLower.replace(/^id_/, '').replace(/_id$/, '');
+                    propName = useCamel ? snakeToCamel(propName) : propName;
+                    if (!propName || propName === colLower) propName = refClass.charAt(0).toLowerCase() + refClass.slice(1);
+
+                    fields.push({
+                        colName,
+                        fieldName: propName,
+                        javaType: refClass,
+                        isPk: false,
+                        isAuto: false,
+                        isNotNull,
+                        isUnique: false,
+                        lengthVal: null,
+                        isFk: true
+                    });
+                } else {
+                    const mapped = mapearTipoSqlAJava(colTypeRaw);
+                    if (mapped.import) imports.add(mapped.import);
+
+                    fields.push({
+                        colName,
+                        fieldName: useCamel ? snakeToCamel(colName) : colName,
+                        javaType: mapped.type,
+                        isPk,
+                        isAuto,
+                        isNotNull,
+                        isUnique,
+                        lengthVal,
+                        isFk: false
+                    });
+                }
+            });
+
+            document.getElementById('badgeCols').textContent = `${fields.length} atributos`;
+
+            let code = '';
+            if (packageName) code += `package ${packageName};\n\n`;
+            if (imports.size > 0) code += Array.from(imports).sort().join('\n') + '\n\n';
+
+            if (useJpa) {
+                code += `@Entity\n@Table(name = "${rawTableName}")\n`;
+            }
+            if (useLombok) {
+                code += `@Data\n@NoArgsConstructor\n@AllArgsConstructor\n`;
+            }
+
+            const impl = useSerializable ? ' implements Serializable' : '';
+            code += `public class ${className}${impl} {\n\n`;
+
+            fields.forEach(f => {
+                if (useJpa) {
+                    if (f.isPk) {
+                        code += `    @Id\n`;
+                        if (f.isAuto) {
+                            code += `    @GeneratedValue(strategy = GenerationType.IDENTITY)\n`;
+                        }
+                    }
+                    if (f.isFk) {
+                        const nullableAttr = f.isNotNull ? ', nullable = false' : '';
+                        code += `    @ManyToOne(fetch = FetchType.LAZY)\n`;
+                        code += `    @JoinColumn(name = "${f.colName}"${nullableAttr})\n`;
+                    } else {
+                        let colAttrs = [`name = "${f.colName}"`];
+                        if (f.lengthVal) colAttrs.push(`length = ${f.lengthVal}`);
+                        if (f.isNotNull && !f.isPk) colAttrs.push(`nullable = false`);
+                        if (f.isUnique) colAttrs.push(`unique = true`);
+                        code += `    @Column(${colAttrs.join(', ')})\n`;
+                    }
+                }
+                code += `    private ${f.javaType} ${f.fieldName};\n\n`;
+            });
+
+            if (!useLombok) {
+                code += `    public ${className}() {\n    }\n\n`;
+
+                if (fields.length > 0) {
+                    const params = fields.map(f => `${f.javaType} ${f.fieldName}`).join(', ');
+                    code += `    public ${className}(${params}) {\n`;
+                    fields.forEach(f => {
+                        code += `        this.${f.fieldName} = ${f.fieldName};\n`;
+                    });
+                    code += `    }\n\n`;
+                }
+
+                fields.forEach(f => {
+                    const cap = f.fieldName.charAt(0).toUpperCase() + f.fieldName.slice(1);
+                    const prefix = (f.javaType === 'boolean' || f.javaType === 'Boolean') ? 'is' : 'get';
+                    code += `    public ${f.javaType} ${prefix}${cap}() {\n        return ${f.fieldName};\n    }\n\n`;
+                    code += `    public void set${cap}(${f.javaType} ${f.fieldName}) {\n        this.${f.fieldName} = ${f.fieldName};\n    }\n\n`;
+                });
+
+                const strFields = fields.map(f => `"${f.fieldName}=" + ${f.fieldName}`).join(' + ", " + ');
+                code += `    @Override\n    public String toString() {\n`;
+                code += `        return "${className}{" + ${strFields || '""'} + "}";\n    }\n`;
+            }
+
+            code += `}`;
+            document.getElementById('javaOutput').textContent = code;
+        }
+
+        function cargarSql(tipo) {
+            document.getElementById('sqlInput').value = (tipo === 'fk') ? SQL_FK : SQL_SIMPLE;
+            convertirSqlAJava();
+        }
+
+        function vaciarSql() {
+            document.getElementById('sqlInput').value = '';
+            convertirSqlAJava();
+        }
+
+        function copiarResultado() {
+            const code = document.getElementById('javaOutput').textContent;
+            navigator.clipboard.writeText(code);
+            const btn = document.getElementById('btnCopiar');
+            btn.textContent = '¡Copiado! ✓';
+            setTimeout(() => { btn.textContent = 'Copiar código'; }, 1800);
+        }
+
+        function descargarJava() {
+            const code = document.getElementById('javaOutput').textContent;
+            const fileName = document.getElementById('fileNameLabel').textContent;
+            const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        }
+
+        cargarSql('fk');
+    </script>
+</body>
+</html>
