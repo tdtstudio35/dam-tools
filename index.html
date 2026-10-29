@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TDT Studio — Workspace para DAM y DAW</title>
-    <meta name="description" content="Herramientas interactivas, generadores de código y diccionario de snippets para estudiantes de DAM y DAW.">
+    <meta name="description" content="Herramientas interactivas, generadores de código CRUD, conversores SQL/JSON y diccionario de snippets para estudiantes de DAM y DAW.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,7 +73,7 @@
                     <div>
                         <div class="flex items-center gap-1.5">
                             <span class="font-mono font-bold text-white text-sm tracking-tight leading-none">studio<span class="text-emerald-400">.dev</span></span>
-                            <span class="hidden sm:inline-block text-[10px] font-mono bg-zinc-900 text-zinc-400 border border-zinc-800 px-1.5 py-0.5 rounded">v1.4</span>
+                            <span class="hidden sm:inline-block text-[10px] font-mono bg-zinc-900 text-zinc-400 border border-zinc-800 px-1.5 py-0.5 rounded">v1.5</span>
                         </div>
                         <span class="font-mono text-[11px] text-zinc-500 block mt-0.5">DAM & DAW Workspace</span>
                     </div>
@@ -89,7 +89,7 @@
                 <button id="tabHerramientas" onclick="cambiarModo('herramientas')" 
                     class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 bg-emerald-500 text-zinc-950 shadow-sm">
                     <span>🛠️</span> Herramientas
-                    <span class="text-[10px] bg-zinc-950/20 text-zinc-950 font-bold px-1.5 py-0.2 rounded-full">3</span>
+                    <span class="text-[10px] bg-zinc-950/20 text-zinc-950 font-bold px-1.5 py-0.2 rounded-full">4</span>
                 </button>
                 <button id="tabDiccionario" onclick="cambiarModo('diccionario')" 
                     class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-zinc-400 hover:text-white">
@@ -170,12 +170,12 @@
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
-                            <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400 font-semibold">Herramientas Operativas (3)</h2>
+                            <h2 class="font-mono text-xs uppercase tracking-wider text-emerald-400 font-semibold">Herramientas Operativas (4)</h2>
                         </div>
                         <span class="font-mono text-[11px] text-zinc-500 hidden sm:inline">100% en navegador • Sin registro</span>
                     </div>
 
-                    <!-- 1. HERRAMIENTA DESTACADA: GENERADOR JAVA -->
+                    <!-- 1. HERRAMIENTA DESTACADA: GENERADOR JAVA POJO -->
                     <div class="item-filtrable group relative bg-gradient-to-b from-zinc-900/95 to-zinc-900/70 border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl p-5 sm:p-8 shadow-2xl shadow-emerald-950/10 transition-all duration-300 grid md:grid-cols-12 gap-6 lg:gap-8 items-center" data-asignatura="prog ad-bbdd">
                         
                         <div class="md:col-span-7 space-y-4">
@@ -232,10 +232,33 @@
 
                     </div>
 
-                    <!-- GRID CON LAS 2 NUEVAS FUNCIONES ACTIVAS -->
+                    <!-- GRID CON LAS OTRAS HERRAMIENTAS ACTIVAS -->
                     <div class="grid md:grid-cols-2 gap-4 pt-1">
 
-                        <!-- 2. CONVERSOR SQL A ENTIDAD JPA (ACTIVA) -->
+                        <!-- 2. NUEVA HERRAMIENTA: GENERADOR AUTOMÁTICO DE CRUD JAVA + SQL (ACTIVA - SPAN 2 COLS) -->
+                        <a href="./generador-crud/" data-asignatura="prog ad-bbdd" class="item-filtrable md:col-span-2 group bg-gradient-to-r from-zinc-900/95 via-zinc-900/90 to-emerald-950/20 border border-emerald-500/40 hover:border-emerald-400 rounded-2xl p-6 transition-all duration-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg hover:-translate-y-0.5">
+                            <div class="space-y-2 max-w-2xl">
+                                <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
+                                    <span class="bg-emerald-500 text-zinc-950 font-bold px-2 py-0.5 rounded uppercase">🔥 Nuevo</span>
+                                    <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-md font-medium">PROG • AD & BBDD</span>
+                                    <span class="text-zinc-400">• JDBC PreparedStatement + Hibernate + SQL</span>
+                                </div>
+                                <h3 class="text-xl sm:text-2xl font-extrabold text-white group-hover:text-emerald-400 transition">
+                                    Generador Automático de CRUD en Java + Queries SQL
+                                </h3>
+                                <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                                    Pega tu clase normal de Java y te genera el DAO completo con <code class="text-emerald-300">insertar()</code>, <code class="text-emerald-300">findAll()</code>, <code class="text-emerald-300">findById()</code>, <code class="text-emerald-300">searchByNombre()</code>, <code class="text-emerald-300">update()</code> y <code class="text-emerald-300">delete()</code>, incluyendo todas las sentencias SQL y el mapeo de <code class="text-zinc-200">ResultSet</code>.
+                                </p>
+                            </div>
+                            <div class="w-full md:w-auto shrink-0 flex md:flex-col items-center md:items-end justify-between gap-3 border-t md:border-t-0 border-zinc-800/80 pt-3 md:pt-0 font-mono text-xs">
+                                <span class="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md">● Operativa</span>
+                                <span class="bg-zinc-800 group-hover:bg-emerald-500 text-zinc-200 group-hover:text-zinc-950 font-bold px-4 py-2.5 rounded-xl border border-zinc-700 group-hover:border-emerald-400 transition">
+                                    Generar CRUD →
+                                </span>
+                            </div>
+                        </a>
+
+                        <!-- 3. CONVERSOR SQL A ENTIDAD JPA (ACTIVA) -->
                         <a href="./conversor-sql/" data-asignatura="ad-bbdd prog" class="item-filtrable group bg-gradient-to-b from-zinc-900/95 to-zinc-900/75 border border-cyan-500/30 hover:border-emerald-500/60 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between shadow-lg hover:-translate-y-0.5">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
@@ -260,7 +283,7 @@
                             </div>
                         </a>
 
-                        <!-- 3. SUITE JSON: VALIDADOR, FORMATEADOR & CONVERSOR A CLASE (ACTIVA) -->
+                        <!-- 4. SUITE JSON: VALIDADOR, FORMATEADOR & CONVERSOR A CLASE (ACTIVA) -->
                         <a href="./formateador-json/" data-asignatura="di-web ad-bbdd psp prog" class="item-filtrable group bg-gradient-to-b from-zinc-900/95 to-zinc-900/75 border border-amber-500/30 hover:border-emerald-500/60 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between shadow-lg hover:-translate-y-0.5">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
@@ -560,7 +583,6 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
         </div>
     </footer>
 
-    <!-- LÓGICA DE NAVEGACIÓN, FILTROS Y PORTAPAPELES -->
     <script>
         let modoActual = 'herramientas';
         let asignaturaActual = 'todas';
