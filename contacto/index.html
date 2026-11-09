@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Contacto — TDT Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #09090b !important; color: #e4e4e7 !important; font-family: 'Inter', system-ui, sans-serif; overflow-x: clip; width: 100%; }
+        .bg-grid-pattern { background-image: linear-gradient(to right, rgba(39, 39, 42, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(39, 39, 42, 0.35) 1px, transparent 1px); background-size: 32px 32px; -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%); }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .fade-in { animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col bg-[#09090b] relative">
+    <div class="pointer-events-none fixed inset-0 bg-grid-pattern z-0"></div>
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-2xl w-full">
+        <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-3 md:py-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 font-mono text-xs sm:text-sm">
+                <a href="../" class="flex items-center gap-2.5 font-semibold text-white hover:text-emerald-400 transition group">
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400 text-xs shadow-sm group-hover:bg-emerald-500 group-hover:text-zinc-950 transition-all">TDT</span>
+                    <span class="font-extrabold tracking-tight">studio<span class="text-emerald-400">.dev</span></span>
+                </a>
+                <span class="text-zinc-600">/</span>
+                <span class="text-emerald-400 font-medium">contacto</span>
+            </div>
+            <a href="../" class="font-mono text-xs sm:text-sm text-zinc-300 hover:text-white bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 hover:border-emerald-500/40 px-3.5 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5"><span>←</span><span>Volver al Hub</span></a>
+        </div>
+    </header>
+    <main class="max-w-3xl w-full mx-auto flex-1 min-w-0 py-8 sm:py-12 px-3.5 sm:px-4 fade-in">
+        <div class="mb-6 space-y-2">
+            <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider font-semibold">// Contacto</span>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Contacto</h1>
+            <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">¿Tienes dudas, sugerencias o quieres colaborar? Escríbenos.</p>
+        </div>
+        <div class="card-glow bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 sm:p-7 space-y-3 text-sm text-zinc-300">
+            <p>Email: <a href="mailto:tdtstudio35@gmail.com" class="text-emerald-400 hover:underline">tdtstudio35@gmail.com</a></p>
+            <p>GitHub: <a href="https://github.com/tdtstudio35" target="_blank" rel="noopener" class="text-emerald-400 hover:underline">github.com/tdtstudio35</a></p>
+            <p>También puedes usar el <a href="../sugerencias/" class="text-emerald-400 hover:underline">buzón de sugerencias</a>.</p>
+        </div>
+    </main>
+    <footer class="border-t border-zinc-900/90 bg-zinc-950/60 py-6 sm:py-7 text-xs font-mono text-zinc-500 relative z-10 mt-6 sm:mt-8">
+        <div class="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
+            <p>TDT Studio © 2026 — Utilidades creadas para DAM y DAW.</p>
+            <a href="../" class="text-zinc-400 hover:text-emerald-400 transition">← Volver al inicio del workspace</a>
+        </div>
+    </footer>
+</body>
+</html>
