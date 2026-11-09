@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.10.2
+- En móvil, solo el header principal queda fijo; búsqueda y categorías se ocultan al hacer scroll.
+
 ## v1.10.1
 - Reorganizado header: tabs entre título y sugerencias, buscador completo abajo.
 
