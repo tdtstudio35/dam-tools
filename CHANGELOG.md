@@ -1,5 +1,9 @@
 # Changelog — TDT Studio
 
+## v1.7
+- Añadidas 5 nuevas herramientas: conversor de bases, validador regex, generador README, subnetting y pomodoro.
+- Listado de herramientas ampliado y organizado (12 operativas).
+
 ## v1.6.1
 - Conmutador Herramientas/Diccionario centrado y buscador movido a la derecha.
 - Verificación de enlaces y funcionamiento de las 3 nuevas herramientas.

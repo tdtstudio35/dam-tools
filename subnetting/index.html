@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Calculadora de Subnetting IPv4 — TDT Studio</title>
+    <meta name="description" content="Calcula subredes IPv4, máscara, broadcast y rango de hosts a partir de una IP y CIDR.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #09090b !important; color: #e4e4e7 !important; font-family: 'Inter', system-ui, sans-serif; overflow-x: clip; width: 100%; }
+        .bg-grid-pattern { background-image: linear-gradient(to right, rgba(39, 39, 42, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(39, 39, 42, 0.35) 1px, transparent 1px); background-size: 32px 32px; -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%); }
+        code, pre, input, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .fade-in { animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card-glow { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 20px 40px -15px rgba(0, 0, 0, 0.7); }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col bg-[#09090b] relative">
+    <div class="pointer-events-none fixed inset-0 bg-grid-pattern z-0"></div>
+    <div class="pointer-events-none fixed -top-24 left-1/2 -translate-x-1/2 w-full max-w-[850px] h-[320px] bg-emerald-500/10 blur-[140px] rounded-full z-0"></div>
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-2xl w-full">
+        <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-3 md:py-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 font-mono text-xs sm:text-sm">
+                <a href="../" class="flex items-center gap-2.5 font-semibold text-white hover:text-emerald-400 transition group">
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400 text-xs shadow-sm group-hover:bg-emerald-500 group-hover:text-zinc-950 transition-all">TDT</span>
+                    <span class="font-extrabold tracking-tight">studio<span class="text-emerald-400">.dev</span></span>
+                </a>
+                <span class="text-zinc-600">/</span>
+                <span class="text-emerald-400 font-medium">subnetting</span>
+            </div>
+            <a href="../" class="font-mono text-xs sm:text-sm text-zinc-300 hover:text-white bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 hover:border-emerald-500/40 px-3.5 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5"><span>←</span><span>Volver al Hub</span></a>
+        </div>
+    </header>
+    <div class="w-full max-w-5xl mx-auto px-3.5 sm:px-4 pt-4 sm:pt-6 relative z-10">
+        <div class="w-full bg-zinc-900/50 border border-zinc-800/80 rounded-xl sm:rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center overflow-hidden shadow-md">
+            <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">Publicidad</span>
+            <div class="w-full flex justify-center items-center overflow-hidden" style="min-height: 60px; z-index: 10;">
+                <iframe data-aa='2460366' src='//ad.a-ads.com/2460366/?size=Adaptive' class="w-full max-w-[728px] h-[65px] sm:h-[90px]" title='Publicidad' style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-[1400px] mx-auto px-3.5 sm:px-4 flex-1 w-full relative z-10 flex items-start justify-center gap-7 min-w-0">
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-8">
+            <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
+                <div style="width: 160px; margin: auto; z-index: 10; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' title='Publicidad' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+        <main class="max-w-3xl w-full flex-1 min-w-0 py-8 sm:py-10 fade-in">
+            <div class="mb-6 space-y-2">
+                <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider font-semibold">// Utilidad Sistemas</span>
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Calculadora de Subnetting IPv4</h1>
+                <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">Introduce una IP y un prefijo CIDR para obtener la subred.</p>
+            </div>
+            <div class="card-glow bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 sm:p-7 space-y-4">
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <input id="ip" value="192.168.1.0" placeholder="IP (ej: 192.168.1.0)" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-emerald-500/70">
+                    <input id="cidr" value="24" placeholder="CIDR (ej: 24)" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-emerald-500/70">
+                </div>
+                <button onclick="calcular()" class="w-full font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold px-4 py-2.5 rounded-xl transition">Calcular</button>
+                <div id="resultado" class="space-y-2 text-sm font-mono"></div>
+            </div>
+        </main>
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-8">
+            <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
+                <div style="width: 160px; margin: auto; z-index: 10; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' title='Publicidad' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <div class="w-full max-w-5xl mx-auto px-3.5 sm:px-4 pb-4 relative z-10">
+        <div class="w-full bg-zinc-900/40 border border-zinc-800/70 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center overflow-hidden shadow-md">
+            <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">Publicidad</span>
+            <div class="w-full flex justify-center items-center overflow-hidden" style="min-height: 60px; z-index: 10;">
+                <iframe data-aa='2460366' src='//ad.a-ads.com/2460366/?size=Adaptive' class="w-full max-w-[728px] h-[65px] sm:h-[90px]" title='Publicidad' style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
+        </div>
+    </div>
+    <footer class="border-t border-zinc-900/90 bg-zinc-950/60 py-6 sm:py-7 text-xs font-mono text-zinc-500 relative z-10 mt-6 sm:mt-8">
+        <div class="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
+            <p>TDT Studio © 2026 — Utilidades creadas para DAM y DAW.</p>
+            <a href="../" class="text-zinc-400 hover:text-emerald-400 transition">← Volver al inicio del workspace</a>
+        </div>
+    </footer>
+    <script>
+        function ipToInt(ip) {
+            return ip.split('.').reduce((acc, oct) => (acc << 8) + parseInt(oct, 10), 0) >>> 0;
+        }
+        function intToIp(n) {
+            return [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
+        }
+        function calcular() {
+            const ip = document.getElementById('ip').value.trim();
+            const cidr = parseInt(document.getElementById('cidr').value, 10);
+            const out = document.getElementById('resultado');
+            if (!/^\d{1,3}(\.\d{1,3}){3}$/.test(ip) || isNaN(cidr) || cidr < 0 || cidr > 32) {
+                out.innerHTML = '<p class="text-rose-400">IP o CIDR inválido.</p>';
+                return;
+            }
+            const ipInt = ipToInt(ip);
+            const mask = cidr === 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) >>> 0;
+            const network = (ipInt & mask) >>> 0;
+            const broadcast = (network | (~mask >>> 0)) >>> 0;
+            const firstHost = cidr >= 31 ? network : network + 1;
+            const lastHost = cidr >= 31 ? broadcast : broadcast - 1;
+            const hosts = cidr >= 31 ? (cidr === 32 ? 1 : 2) : Math.pow(2, 32 - cidr) - 2;
+            const wildcard = (~mask) >>> 0;
+            const rows = [
+                ['Dirección de red', intToIp(network) + '/' + cidr],
+                ['Máscara de subred', intToIp(mask)],
+                ['Wildcard', intToIp(wildcard)],
+                ['Broadcast', intToIp(broadcast)],
+                ['Primer host', intToIp(firstHost)],
+                ['Último host', intToIp(lastHost)],
+                ['Hosts utilizables', hosts.toLocaleString()],
+            ];
+            out.innerHTML = rows.map(([k, v]) => `<div class="flex justify-between gap-4 border-b border-zinc-800/60 py-1.5"><span class="text-zinc-400">${k}</span><span class="text-emerald-400">${v}</span></div>`).join('');
+        }
+        calcular();
+    </script>
+</body>
+</html>
