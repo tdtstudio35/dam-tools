@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.11.2
+- Enlaces Wuolah/Gumroad añadidos al footer para mayor visibilidad.
+
 ## v1.11.1
 - Seccion "Apoya a los creadores" (Wuolah/Gumroad) siempre visible al final.
 
