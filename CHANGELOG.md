@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.8.3
+- CRUD adaptado a tarjeta estándar (sin "Nuevo"), más compacto y cuadrado.
+
 ## v1.8.2
 - Corregido grid duplicado: tarjetas vuelven a verse cuadradas y compactas.
 
