@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Generador de .gitignore — TDT Studio</title>
+    <meta name="description" content="Genera un .gitignore listo para copiar según tu stack: Java, Maven, Gradle, Node, Python, IDEs y SO.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #09090b !important; color: #e4e4e7 !important; font-family: 'Inter', system-ui, sans-serif; overflow-x: clip; width: 100%; }
+        .bg-grid-pattern { background-image: linear-gradient(to right, rgba(39, 39, 42, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(39, 39, 42, 0.35) 1px, transparent 1px); background-size: 32px 32px; -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse 90% 60% at 50% 15%, #000 55%, transparent 100%); }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .fade-in { animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card-glow { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 20px 40px -15px rgba(0, 0, 0, 0.7); }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col bg-[#09090b] relative">
+    <div class="pointer-events-none fixed inset-0 bg-grid-pattern z-0"></div>
+    <div class="pointer-events-none fixed -top-24 left-1/2 -translate-x-1/2 w-full max-w-[850px] h-[320px] bg-emerald-500/10 blur-[140px] rounded-full z-0"></div>
+
+    <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-2xl w-full">
+        <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-3 md:py-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 font-mono text-xs sm:text-sm">
+                <a href="../" class="flex items-center gap-2.5 font-semibold text-white hover:text-emerald-400 transition group">
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400 text-xs shadow-sm group-hover:bg-emerald-500 group-hover:text-zinc-950 transition-all">TDT</span>
+                    <span class="font-extrabold tracking-tight">studio<span class="text-emerald-400">.dev</span></span>
+                </a>
+                <span class="text-zinc-600">/</span>
+                <span class="text-emerald-400 font-medium">generador-gitignore</span>
+            </div>
+            <a href="../" class="font-mono text-xs sm:text-sm text-zinc-300 hover:text-white bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 hover:border-emerald-500/40 px-3.5 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
+                <span>←</span><span>Volver al Hub</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="w-full max-w-5xl mx-auto px-3.5 sm:px-4 pt-4 sm:pt-6 relative z-10">
+        <div class="w-full bg-zinc-900/50 border border-zinc-800/80 rounded-xl sm:rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center overflow-hidden shadow-md">
+            <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">Publicidad</span>
+            <div class="w-full flex justify-center items-center overflow-hidden" style="min-height: 60px; z-index: 10;">
+                <iframe data-aa='2460366' src='//ad.a-ads.com/2460366/?size=Adaptive' class="w-full max-w-[728px] h-[65px] sm:h-[90px]" title='Publicidad' style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-[1400px] mx-auto px-3.5 sm:px-4 flex-1 w-full relative z-10 flex items-start justify-center gap-7 min-w-0">
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-8">
+            <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
+                <div style="width: 160px; margin: auto; z-index: 10; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' title='Publicidad' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+
+        <main class="max-w-3xl w-full flex-1 min-w-0 py-8 sm:py-10 fade-in">
+            <div class="mb-6 space-y-2">
+                <span class="font-mono text-xs text-emerald-400 uppercase tracking-wider font-semibold">// Utilidad Git</span>
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Generador de .gitignore</h1>
+                <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">Marca tu stack y genera un .gitignore listo para copiar.</p>
+            </div>
+
+            <div class="card-glow bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 sm:p-7 space-y-5">
+                <div class="grid sm:grid-cols-2 gap-2 font-mono text-xs">
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="java" class="accent-emerald-500"> Java</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="maven" class="accent-emerald-500"> Maven</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="gradle" class="accent-emerald-500"> Gradle</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="node" class="accent-emerald-500"> Node.js</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="python" class="accent-emerald-500"> Python</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="vscode" class="accent-emerald-500"> VS Code</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="intellij" class="accent-emerald-500"> IntelliJ IDEA</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="eclipse" class="accent-emerald-500"> Eclipse</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="macos" class="accent-emerald-500"> macOS</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="windows" class="accent-emerald-500"> Windows</label>
+                    <label class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2"><input type="checkbox" value="linux" class="accent-emerald-500"> Linux</label>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="generar()" class="font-mono text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold px-4 py-2.5 rounded-xl transition">Generar .gitignore</button>
+                    <button onclick="copiar()" class="font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-4 py-2.5 rounded-xl border border-zinc-700 transition">Copiar</button>
+                </div>
+                <pre id="output" class="bg-zinc-950 border border-zinc-800 rounded-xl p-3.5 text-xs text-zinc-200 overflow-x-auto leading-relaxed min-h-[200px]"></pre>
+            </div>
+        </main>
+
+        <aside class="hidden xl:flex flex-col items-center shrink-0 w-[160px] sticky top-36 self-start h-fit mt-8">
+            <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
+                <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
+                <div style="width: 160px; margin: auto; z-index: 10; height: auto">
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' title='Publicidad' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="w-full max-w-5xl mx-auto px-3.5 sm:px-4 pb-4 relative z-10">
+        <div class="w-full bg-zinc-900/40 border border-zinc-800/70 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center overflow-hidden shadow-md">
+            <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">Publicidad</span>
+            <div class="w-full flex justify-center items-center overflow-hidden" style="min-height: 60px; z-index: 10;">
+                <iframe data-aa='2460366' src='//ad.a-ads.com/2460366/?size=Adaptive' class="w-full max-w-[728px] h-[65px] sm:h-[90px]" title='Publicidad' style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-zinc-900/90 bg-zinc-950/60 py-6 sm:py-7 text-xs font-mono text-zinc-500 relative z-10 mt-6 sm:mt-8">
+        <div class="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
+            <p>TDT Studio © 2026 — Utilidades creadas para DAM y DAW.</p>
+            <a href="../" class="text-zinc-400 hover:text-emerald-400 transition">← Volver al inicio del workspace</a>
+        </div>
+    </footer>
+
+    <script>
+        const TEMPLATES = {
+            java: `# Java\n*.class\n*.jar\n*.war\n*.ear\n`,
+            maven: `# Maven\ntarget/\npom.xml.tag\npom.xml.releaseBackup\npom.xml.versionsBackup\npom.xml.next\nrelease.properties\n`,
+            gradle: `# Gradle\n.gradle/\nbuild/\n!gradle/wrapper/gradle-wrapper.jar\n`,
+            node: `# Node\nnode_modules/\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\n`,
+            python: `# Python\n__pycache__/\n*.py[cod]\n*.egg-info/\n.venv/\nvenv/\n`,
+            vscode: `# VS Code\n.vscode/\n`,
+            intellij: `# IntelliJ\n.idea/\n*.iml\n*.iws\n`,
+            eclipse: `# Eclipse\n.project\n.classpath\n.settings/\n`,
+            macos: `# macOS\n.DS_Store\n`,
+            windows: `# Windows\nThumbs.db\nDesktop.ini\n`,
+            linux: `# Linux\n*~\n`
+        };
+        function generar() {
+            const checks = document.querySelectorAll('input[type="checkbox"]:checked');
+            let out = '';
+            checks.forEach(c => { if (TEMPLATES[c.value]) out += TEMPLATES[c.value] + '\n'; });
+            if (!out) out = '# Selecciona al menos una opción\n';
+            document.getElementById('output').textContent = out.trim() + '\n';
+        }
+        function copiar() {
+            navigator.clipboard.writeText(document.getElementById('output').textContent);
+        }
+        generar();
+    </script>
+</body>
+</html>
