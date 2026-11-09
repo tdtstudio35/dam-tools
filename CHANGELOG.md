@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.8.2
+- Corregido grid duplicado: tarjetas vuelven a verse cuadradas y compactas.
+
 ## v1.8.1
 - Generador Java y CRUD ahora ocupan una sola columna como el resto.
 - Scrollbar de categorías oculta por defecto y visible al interactuar; flechas centradas.
