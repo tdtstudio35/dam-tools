@@ -115,7 +115,7 @@
                                 studio<span class="text-emerald-400">.dev</span>
                             </span>
                             <span class="text-[10px] sm:text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 sm:px-2 py-0.5 rounded-md shrink-0">
-                                v1.9
+                                v1.10
                             </span>
                         </div>
                         <span class="font-mono text-[10px] sm:text-xs md:text-sm text-zinc-400 block mt-0.5 md:mt-1 truncate">
@@ -143,20 +143,25 @@
                     class="w-full md:w-auto px-2.5 sm:px-4 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl font-mono text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/60">
                     <span class="text-sm sm:text-base">📚</span>
                     <span class="truncate">Diccionario</span>
-                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-white font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">30</span>
+                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-white font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">60</span>
                 </button>
             </div>
 
             <!-- COLUMNA DERECHA: BUSCADOR + SUGERENCIAS -->
             <div class="w-full md:w-auto justify-self-end flex items-center justify-end gap-2.5">
                 <!-- BUSCADOR EN EL BANNER SUPERIOR -->
-                <div class="relative w-full md:w-72 lg:w-80 shrink-0">
-                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                    <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Buscar herramienta o snippet... (/)"
-                        class="w-full bg-zinc-900/95 border border-zinc-800 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/15 rounded-xl pl-9 sm:pl-10 pr-8 sm:pr-10 py-1.5 md:py-2 text-xs sm:text-sm font-mono text-white placeholder-zinc-500 focus:outline-none transition-all">
-                    <kbd id="kbdSlash" class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-0.5 rounded-md hidden sm:inline">/</kbd>
+                <div class="relative w-full md:w-72 lg:w-80 shrink-0 flex items-center justify-end">
+                    <button id="btnLupa" onclick="toggleBuscador()" class="md:hidden w-10 h-10 rounded-xl bg-zinc-900/95 border border-zinc-800 flex items-center justify-center text-zinc-300 hover:text-emerald-400 transition" aria-label="Buscar">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </button>
+                    <div id="buscadorWrap" class="hidden md:block w-full relative">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Buscar herramienta o snippet... (/)"
+                            class="w-full bg-zinc-900/95 border border-zinc-800 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/15 rounded-xl pl-9 sm:pl-10 pr-8 sm:pr-10 py-1.5 md:py-2 text-xs sm:text-sm font-mono text-white placeholder-zinc-500 focus:outline-none transition-all">
+                        <kbd id="kbdSlash" class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-0.5 rounded-md hidden sm:inline">/</kbd>
+                    </div>
                 </div>
 
                 <a href="./sugerencias/" class="hidden md:flex shrink-0 font-mono text-xs sm:text-sm font-medium bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-emerald-400 border border-zinc-800 hover:border-emerald-500/40 px-4 py-2.5 rounded-2xl transition-all duration-200 items-center gap-2.5 shadow-sm">
@@ -1275,6 +1280,545 @@ git add .
 git commit -m "feat: nueva funcionalidad"
 git push origin main
                 </div>
+                    <!-- Snippet dic31 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Spring</span>
+                                <button onclick="copiarSnippet('dic31', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Controlador REST Spring Boot</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Controlador con GET/POST y Response.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Controller.java</span><span>Java</span></div>
+                            <pre id="dic31" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">@RestController
+@RequestMapping("/api/alumnos")
+public class AlumnoController {
+    @GetMapping
+    public List&lt;Alumno&gt; listar() { return service.findAll(); }
+    @PostMapping
+    public ResponseEntity&lt;Alumno&gt; crear(@RequestBody Alumno a) {
+        return ResponseEntity.ok(service.save(a));
+    }
+}</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic32 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Spring</span>
+                                <button onclick="copiarSnippet('dic32', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">application.properties (Spring Boot)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Configuración típica de BD y JPA.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>application.properties</span><span>Properties</span></div>
+                            <pre id="dic32" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">spring.datasource.url=jdbc:mysql://localhost:3306/mi_bd
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=8080</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic33 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Spring</span>
+                                <button onclick="copiarSnippet('dic33', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Servicio con @Service</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Capa de servicio con inyección.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Service.java</span><span>Java</span></div>
+                            <pre id="dic33" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">@Service
+public class AlumnoService {
+    @Autowired
+    private AlumnoRepository repo;
+    public List&lt;Alumno&gt; findAll() { return repo.findAll(); }
+    public Alumno save(Alumno a) { return repo.save(a); }
+}</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic34 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Spring</span>
+                                <button onclick="copiarSnippet('dic34', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Repositorio JPA</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Interfaz JpaRepository.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Repository.java</span><span>Java</span></div>
+                            <pre id="dic34" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">public interface AlumnoRepository extends JpaRepository&lt;Alumno, Long&gt; {
+    List&lt;Alumno&gt; findByNombreContaining(String nombre);
+    Optional&lt;Alumno&gt; findByEmail(String email);
+}</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic35 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Seguridad</span>
+                                <button onclick="copiarSnippet('dic35', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Hash de contraseña con BCrypt</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Encriptar y verificar contraseñas.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>BCrypt.java</span><span>Java</span></div>
+                            <pre id="dic35" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
+String hash = enc.encode("miPassword");
+boolean ok = enc.matches("miPassword", hash);</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic36 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • JWT</span>
+                                <button onclick="copiarSnippet('dic36', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Generar token JWT</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Crear token con claims.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Jwt.java</span><span>Java</span></div>
+                            <pre id="dic36" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">String token = Jwts.builder()
+    .setSubject(user)
+    .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+    .signWith(key, SignatureAlgorithm.HS256)
+    .compact();</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic37 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Testing</span>
+                                <button onclick="copiarSnippet('dic37', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Test JUnit 5 básico</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Anotaciones y aserciones.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Test.java</span><span>Java</span></div>
+                            <pre id="dic37" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">@Test
+void suma() {
+    assertEquals(4, 2 + 2);
+}
+@BeforeEach
+void setup() { /* init */ }</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic38 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Testing</span>
+                                <button onclick="copiarSnippet('dic38', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Mock con Mockito</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Mockear dependencias.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Mockito.java</span><span>Java</span></div>
+                            <pre id="dic38" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">@Mock AlumnoRepository repo;
+@InjectMocks AlumnoService service;
+when(repo.findAll()).thenReturn(List.of(new Alumno()));
+verify(repo).findAll();</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic39 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • SQL</span>
+                                <button onclick="copiarSnippet('dic39', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Window functions</h3>
+                            <p class="text-xs text-zinc-400 mb-3">ROW_NUMBER, RANK, etc.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>window.sql</span><span>SQL</span></div>
+                            <pre id="dic39" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">SELECT nombre, nota,
+  ROW_NUMBER() OVER (ORDER BY nota DESC) AS pos
+FROM alumnos;</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic40 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • SQL</span>
+                                <button onclick="copiarSnippet('dic40', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">CTE (WITH)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Consultas con expresiones comunes.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>cte.sql</span><span>SQL</span></div>
+                            <pre id="dic40" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">WITH top AS (
+  SELECT * FROM alumnos WHERE nota &gt;= 9
+)
+SELECT * FROM top ORDER BY nombre;</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic41 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • Postgres</span>
+                                <button onclick="copiarSnippet('dic41', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Upsert (INSERT ... ON CONFLICT)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Insertar o actualizar.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>upsert.sql</span><span>SQL</span></div>
+                            <pre id="dic41" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">INSERT INTO alumnos (id, nombre) VALUES (1, 'Ana')
+ON CONFLICT (id) DO UPDATE SET nombre = EXCLUDED.nombre;</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic42 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • React</span>
+                                <button onclick="copiarSnippet('dic42', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">useState y useEffect</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Estado y efectos en React.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>App.jsx</span><span>JSX</span></div>
+                            <pre id="dic42" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">const [count, setCount] = useState(0);
+useEffect(() =&gt; {
+  document.title = `Clicks: ${count}`;
+}, [count]);</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic43 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • React</span>
+                                <button onclick="copiarSnippet('dic43', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Fetch en React</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Cargar datos con useEffect.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Fetch.jsx</span><span>JSX</span></div>
+                            <pre id="dic43" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">useEffect(() =&gt; {
+  fetch('/api/alumnos').then(r=&gt;r.json()).then(setData);
+}, []);</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic44 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • Angular</span>
+                                <button onclick="copiarSnippet('dic44', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Componente Angular</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Componente con @Component.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>comp.ts</span><span>TypeScript</span></div>
+                            <pre id="dic44" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">@Component({
+  selector: 'app-alumno',
+  template: `&lt;h1&gt;{{nombre}}&lt;/h1&gt;`
+})
+export class AlumnoComponent {
+  nombre = 'Ana';
+}</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic45 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • Angular</span>
+                                <button onclick="copiarSnippet('dic45', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Servicio Angular con HttpClient</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Servicio para consumir API.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>service.ts</span><span>TypeScript</span></div>
+                            <pre id="dic45" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">@Injectable({ providedIn: 'root' })
+export class AlumnoService {
+  constructor(private http: HttpClient) {}
+  listar() { return this.http.get&lt;Alumno[]&gt;('/api/alumnos'); }
+}</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic46 -->
+                    <div data-asignatura="sistemas" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-sky-400 bg-sky-950/60 border-sky-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐳 Sistemas • Compose</span>
+                                <button onclick="copiarSnippet('dic46', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">docker-compose multi-servicio</h3>
+                            <p class="text-xs text-zinc-400 mb-3">App + MySQL + phpMyAdmin.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>docker-compose.yml</span><span>YAML</span></div>
+                            <pre id="dic46" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">services:
+  app:
+    build: .
+    ports: ["8080:8080"]
+    depends_on: [db]
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mi_bd
+  pma:
+    image: phpmyadmin
+    ports: ["8081:80"]</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic47 -->
+                    <div data-asignatura="sistemas" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-sky-400 bg-sky-950/60 border-sky-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐳 Sistemas • K8s</span>
+                                <button onclick="copiarSnippet('dic47', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Deployment Kubernetes</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Despliegue básico de pod.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>deploy.yaml</span><span>YAML</span></div>
+                            <pre id="dic47" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">apiVersion: apps/v1
+kind: Deployment
+metadata: { name: mi-app }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: mi-app } }
+  template:
+    metadata: { labels: { app: mi-app } }
+    spec:
+      containers:
+      - name: mi-app
+        image: mi-app:latest
+        ports: [{ containerPort: 8080 }]</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic48 -->
+                    <div data-asignatura="sistemas" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-sky-400 bg-sky-950/60 border-sky-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐳 Sistemas • Linux</span>
+                                <button onclick="copiarSnippet('dic48', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Servicio systemd</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Unit file para arrancar app.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>app.service</span><span>INI</span></div>
+                            <pre id="dic48" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">[Unit]
+Description=Mi App
+After=network.target
+[Service]
+ExecStart=/usr/bin/java -jar /opt/app.jar
+Restart=always
+[Install]
+WantedBy=multi-user.target</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic49 -->
+                    <div data-asignatura="sistemas" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-sky-400 bg-sky-950/60 border-sky-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐳 Sistemas • Cron</span>
+                                <button onclick="copiarSnippet('dic49', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Tarea cron diaria</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Programar ejecución.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>crontab</span><span>Shell</span></div>
+                            <pre id="dic49" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">0 3 * * * /usr/bin/backup.sh &gt;&gt; /var/log/backup.log 2&gt;&amp;1</pre>
+                        </div>
+                    </div>                    <!-- Snippet git -->
+                    <div data-asignatura="git" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐙 Git • Avanzado</span>
+                                <button onclick="copiarSnippet('git', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Rebase interactivo</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Reescribir historial.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>git</span><span>Shell</span></div>
+                            <pre id="git" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">git rebase -i HEAD~3</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic50 -->
+                    <div data-asignatura="git" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐙 Git • Avanzado</span>
+                                <button onclick="copiarSnippet('dic50', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Cherry-pick</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Aplicar commit de otra rama.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>git</span><span>Shell</span></div>
+                            <pre id="dic50" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">git cherry-pick &lt;commit-hash&gt;</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic52 -->
+                    <div data-asignatura="git" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐙 Git • Avanzado</span>
+                                <button onclick="copiarSnippet('dic52', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Stash (guardar cambios)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Guardar y recuperar cambios.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>git</span><span>Shell</span></div>
+                            <pre id="dic52" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">git stash
+git stash pop</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic53 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Maven</span>
+                                <button onclick="copiarSnippet('dic53', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Dependencias Spring Boot (pom)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Starter web + jpa + mysql.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>pom.xml</span><span>XML</span></div>
+                            <pre id="dic53" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic54 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Gradle</span>
+                                <button onclick="copiarSnippet('dic54', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">build.gradle (Spring Boot)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Configuración Gradle.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>build.gradle</span><span>Groovy</span></div>
+                            <pre id="dic54" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">plugins { id 'java'; id 'org.springframework.boot' version '3.3.0' }
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  runtimeOnly 'com.mysql:mysql-connector-j'
+}</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic55 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • TypeScript</span>
+                                <button onclick="copiarSnippet('dic55', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Interface y genéricos</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Tipado avanzado.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>types.ts</span><span>TypeScript</span></div>
+                            <pre id="dic55" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">interface Repository&lt;T&gt; {
+  findById(id: number): Promise&lt;T | null&gt;;
+  save(entity: T): Promise&lt;T&gt;;
+}</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic56 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • CSS</span>
+                                <button onclick="copiarSnippet('dic56', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Media queries responsive</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Breakpoints típicos.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>responsive.css</span><span>CSS</span></div>
+                            <pre id="dic56" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">@media (max-width: 768px) {
+  .container { padding: 1rem; }
+  .grid { grid-template-columns: 1fr; }
+}</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic57 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Regex</span>
+                                <button onclick="copiarSnippet('dic57', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Regex email y teléfono</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Patrones comunes.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>regex.txt</span><span>Regex</span></div>
+                            <pre id="dic57" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">Email: ^[\w.-]+@[\w.-]+\.\w{2,}$
+Teléfono ES: ^(\+34)?[6789]\d{8}$</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic58 -->
+                    <div data-asignatura="general" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-violet-400 bg-violet-950/60 border-violet-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">📊 General • IntelliJ</span>
+                                <button onclick="copiarSnippet('dic58', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Atajos IntelliJ IDEA</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Shortcuts útiles.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>shortcuts.txt</span><span>Text</span></div>
+                            <pre id="dic58" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">Ctrl+Shift+F: buscar en todo el proyecto
+Ctrl+Alt+L: formatear código
+Ctrl+D: duplicar línea
+Ctrl+/: comentar línea
+Shift+F6: renombrar</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic59 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • JSON</span>
+                                <button onclick="copiarSnippet('dic59', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Parsear JSON en Java (Jackson)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Leer JSON a objeto.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Json.java</span><span>Java</span></div>
+                            <pre id="dic59" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">ObjectMapper mapper = new ObjectMapper();
+Alumno a = mapper.readValue(jsonString, Alumno.class);
+String json = mapper.writeValueAsString(a);</pre>
+                        </div>
+                    </div>                    <!-- Snippet dic60 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • Redis</span>
+                                <button onclick="copiarSnippet('dic60', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Conexión Redis (Jedis)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Cliente Redis básico.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Redis.java</span><span>Java</span></div>
+                            <pre id="dic60" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">Jedis jedis = new Jedis("localhost", 6379);
+jedis.set("clave", "valor");
+String v = jedis.get("clave");
+jedis.close();</pre>
+                        </div>
+                    </div>
             </div>
 
             <!-- ESTADO VACÍO -->
@@ -1350,6 +1894,19 @@ git push origin main
         let asignaturaActual = 'todas';
         let vistaHerramientasModo = 'tarjetas';
 
+        function toggleBuscador() {
+            const wrap = document.getElementById('buscadorWrap');
+            const btn = document.getElementById('btnLupa');
+            if (wrap.classList.contains('hidden')) {
+                wrap.classList.remove('hidden');
+                btn.classList.add('hidden');
+                document.getElementById('inputBuscador').focus();
+            } else {
+                wrap.classList.add('hidden');
+                btn.classList.remove('hidden');
+            }
+        }
+
         function cambiarVista(modo) {
             vistaHerramientasModo = modo;
             const grid = document.getElementById('gridTarjetas');
@@ -1410,6 +1967,8 @@ git push origin main
             const buscador = document.getElementById('inputBuscador');
             if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
                 e.preventDefault();
+                const wrap = document.getElementById('buscadorWrap');
+                if (wrap.classList.contains('hidden')) toggleBuscador();
                 buscador.focus();
             } else if (e.key === 'Escape' && document.activeElement === buscador) {
                 buscador.value = '';
