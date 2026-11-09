@@ -1,5 +1,10 @@
 # Changelog — TDT Studio
 
+## v1.8.1
+- Generador Java y CRUD ahora ocupan una sola columna como el resto.
+- Scrollbar de categorías oculta por defecto y visible al interactuar; flechas centradas.
+- Viewport con zoom mínimo 1 y min-width para evitar vista demasiado pequeña.
+
 ## v1.8
 - Añadida vista lista compacta y botón de cambio tarjetas/lista (verde activo, rojo inactivo).
 - Categorías únicas por herramienta y barra de categorías con scroll horizontal y flechas.
