@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.11
+- Añadidas páginas legales (privacidad, términos, contacto) y placeholder de foro con Supabase.
+
 ## v1.10.3
 - Barra de categorias centrada con safe center (Firefox fix).
 - Recursos Wuolah/Gumroad renombrados a Apoya a los creadores y siempre visibles al final.
