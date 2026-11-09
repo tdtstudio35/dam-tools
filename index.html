@@ -115,7 +115,7 @@
                                 studio<span class="text-emerald-400">.dev</span>
                             </span>
                             <span class="text-[10px] sm:text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 sm:px-2 py-0.5 rounded-md shrink-0">
-                                v1.8.4
+                                v1.9
                             </span>
                         </div>
                         <span class="font-mono text-[10px] sm:text-xs md:text-sm text-zinc-400 block mt-0.5 md:mt-1 truncate">
@@ -143,7 +143,7 @@
                     class="w-full md:w-auto px-2.5 sm:px-4 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl font-mono text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/60">
                     <span class="text-sm sm:text-base">📚</span>
                     <span class="truncate">Diccionario</span>
-                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-white font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">6</span>
+                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-white font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">30</span>
                 </button>
             </div>
 
@@ -839,6 +839,441 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
 }</pre>
                         </div>
                     </div>
+                    <!-- Snippet 7 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • Hibernate</span>
+                                <button onclick="copiarSnippet('dic7', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">HibernateUtil (SessionFactory)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Clase utilitaria para obtener SessionFactory desde hibernate.cfg.xml.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>HibernateUtil.java</span><span>Java</span></div>
+                            <pre id="dic7" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">public class HibernateUtil {
+    private static final SessionFactory sessionFactory = buildSessionFactory();
+    private static SessionFactory buildSessionFactory() {
+        try {
+            return new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+    public static SessionFactory getSessionFactory() { return sessionFactory; }
+}</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 8 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • JPA</span>
+                                <button onclick="copiarSnippet('dic8', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">CRUD con EntityManager (JPA)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Patrón básico para persistir, buscar, actualizar y eliminar entidades.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Dao.java</span><span>Java</span></div>
+                            <pre id="dic8" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">EntityManagerFactory emf = Persistence.createEntityManagerFactory("miPU");
+EntityManager em = emf.createEntityManager();
+em.getTransaction().begin();
+em.persist(entidad);
+em.getTransaction().commit();
+// buscar: em.find(Entidad.class, id);
+// actualizar: em.merge(entidad);
+// borrar: em.remove(em.find(Entidad.class, id));</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 9 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • JPQL</span>
+                                <button onclick="copiarSnippet('dic9', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Consulta JPQL con parámetros</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Evita inyección usando parámetros nombrados.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Consulta.java</span><span>Java</span></div>
+                            <pre id="dic9" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">TypedQuery<Alumno> q = em.createQuery(
+    "SELECT a FROM Alumno a WHERE a.nombre = :nom", Alumno.class);
+q.setParameter("nom", "Ana");
+List<Alumno> res = q.getResultList();</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 10 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • JDBC</span>
+                                <button onclick="copiarSnippet('dic10', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Transacción JDBC con commit/rollback</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Patrón seguro para operaciones atómicas.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Tx.java</span><span>Java</span></div>
+                            <pre id="dic10" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">con.setAutoCommit(false);
+try (PreparedStatement ps = con.prepareStatement(sql)) {
+    ps.executeUpdate();
+    con.commit();
+} catch (SQLException e) {
+    con.rollback();
+    throw e;
+} finally { con.setAutoCommit(true); }</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 11 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • HikariCP</span>
+                                <button onclick="copiarSnippet('dic11', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Pool de conexiones HikariCP</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Configuración básica para pool de conexiones.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Hikari.java</span><span>Java</span></div>
+                            <pre id="dic11" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">HikariConfig cfg = new HikariConfig();
+cfg.setJdbcUrl("jdbc:mysql://localhost:3306/mi_bd");
+cfg.setUsername("root"); cfg.setPassword("");
+cfg.setMaximumPoolSize(10);
+HikariDataSource ds = new HikariDataSource(cfg);</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 12 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • SQL</span>
+                                <button onclick="copiarSnippet('dic12', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Índices y claves (SQL)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Crear índice y clave foránea típica.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>indices.sql</span><span>SQL</span></div>
+                            <pre id="dic12" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">CREATE INDEX idx_alumno_nombre ON alumnos(nombre);
+ALTER TABLE notas
+  ADD CONSTRAINT fk_notas_alumno
+  FOREIGN KEY (alumno_id) REFERENCES alumnos(id);</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 13 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Streams</span>
+                                <button onclick="copiarSnippet('dic13', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Java Streams: filter, map, collect</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Pipeline típico para transformar listas.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Streams.java</span><span>Java</span></div>
+                            <pre id="dic13" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">List<String> nombres = alumnos.stream()
+    .filter(a -> a.getNota() >= 5)
+    .map(Alumno::getNombre)
+    .sorted()
+    .collect(Collectors.toList());</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 14 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Optional</span>
+                                <button onclick="copiarSnippet('dic14', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Uso de Optional</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Evita NullPointerException con orElse / ifPresent.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Optional.java</span><span>Java</span></div>
+                            <pre id="dic14" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">Optional<Alumno> opt = repo.findById(id);
+opt.ifPresent(a -> System.out.println(a.getNombre()));
+String nombre = opt.map(Alumno::getNombre).orElse("Anónimo");</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 15 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Ficheros</span>
+                                <button onclick="copiarSnippet('dic15', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Lectura de fichero (Files)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Leer todas las líneas con java.nio.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Lectura.java</span><span>Java</span></div>
+                            <pre id="dic15" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">List<String> lineas = Files.readAllLines(Path.of("datos.txt"), StandardCharsets.UTF_8);
+for (String l : lineas) System.out.println(l);</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 16 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Ficheros</span>
+                                <button onclick="copiarSnippet('dic16', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Escritura de fichero</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Escribir texto a un archivo.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Escritura.java</span><span>Java</span></div>
+                            <pre id="dic16" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">Files.writeString(Path.of("salida.txt"), "Hola mundo", StandardCharsets.UTF_8);</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 17 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Collections</span>
+                                <button onclick="copiarSnippet('dic17', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Iterar un HashMap</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Recorrer claves y valores.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Map.java</span><span>Java</span></div>
+                            <pre id="dic17" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">for (Map.Entry<String,Integer> e : mapa.entrySet()) {
+    System.out.println(e.getKey() + " => " + e.getValue());
+}</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 18 -->
+                    <div data-asignatura="prog" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">☕ PROG • Excepciones</span>
+                                <button onclick="copiarSnippet('dic18', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Excepción personalizada</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Crear y lanzar una excepción propia.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Excepcion.java</span><span>Java</span></div>
+                            <pre id="dic18" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">public class MiExcepcion extends RuntimeException {
+    public MiExcepcion(String msg) { super(msg); }
+}
+throw new MiExcepcion("Error de validación");</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 19 -->
+                    <div data-asignatura="psp" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">⚙️ PSP • Concurrencia</span>
+                                <button onclick="copiarSnippet('dic19', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">ExecutorService + Callable</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Pool de hilos y tareas con resultado.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Executor.java</span><span>Java</span></div>
+                            <pre id="dic19" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">ExecutorService pool = Executors.newFixedThreadPool(4);
+Callable<Integer> tarea = () -> 42;
+Future<Integer> f = pool.submit(tarea);
+System.out.println(f.get());
+pool.shutdown();</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 20 -->
+                    <div data-asignatura="psp" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">⚙️ PSP • Concurrencia</span>
+                                <button onclick="copiarSnippet('dic20', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Productor-Consumidor (BlockingQueue)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Patrón clásico con cola bloqueante.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>ProdCons.java</span><span>Java</span></div>
+                            <pre id="dic20" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">BlockingQueue<Integer> q = new LinkedBlockingQueue<>(10);
+// productor: q.put(valor);
+// consumidor: int v = q.take();</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 21 -->
+                    <div data-asignatura="psp" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">⚙️ PSP • Sockets</span>
+                                <button onclick="copiarSnippet('dic21', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Socket cliente/servidor (TCP)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Esqueleto básico de conexión.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Sockets.java</span><span>Java</span></div>
+                            <pre id="dic21" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">// Servidor
+ServerSocket ss = new ServerSocket(5000);
+Socket s = ss.accept();
+// Cliente
+Socket c = new Socket("localhost", 5000);</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 22 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • Fetch</span>
+                                <button onclick="copiarSnippet('dic22', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">fetch con headers y manejo de errores</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Petición completa a una API REST.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>api.js</span><span>JavaScript</span></div>
+                            <pre id="dic22" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">const res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + token } });
+if (!res.ok) throw new Error(res.status);
+const data = await res.json();</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 23 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • Storage</span>
+                                <button onclick="copiarSnippet('dic23', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">localStorage CRUD</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Guardar y leer datos en el navegador.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>storage.js</span><span>JavaScript</span></div>
+                            <pre id="dic23" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">localStorage.setItem('user', JSON.stringify(obj));
+const user = JSON.parse(localStorage.getItem('user') || 'null');
+localStorage.removeItem('user');</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 24 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • CSS</span>
+                                <button onclick="copiarSnippet('dic24', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">CSS Grid layout básico</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Plantilla de grid responsive.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>grid.css</span><span>CSS</span></div>
+                            <pre id="dic24" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 25 -->
+                    <div data-asignatura="sistemas" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐳 Sistemas • Docker</span>
+                                <button onclick="copiarSnippet('dic25', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Dockerfile para app Java (Maven)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Build multi-stage para Spring Boot.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Dockerfile</span><span>Docker</span></div>
+                            <pre id="dic25" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">FROM maven:3.9-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn -q -DskipTests package
+FROM eclipse-temurin:17-jre
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 26 -->
+                    <div data-asignatura="sistemas" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐳 Sistemas • Linux</span>
+                                <button onclick="copiarSnippet('dic26', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Comandos Linux básicos</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Navegación y gestión de archivos.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>bash</span><span>Shell</span></div>
+                            <pre id="dic26" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">ls -la
+cd /var/log
+cat application.log
+grep -i error application.log
+tail -f application.log</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 27 -->
+                    <div data-asignatura="sistemas" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🐳 Sistemas • SSH</span>
+                                <button onclick="copiarSnippet('dic27', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Generar clave SSH y copiarla</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Para acceso sin contraseña a servidores.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>ssh</span><span>Shell</span></div>
+                            <pre id="dic27" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">ssh-keygen -t ed25519 -C "tu@email.com"
+ssh-copy-id user@servidor
+ssh user@servidor</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 28 -->
+                    <div data-asignatura="ad-bbdd" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🗄️ AD & BBDD • MongoDB</span>
+                                <button onclick="copiarSnippet('dic28', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Conexión MongoDB (Java driver)</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Conectar y obtener colección.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>Mongo.java</span><span>Java</span></div>
+                            <pre id="dic28" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">MongoClient client = MongoClients.create("mongodb://localhost:27017");
+MongoDatabase db = client.getDatabase("mi_bd");
+MongoCollection<Document> col = db.getCollection("alumnos");</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 29 -->
+                    <div data-asignatura="di-web" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">🎨 DI & Web • Flexbox</span>
+                                <button onclick="copiarSnippet('dic29', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Flexbox centrado perfecto</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Centrar contenido con flex.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>flex.css</span><span>CSS</span></div>
+                            <pre id="dic29" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">.center { display: flex; justify-content: center; align-items: center; min-height: 100vh; }</pre>
+                        </div>
+                    </div>
+                    <!-- Snippet 30 -->
+                    <div data-asignatura="general" class="item-filtrable card-glow bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition min-w-0">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="font-mono text-[10px] sm:text-[11px] text-violet-400 bg-violet-950/60 border border-violet-800/60 px-2.5 py-0.5 rounded-md font-medium truncate">📊 General • Git</span>
+                                <button onclick="copiarSnippet('dic30', this)" class="shrink-0 font-mono text-xs bg-zinc-800 hover:bg-zinc-700 text-emerald-400 px-3 py-1 rounded-lg border border-zinc-700 transition font-semibold">Copiar</button>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-bold text-white mb-1">Git: flujo básico</h3>
+                            <p class="text-xs text-zinc-400 mb-3">Comandos esenciales del día a día.</p>
+                        </div>
+                        <div class="bg-zinc-950 rounded-xl border border-zinc-800/90 overflow-hidden min-w-0">
+                            <div class="bg-zinc-900/70 px-3 py-1.5 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500 flex justify-between"><span>git</span><span>Shell</span></div>
+                            <pre id="dic30" class="p-3 sm:p-3.5 text-[11px] text-zinc-300 overflow-x-auto leading-relaxed">git status
+git add .
+git commit -m "feat: nueva funcionalidad"
+git push origin main
                 </div>
             </div>
 
