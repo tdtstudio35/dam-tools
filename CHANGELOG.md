@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.11.3
+- Tarjeta "Apoya a los creadores" al final con descripción y botones Wuolah/Gumroad; enlaces retirados del footer.
+
 ## v1.11.2
 - Enlaces Wuolah/Gumroad añadidos al footer para mayor visibilidad.
 
