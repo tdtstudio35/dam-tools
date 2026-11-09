@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.8.4
+- Tarjetas con altura uniforme (simétricas), aunque quede hueco.
+
 ## v1.8.3
 - CRUD adaptado a tarjeta estándar (sin "Nuevo"), más compacto y cuadrado.
 
