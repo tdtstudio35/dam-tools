@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.9
+- Diccionario ampliado masivamente: +24 snippets nuevos (30 en total) organizados por asignatura.
+
 ## v1.8.4
 - Tarjetas con altura uniforme (simétricas), aunque quede hueco.
 
