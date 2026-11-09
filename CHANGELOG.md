@@ -1,5 +1,9 @@
 # Changelog — TDT Studio
 
+## v1.10.3
+- Barra de categorias centrada con safe center (Firefox fix).
+- Recursos Wuolah/Gumroad renombrados a Apoya a los creadores y siempre visibles al final.
+
 ## v1.10.2
 - En móvil, solo el header principal queda fijo; búsqueda y categorías se ocultan al hacer scroll.
 
