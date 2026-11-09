@@ -90,10 +90,10 @@
     <header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-2xl w-full">
         
         <!-- NIVEL 1: LOGO + NAVEGACIÓN PRINCIPAL -->
-        <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-2.5 md:py-4 flex flex-col md:flex-row items-center justify-between gap-2.5 md:gap-4">
+        <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-2.5 md:py-4 flex flex-col md:grid md:grid-cols-3 items-center gap-2.5 md:gap-4">
             
-            <!-- FILA SUPERIOR MÓVIL: LOGO + BOTÓN SUGERENCIAS -->
-            <div class="w-full md:w-auto flex items-center justify-between gap-2">
+            <!-- COLUMNA IZQUIERDA: LOGO -->
+            <div class="w-full md:w-auto flex items-center justify-between md:justify-start gap-2">
                 <a href="./" class="flex items-center gap-2.5 sm:gap-4 group min-w-0">
                     <div class="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 shrink-0 rounded-xl md:rounded-2xl bg-gradient-to-br from-emerald-500/25 via-emerald-500/10 to-zinc-900 border border-emerald-500/40 flex items-center justify-center font-mono font-extrabold text-emerald-400 text-xs sm:text-sm md:text-base shadow-lg shadow-emerald-500/10 group-hover:bg-emerald-500 group-hover:text-zinc-950 group-hover:border-emerald-400 md:group-hover:scale-105 transition-all duration-200">
                         TDT
@@ -104,7 +104,7 @@
                                 studio<span class="text-emerald-400">.dev</span>
                             </span>
                             <span class="text-[10px] sm:text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 sm:px-2 py-0.5 rounded-md shrink-0">
-                                v1.6
+                                v1.6.1
                             </span>
                         </div>
                         <span class="font-mono text-[10px] sm:text-xs md:text-sm text-zinc-400 block mt-0.5 md:mt-1 truncate">
@@ -120,18 +120,8 @@
                 </a>
             </div>
 
-            <!-- BUSCADOR EN EL BANNER SUPERIOR -->
-            <div class="relative w-full md:w-72 lg:w-80 shrink-0">
-                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Buscar herramienta o snippet... (/)"
-                    class="w-full bg-zinc-900/95 border border-zinc-800 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/15 rounded-xl pl-9 sm:pl-10 pr-8 sm:pr-10 py-1.5 md:py-2 text-xs sm:text-sm font-mono text-white placeholder-zinc-500 focus:outline-none transition-all">
-                <kbd id="kbdSlash" class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-0.5 rounded-md hidden sm:inline">/</kbd>
-            </div>
-
             <!-- CONMUTADOR CENTRAL (CON CONTADORES EN BLANCO SIEMPRE VISIBLES) -->
-            <div class="w-full md:w-auto bg-zinc-900/95 p-1 md:p-1.5 rounded-xl md:rounded-2xl border border-zinc-800 grid grid-cols-2 md:flex items-center gap-1 md:gap-1.5 shadow-inner">
+            <div class="w-full md:w-auto justify-self-center bg-zinc-900/95 p-1 md:p-1.5 rounded-xl md:rounded-2xl border border-zinc-800 grid grid-cols-2 md:flex items-center gap-1 md:gap-1.5 shadow-inner">
                 <button id="tabHerramientas" onclick="cambiarModo('herramientas')" 
                     class="w-full md:w-auto px-2.5 sm:px-4 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl font-mono text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2.5 bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10">
                     <span class="text-sm sm:text-base">🛠️</span>
@@ -146,11 +136,23 @@
                 </button>
             </div>
 
-            <!-- ACCIÓN DERECHA DESKTOP -->
-            <a href="./sugerencias/" class="hidden md:flex shrink-0 font-mono text-xs sm:text-sm font-medium bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-emerald-400 border border-zinc-800 hover:border-emerald-500/40 px-4 py-2.5 rounded-2xl transition-all duration-200 items-center gap-2.5 shadow-sm">
-                <span class="text-base">💡</span>
-                <span>Sugerencias</span>
-            </a>
+            <!-- COLUMNA DERECHA: BUSCADOR + SUGERENCIAS -->
+            <div class="w-full md:w-auto justify-self-end flex items-center justify-end gap-2.5">
+                <!-- BUSCADOR EN EL BANNER SUPERIOR -->
+                <div class="relative w-full md:w-72 lg:w-80 shrink-0">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Buscar herramienta o snippet... (/)"
+                        class="w-full bg-zinc-900/95 border border-zinc-800 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/15 rounded-xl pl-9 sm:pl-10 pr-8 sm:pr-10 py-1.5 md:py-2 text-xs sm:text-sm font-mono text-white placeholder-zinc-500 focus:outline-none transition-all">
+                    <kbd id="kbdSlash" class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-0.5 rounded-md hidden sm:inline">/</kbd>
+                </div>
+
+                <a href="./sugerencias/" class="hidden md:flex shrink-0 font-mono text-xs sm:text-sm font-medium bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-emerald-400 border border-zinc-800 hover:border-emerald-500/40 px-4 py-2.5 rounded-2xl transition-all duration-200 items-center gap-2.5 shadow-sm">
+                    <span class="text-base">💡</span>
+                    <span>Sugerencias</span>
+                </a>
+            </div>
 
         </div>
 
