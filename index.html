@@ -104,7 +104,7 @@
                                 studio<span class="text-emerald-400">.dev</span>
                             </span>
                             <span class="text-[10px] sm:text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 sm:px-2 py-0.5 rounded-md shrink-0">
-                                v1.5
+                                v1.6
                             </span>
                         </div>
                         <span class="font-mono text-[10px] sm:text-xs md:text-sm text-zinc-400 block mt-0.5 md:mt-1 truncate">
@@ -120,13 +120,23 @@
                 </a>
             </div>
 
+            <!-- BUSCADOR EN EL BANNER SUPERIOR -->
+            <div class="relative w-full md:w-72 lg:w-80 shrink-0">
+                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Buscar herramienta o snippet... (/)"
+                    class="w-full bg-zinc-900/95 border border-zinc-800 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/15 rounded-xl pl-9 sm:pl-10 pr-8 sm:pr-10 py-1.5 md:py-2 text-xs sm:text-sm font-mono text-white placeholder-zinc-500 focus:outline-none transition-all">
+                <kbd id="kbdSlash" class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-0.5 rounded-md hidden sm:inline">/</kbd>
+            </div>
+
             <!-- CONMUTADOR CENTRAL (CON CONTADORES EN BLANCO SIEMPRE VISIBLES) -->
             <div class="w-full md:w-auto bg-zinc-900/95 p-1 md:p-1.5 rounded-xl md:rounded-2xl border border-zinc-800 grid grid-cols-2 md:flex items-center gap-1 md:gap-1.5 shadow-inner">
                 <button id="tabHerramientas" onclick="cambiarModo('herramientas')" 
                     class="w-full md:w-auto px-2.5 sm:px-4 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl font-mono text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2.5 bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10">
                     <span class="text-sm sm:text-base">🛠️</span>
                     <span class="truncate">Herramientas</span>
-                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-white font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">4</span>
+                    <span class="text-[10px] sm:text-xs bg-zinc-800 text-white font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">7</span>
                 </button>
                 <button id="tabDiccionario" onclick="cambiarModo('diccionario')" 
                     class="w-full md:w-auto px-2.5 sm:px-4 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl font-mono text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/60">
@@ -146,10 +156,10 @@
 
         <!-- NIVEL 2: SUB-BARRA DE ASIGNATURAS + BUSCADOR -->
         <div class="border-t border-zinc-800/70 bg-zinc-950/95 w-full">
-            <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-2 md:py-3 flex flex-col lg:flex-row items-center justify-between gap-2.5 md:gap-3.5">
+            <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-2 md:py-3 flex items-center justify-center">
                 
                 <!-- Scroll Horizontal táctil en móvil y arrastrable en PC -->
-                <div id="barraAsignaturas" class="custom-h-scroll flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full lg:w-auto pb-1 font-mono text-xs sm:text-sm select-none cursor-grab active:cursor-grabbing">
+                <div id="barraAsignaturas" class="custom-h-scroll flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto w-full max-w-5xl pb-1 font-mono text-xs sm:text-sm select-none cursor-grab active:cursor-grabbing">
                     
                     <button onclick="filtrarPorAsignatura('todas', this)" class="asig-btn shrink-0 bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl font-semibold transition-all flex items-center gap-1.5 md:gap-2 shadow-sm">
                         <span class="text-sm md:text-base">⚡</span>
@@ -183,15 +193,6 @@
 
                 </div>
 
-                <!-- Buscador interactivo -->
-                <div class="relative w-full lg:w-80 shrink-0">
-                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                    <input type="text" id="inputBuscador" oninput="aplicarFiltros()" placeholder="Buscar herramienta o snippet... (/)" 
-                        class="w-full bg-zinc-900/95 border border-zinc-800 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/15 rounded-xl pl-9 sm:pl-10 pr-8 sm:pr-10 py-1.5 md:py-2 text-xs sm:text-sm font-mono text-white placeholder-zinc-500 focus:outline-none transition-all">
-                    <kbd id="kbdSlash" class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-0.5 rounded-md hidden sm:inline">/</kbd>
-                </div>
 
             </div>
         </div>
@@ -204,7 +205,7 @@
             <div id="frame-top-adaptive" class="w-full flex justify-center items-center overflow-hidden" style="min-height: 60px; z-index: 10;">
                 <iframe data-aa='2460366' src='//ad.a-ads.com/2460366/?size=Adaptive' 
                     class="w-full max-w-[728px] h-[65px] sm:h-[90px]"
-                    style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
+                    title='Publicidad' style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
         </div>
     </div>
@@ -217,7 +218,7 @@
             <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
                 <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
                 <div id="frame-left" style="width: 160px; margin: auto; z-index: 10; height: auto">
-                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' title='Publicidad' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
                 </div>
             </div>
         </aside>
@@ -236,7 +237,7 @@
                                 <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                             </span>
                             <h2 class="font-mono text-xs sm:text-sm uppercase tracking-wider text-emerald-400 font-bold">
-                                Herramientas Operativas (4)
+                                Herramientas Operativas (7)
                             </h2>
                         </div>
                         <span class="font-mono text-[11px] sm:text-xs text-zinc-500 hidden sm:inline">100% en navegador • Sin registro</span>
@@ -380,6 +381,91 @@
                             </div>
                         </a>
 
+                        <!-- 5. CALCULADORA DE NOTAS -->
+                        <a href="./calculadora-notas/" data-asignatura="prog ad-bbdd psp di-web sistemas" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-violet-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-3">
+                                    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
+                                        <span class="bg-violet-500/15 text-violet-400 border border-violet-500/30 px-2.5 py-0.5 sm:py-1 rounded-lg font-semibold">📊 General DAM</span>
+                                        <span class="text-zinc-500 hidden sm:inline">• Media ponderada</span>
+                                    </div>
+                                    <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 sm:px-2.5 py-0.5 rounded-md font-semibold shrink-0">
+                                        ● Operativa
+                                    </span>
+                                </div>
+                                <h3 class="text-base sm:text-xl font-extrabold text-white group-hover:text-emerald-400 transition leading-snug">
+                                    Calculadora de Nota Media Ponderada
+                                </h3>
+                                <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
+                                    Suma módulos con sus créditos ECTS y calcula tu media final del ciclo al instante. Incluye simulador de nota necesaria para aprobar.
+                                </p>
+                            </div>
+                            <div class="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-zinc-800/80 flex items-center justify-between font-mono text-xs">
+                                <span class="text-zinc-500 truncate">./calculadora-notas/</span>
+                                <span class="text-emerald-400 font-bold group-hover:translate-x-1 transition-transform shrink-0">Abrir calculadora →</span>
+                            </div>
+                        </a>
+
+                        <!-- 6. FORMATEADOR SQL -->
+                        <a href="./formateador-sql/" data-asignatura="ad-bbdd prog" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-cyan-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-3">
+                                    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
+                                        <span class="bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 px-2.5 py-0.5 sm:py-1 rounded-lg font-semibold">🗄️ AD & BBDD</span>
+                                        <span class="text-zinc-500 hidden sm:inline">• SQL Beautifier</span>
+                                    </div>
+                                    <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 sm:px-2.5 py-0.5 rounded-md font-semibold shrink-0">
+                                        ● Operativa
+                                    </span>
+                                </div>
+                                <h3 class="text-base sm:text-xl font-extrabold text-white group-hover:text-emerald-400 transition leading-snug">
+                                    Formateador y Validador SQL
+                                </h3>
+                                <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
+                                    Pega tu consulta SQL y obtén una versión indentada, legible y con palabras clave resaltadas. Detecta errores de sintaxis básicos.
+                                </p>
+                            </div>
+                            <div class="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-zinc-800/80 flex items-center justify-between font-mono text-xs">
+                                <span class="text-zinc-500 truncate">./formateador-sql/</span>
+                                <span class="text-emerald-400 font-bold group-hover:translate-x-1 transition-transform shrink-0">Abrir formateador →</span>
+                            </div>
+                        </a>
+
+                        <!-- 7. GENERADOR GITIGNORE -->
+                        <a href="./generador-gitignore/" data-asignatura="prog sistemas di-web" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-3">
+                                    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
+                                        <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 sm:py-1 rounded-lg font-semibold">🐙 Git & Proyectos</span>
+                                        <span class="text-zinc-500 hidden sm:inline">• Java / Maven / Node</span>
+                                    </div>
+                                    <span class="font-mono text-[10px] sm:text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 sm:px-2.5 py-0.5 rounded-md font-semibold shrink-0">
+                                        ● Operativa
+                                    </span>
+                                </div>
+                                <h3 class="text-base sm:text-xl font-extrabold text-white group-hover:text-emerald-400 transition leading-snug">
+                                    Generador de .gitignore
+                                </h3>
+                                <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
+                                    Marca tu stack (Java, Maven, Gradle, Node, Python, IDEs) y genera un .gitignore listo para copiar en tu repositorio.
+                                </p>
+                            </div>
+                            <div class="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-zinc-800/80 flex items-center justify-between font-mono text-xs">
+                                <span class="text-zinc-500 truncate">./generador-gitignore/</span>
+                                <span class="text-emerald-400 font-bold group-hover:translate-x-1 transition-transform shrink-0">Generar .gitignore →</span>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- BLOQUE DE ANUNCIO INTERMEDIO (RESPONSIVE) -->
+                <div class="w-full bg-zinc-900/40 border border-zinc-800/70 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center overflow-hidden shadow-md">
+                    <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">Publicidad</span>
+                    <div class="w-full flex justify-center items-center overflow-hidden" style="min-height: 60px; z-index: 10;">
+                        <iframe data-aa='2460366' src='//ad.a-ads.com/2460366/?size=Adaptive'
+                            class="w-full max-w-[728px] h-[65px] sm:h-[90px]"
+                            title='Publicidad' style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
                     </div>
                 </div>
 
@@ -645,18 +731,33 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
             <div class="w-full rounded-2xl border border-zinc-800/70 bg-zinc-900/30 p-2 flex flex-col items-center justify-center text-center overflow-hidden shadow-lg">
                 <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-2">Publicidad</span>
                 <div id="frame-right" style="width: 160px; margin: auto; z-index: 10; height: auto">
-                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
+                    <iframe data-aa='2460358' src='//ad.a-ads.com/2460358/?size=160x600' title='Publicidad' style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display:block; margin:auto'></iframe>
                 </div>
             </div>
         </aside>
 
     </div>
 
+    <!-- BLOQUE DE ANUNCIO INFERIOR (RESPONSIVE) -->
+    <div class="w-full max-w-5xl mx-auto px-3.5 sm:px-4 pb-4 relative z-10">
+        <div class="w-full bg-zinc-900/40 border border-zinc-800/70 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center overflow-hidden shadow-md">
+            <span class="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">Publicidad</span>
+            <div class="w-full flex justify-center items-center overflow-hidden" style="min-height: 60px; z-index: 10;">
+                <iframe data-aa='2460366' src='//ad.a-ads.com/2460366/?size=Adaptive'
+                    class="w-full max-w-[728px] h-[65px] sm:h-[90px]"
+                    title='Publicidad' style='border:0; padding:0; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="border-t border-zinc-900/90 bg-zinc-950/60 py-6 sm:py-7 text-xs font-mono text-zinc-500 relative z-10 mt-6 sm:mt-8">
         <div class="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
             <p>TDT Studio © 2026 — Utilidades creadas para DAM y DAW.</p>
-            <a href="./sugerencias/" class="text-zinc-400 hover:text-emerald-400 transition">¿Echas en falta alguna herramienta? Sugerencias →</a>
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="./changelog/" class="text-zinc-400 hover:text-emerald-400 transition">Changelog →</a>
+                <a href="./sugerencias/" class="text-zinc-400 hover:text-emerald-400 transition">¿Echas en falta alguna herramienta? Sugerencias →</a>
+            </div>
         </div>
     </footer>
 
