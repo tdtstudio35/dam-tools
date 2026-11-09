@@ -2,7 +2,7 @@
 <html lang="es" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
     <title>TDT Studio — Workspace para DAM y DAW</title>
     <meta name="description" content="Herramientas interactivas, generadores de código CRUD, conversores SQL/JSON y diccionario de snippets para estudiantes de DAM y DAW.">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -104,7 +104,7 @@
                                 studio<span class="text-emerald-400">.dev</span>
                             </span>
                             <span class="text-[10px] sm:text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 sm:px-2 py-0.5 rounded-md shrink-0">
-                                v1.7
+                                v1.8
                             </span>
                         </div>
                         <span class="font-mono text-[10px] sm:text-xs md:text-sm text-zinc-400 block mt-0.5 md:mt-1 truncate">
@@ -158,10 +158,12 @@
 
         <!-- NIVEL 2: SUB-BARRA DE ASIGNATURAS + BUSCADOR -->
         <div class="border-t border-zinc-800/70 bg-zinc-950/95 w-full">
-            <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-2 md:py-3 flex items-center justify-center">
+            <div class="w-full px-3.5 sm:px-6 md:px-8 lg:px-12 py-2 md:py-3 flex items-center justify-center gap-2">
                 
+                <button onclick="scrollCategorias(-1)" class="shrink-0 w-8 h-8 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 hover:text-emerald-400 transition flex items-center justify-center" aria-label="Anterior">◀</button>
+
                 <!-- Scroll Horizontal táctil en móvil y arrastrable en PC -->
-                <div id="barraAsignaturas" class="custom-h-scroll flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto w-full max-w-5xl pb-1 font-mono text-xs sm:text-sm select-none cursor-grab active:cursor-grabbing">
+                <div id="barraAsignaturas" class="custom-h-scroll flex items-center gap-1.5 sm:gap-2 overflow-x-auto flex-1 max-w-5xl pb-1 font-mono text-xs sm:text-sm select-none cursor-grab active:cursor-grabbing">
                     
                     <button onclick="filtrarPorAsignatura('todas', this)" class="asig-btn shrink-0 bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl font-semibold transition-all flex items-center gap-1.5 md:gap-2 shadow-sm">
                         <span class="text-sm md:text-base">⚡</span>
@@ -193,7 +195,19 @@
                         <span>Sistemas & SGE</span>
                     </button>
 
+                    <button onclick="filtrarPorAsignatura('general', this)" class="asig-btn shrink-0 bg-zinc-900/60 hover:bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800/80 hover:border-zinc-700 px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl font-medium transition-all flex items-center gap-1.5 md:gap-2">
+                        <span class="text-sm md:text-base">📊</span>
+                        <span>General</span>
+                    </button>
+
+                    <button onclick="filtrarPorAsignatura('git', this)" class="asig-btn shrink-0 bg-zinc-900/60 hover:bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800/80 hover:border-zinc-700 px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl font-medium transition-all flex items-center gap-1.5 md:gap-2">
+                        <span class="text-sm md:text-base">🐙</span>
+                        <span>Git & Proyectos</span>
+                    </button>
+
                 </div>
+
+                <button onclick="scrollCategorias(1)" class="shrink-0 w-8 h-8 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 hover:text-emerald-400 transition flex items-center justify-center" aria-label="Siguiente">▶</button>
 
 
             </div>
@@ -242,11 +256,21 @@
                                 Herramientas Operativas (12)
                             </h2>
                         </div>
-                        <span class="font-mono text-[11px] sm:text-xs text-zinc-500 hidden sm:inline">100% en navegador • Sin registro</span>
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono text-[11px] sm:text-xs text-zinc-500 hidden sm:inline">100% en navegador • Sin registro</span>
+                            <div class="flex items-center gap-1 bg-zinc-900/90 border border-zinc-800 rounded-lg p-0.5">
+                                <button id="btnVistaTarjetas" onclick="cambiarVista('tarjetas')" title="Vista tarjetas" class="w-8 h-8 rounded-md flex items-center justify-center transition bg-emerald-500 text-zinc-950">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+                                </button>
+                                <button id="btnVistaLista" onclick="cambiarVista('lista')" title="Vista lista" class="w-8 h-8 rounded-md flex items-center justify-center transition bg-rose-500 text-white">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 1. HERRAMIENTA DESTACADA: GENERADOR JAVA POJO -->
-                    <div class="item-filtrable card-glow group relative bg-gradient-to-b from-zinc-900/95 via-zinc-900/90 to-zinc-950/95 border border-emerald-500/35 hover:border-emerald-400/70 rounded-2xl sm:rounded-3xl p-4 sm:p-7 md:p-9 transition-all duration-300 grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-7 lg:gap-9 items-center min-w-0" data-asignatura="prog ad-bbdd">
+                    <div class="item-filtrable card-glow group relative bg-gradient-to-b from-zinc-900/95 via-zinc-900/90 to-zinc-950/95 border border-emerald-500/35 hover:border-emerald-400/70 rounded-2xl sm:rounded-3xl p-4 sm:p-7 md:p-9 transition-all duration-300 grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-7 lg:gap-9 items-center min-w-0" data-asignatura="prog">
                         
                         <div class="md:col-span-7 space-y-3.5 sm:space-y-5 min-w-0">
                             <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -305,10 +329,10 @@
                     </div>
 
                     <!-- GRID CON LAS OTRAS HERRAMIENTAS ACTIVAS -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 pt-1 sm:pt-2 min-w-0">
+                    <div id="gridTarjetas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 pt-1 sm:pt-2 min-w-0">
 
                         <!-- 2. GENERADOR CRUD -->
-                        <a href="./generador-crud/" data-asignatura="prog ad-bbdd" class="item-filtrable card-glow md:col-span-2 group bg-gradient-to-r from-zinc-900/95 via-zinc-900/90 to-emerald-950/25 border border-emerald-500/35 hover:border-emerald-400 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6 md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./generador-crud/" data-asignatura="ad-bbdd" class="item-filtrable card-glow md:col-span-2 group bg-gradient-to-r from-zinc-900/95 via-zinc-900/90 to-emerald-950/25 border border-emerald-500/35 hover:border-emerald-400 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6 md:hover:-translate-y-0.5 min-w-0">
                             <div class="space-y-2.5 max-w-2xl w-full min-w-0">
                                 <div class="flex items-center justify-between md:justify-start flex-wrap gap-2 font-mono text-[11px] sm:text-xs">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
@@ -334,7 +358,7 @@
                         </a>
 
                         <!-- 3. CONVERSOR SQL -->
-                        <a href="./conversor-sql/" data-asignatura="ad-bbdd prog" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-cyan-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./conversor-sql/" data-asignatura="ad-bbdd" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-cyan-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -359,7 +383,7 @@
                         </a>
 
                         <!-- 4. SUITE JSON -->
-                        <a href="./formateador-json/" data-asignatura="di-web ad-bbdd psp prog" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-amber-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./formateador-json/" data-asignatura="di-web" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-amber-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -384,7 +408,7 @@
                         </a>
 
                         <!-- 5. CALCULADORA DE NOTAS -->
-                        <a href="./calculadora-notas/" data-asignatura="prog ad-bbdd psp di-web sistemas" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-violet-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./calculadora-notas/" data-asignatura="general" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-violet-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -409,7 +433,7 @@
                         </a>
 
                         <!-- 6. FORMATEADOR SQL -->
-                        <a href="./formateador-sql/" data-asignatura="ad-bbdd prog" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-cyan-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./formateador-sql/" data-asignatura="ad-bbdd" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-cyan-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -434,7 +458,7 @@
                         </a>
 
                         <!-- 7. GENERADOR GITIGNORE -->
-                        <a href="./generador-gitignore/" data-asignatura="prog sistemas di-web" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./generador-gitignore/" data-asignatura="git" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -478,7 +502,7 @@
                         </a>
 
                         <!-- 9. VALIDADOR REGEX -->
-                        <a href="./validador-regex/" data-asignatura="prog di-web" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-amber-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./validador-regex/" data-asignatura="prog" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-amber-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -497,7 +521,7 @@
                         </a>
 
                         <!-- 10. GENERADOR README -->
-                        <a href="./generador-readme/" data-asignatura="prog sistemas di-web" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./generador-readme/" data-asignatura="git" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -535,7 +559,7 @@
                         </a>
 
                         <!-- 12. POMODORO -->
-                        <a href="./pomodoro/" data-asignatura="prog ad-bbdd psp di-web sistemas" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-rose-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
+                        <a href="./pomodoro/" data-asignatura="general" class="item-filtrable card-glow group bg-gradient-to-b from-zinc-900/95 to-zinc-950/90 border border-rose-500/30 hover:border-emerald-500/60 rounded-2xl sm:rounded-3xl p-5 sm:p-7 transition-all duration-200 flex flex-col justify-between md:hover:-translate-y-0.5 min-w-0">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-3">
                                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs">
@@ -554,6 +578,70 @@
                         </a>
 
                     </div>
+                </div>
+
+                <!-- VISTA LISTA (COMPACTA) -->
+                <div id="listaCompacta" class="hidden space-y-2 pt-1 sm:pt-2">
+                    <a href="./generador-java/" data-asignatura="prog" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-md">☕ PROG</span>
+                        <span class="font-bold text-white truncate">Generador de Clases Java (POJO & Hibernate)</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./generador-crud/" data-asignatura="ad-bbdd" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-md">🗄️ AD & BBDD</span>
+                        <span class="font-bold text-white truncate">Generador Automático de CRUD en Java + Queries SQL</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./conversor-sql/" data-asignatura="ad-bbdd" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-md">🗄️ AD & BBDD</span>
+                        <span class="font-bold text-white truncate">Conversor SQL CREATE TABLE → Entidad JPA</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./formateador-json/" data-asignatura="di-web" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-amber-500/15 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-md">🎨 DI & Web</span>
+                        <span class="font-bold text-white truncate">Validador JSON + Generador de Clases</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./calculadora-notas/" data-asignatura="general" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-violet-500/15 text-violet-400 border border-violet-500/30 px-2 py-0.5 rounded-md">📊 General</span>
+                        <span class="font-bold text-white truncate">Calculadora de Nota Media Ponderada</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./formateador-sql/" data-asignatura="ad-bbdd" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-md">🗄️ AD & BBDD</span>
+                        <span class="font-bold text-white truncate">Formateador y Validador SQL</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./generador-gitignore/" data-asignatura="git" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-md">🐙 Git & Proyectos</span>
+                        <span class="font-bold text-white truncate">Generador de .gitignore</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./conversor-bases/" data-asignatura="prog" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-md">☕ PROG</span>
+                        <span class="font-bold text-white truncate">Conversor de Bases Numéricas</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./validador-regex/" data-asignatura="prog" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-amber-500/15 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-md">🎨 PROG</span>
+                        <span class="font-bold text-white truncate">Validador de Expresiones Regulares</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./generador-readme/" data-asignatura="git" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-md">🐙 Git & Proyectos</span>
+                        <span class="font-bold text-white truncate">Generador de README.md</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./subnetting/" data-asignatura="sistemas" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-sky-500/15 text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded-md">🐳 Sistemas & SGE</span>
+                        <span class="font-bold text-white truncate">Calculadora de Subnetting IPv4</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
+                    <a href="./pomodoro/" data-asignatura="general" class="item-filtrable flex items-center gap-3 w-full bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-xl px-4 py-2.5 transition min-w-0">
+                        <span class="shrink-0 font-mono text-[10px] bg-rose-500/15 text-rose-400 border border-rose-500/30 px-2 py-0.5 rounded-md">⏱️ General</span>
+                        <span class="font-bold text-white truncate">Pomodoro de Estudio</span>
+                        <span class="ml-auto text-emerald-400 text-xs font-mono shrink-0">Abrir →</span>
+                    </a>
                 </div>
 
                 <!-- BLOQUE DE ANUNCIO INTERMEDIO (RESPONSIVE) -->
@@ -577,7 +665,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 min-w-0">
-                        <div data-asignatura="psp prog" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex items-start justify-between gap-3.5 transition-all duration-200 md:hover:-translate-y-0.5 min-w-0">
+                        <div data-asignatura="psp" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex items-start justify-between gap-3.5 transition-all duration-200 md:hover:-translate-y-0.5 min-w-0">
                             <div class="space-y-1.5 min-w-0">
                                 <div class="flex items-center gap-2 flex-wrap">
                                     <span class="font-mono text-[10px] text-rose-400 bg-rose-950/60 border border-rose-800/50 px-2 py-0.5 rounded font-medium">⚙️ PSP</span>
@@ -588,7 +676,7 @@
                             <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
                         </div>
 
-                        <div data-asignatura="sistemas ad-bbdd" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex items-start justify-between gap-3.5 transition-all duration-200 md:hover:-translate-y-0.5 min-w-0">
+                        <div data-asignatura="sistemas" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex items-start justify-between gap-3.5 transition-all duration-200 md:hover:-translate-y-0.5 min-w-0">
                             <div class="space-y-1.5 min-w-0">
                                 <div class="flex items-center gap-2 flex-wrap">
                                     <span class="font-mono text-[10px] text-sky-400 bg-sky-950/60 border border-sky-800/50 px-2 py-0.5 rounded font-medium">🐳 Sistemas & SGE</span>
@@ -599,7 +687,7 @@
                             <span class="shrink-0 font-mono text-[10px] text-zinc-400 bg-zinc-950 border border-zinc-800 px-2.5 py-1 rounded-md">Pronto</span>
                         </div>
 
-                        <div data-asignatura="ad-bbdd di-web" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex items-start justify-between gap-3.5 transition-all duration-200 md:hover:-translate-y-0.5 min-w-0">
+                        <div data-asignatura="ad-bbdd" class="item-filtrable group bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-zinc-700 rounded-2xl p-4 sm:p-5 flex items-start justify-between gap-3.5 transition-all duration-200 md:hover:-translate-y-0.5 min-w-0">
                             <div class="space-y-1.5 min-w-0">
                                 <div class="flex items-center gap-2 flex-wrap">
                                     <span class="font-mono text-[10px] text-orange-400 bg-orange-950/60 border border-orange-800/50 px-2 py-0.5 rounded font-medium">🗄️ AD & BBDD</span>
@@ -861,6 +949,33 @@ hilo.start(); // ¡Nunca llames a run() directo!</pre>
     <script>
         let modoActual = 'herramientas';
         let asignaturaActual = 'todas';
+        let vistaHerramientasModo = 'tarjetas';
+
+        function cambiarVista(modo) {
+            vistaHerramientasModo = modo;
+            const grid = document.getElementById('gridTarjetas');
+            const lista = document.getElementById('listaCompacta');
+            const btnT = document.getElementById('btnVistaTarjetas');
+            const btnL = document.getElementById('btnVistaLista');
+            const claseActivaVerde = 'w-8 h-8 rounded-md flex items-center justify-center transition bg-emerald-500 text-zinc-950';
+            const claseInactivaRojo = 'w-8 h-8 rounded-md flex items-center justify-center transition bg-rose-500 text-white';
+            if (modo === 'tarjetas') {
+                grid.classList.remove('hidden');
+                lista.classList.add('hidden');
+                btnT.className = claseActivaVerde;
+                btnL.className = claseInactivaRojo;
+            } else {
+                grid.classList.add('hidden');
+                lista.classList.remove('hidden');
+                btnT.className = claseInactivaRojo;
+                btnL.className = claseActivaVerde;
+            }
+        }
+
+        function scrollCategorias(dir) {
+            const el = document.getElementById('barraAsignaturas');
+            el.scrollBy({ left: dir * 140, behavior: 'smooth' });
+        }
 
         // Scroll horizontal con rueda de ratón y arrastrando en PC
         const sliderAsignaturas = document.getElementById('barraAsignaturas');

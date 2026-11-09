@@ -1,5 +1,10 @@
 # Changelog — TDT Studio
 
+## v1.8
+- Añadida vista lista compacta y botón de cambio tarjetas/lista (verde activo, rojo inactivo).
+- Categorías únicas por herramienta y barra de categorías con scroll horizontal y flechas.
+- Grid responsive: 3/2/1 columnas según pantalla y zoom; viewport con zoom mínimo 1.
+
 ## v1.7
 - Añadidas 5 nuevas herramientas: conversor de bases, validador regex, generador README, subnetting y pomodoro.
 - Listado de herramientas ampliado y organizado (12 operativas).
