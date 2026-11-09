@@ -1,5 +1,10 @@
 # Changelog — TDT Studio
 
+## v1.10
+- Buscador responsive: lupa en móvil que despliega el input.
+- Diccionario ampliado a 60 snippets.
+- Mejoras de responsive en todo el sitio.
+
 ## v1.9
 - Diccionario ampliado masivamente: +24 snippets nuevos (30 en total) organizados por asignatura.
 
