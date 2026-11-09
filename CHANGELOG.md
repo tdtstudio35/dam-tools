@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.10.1
+- Reorganizado header: tabs entre título y sugerencias, buscador completo abajo.
+
 ## v1.10
 - Buscador responsive: lupa en móvil que despliega el input.
 - Diccionario ampliado a 60 snippets.
