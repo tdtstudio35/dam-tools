@@ -1,5 +1,8 @@
 # Changelog — TDT Studio
 
+## v1.11.1
+- Seccion "Apoya a los creadores" (Wuolah/Gumroad) siempre visible al final.
+
 ## v1.11
 - Añadidas páginas legales (privacidad, términos, contacto) y placeholder de foro con Supabase.
 
